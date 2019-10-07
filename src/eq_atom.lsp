@@ -1,3 +1,17 @@
+
+
+(defun same_atom (a1 a2)
+
+	(cond		
+		; if a1 or a2 is not atom return NIL
+		( (or (not(is_atom(a1))) (not(is_atom(a2)))  ) NIL ) 
+		; check if s1 is list or s2 is list
+		( () T)
+		; in other case NIL
+		(T NIL)
+	)
+)
+
 (defun is_atom(var)
 	(cond
 		; is a real atom -> T 
