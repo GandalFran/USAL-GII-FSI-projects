@@ -1,44 +1,41 @@
-+ composicion
-	nada + algo = algo
-	nada + nada = nada
-	algo (S1) + algo (S2):
-		+ aplicar S2 sobre los numeradores de S1 -> se va metiendo en la composicion final todo lo que se cambie
-		+ coger todos los denominadores de S2 que no esten en S1 y añadirlo a la composicion final
-+ prueba composicion
-
 (defun composition (s1 s2) 
-	
-	(prog (x y) 
-		
-		(cond
-			;; s1 and s2 are atoms
-			(( and (is_atom s1) (is_atom s2) )
-				;; if s1 == s2 return s1 else return list(s1, s2)
-				( if (eq_atom s1 s2) (return s1)
-					(return (list s1 s2))
-				)					
-			)
+	(cond
 
-			;; s1 is list and s2 is atom
-			( ( and (not (is_atom s1)) (is_atom s2) ) 
-				;; if s2 in s1 return s2 else return s2.add(s1)
-				(if (not (eq nil (find s2 s1))) (return )
+		(; s1 and s2 are nill -> nil + nil = nil
+			(and (eq s1 nil) (eq s2 nil))
+			nil
+		)
 
-				)
-			)
-			
-			;; s1 is atom and s2 is list
-			( ( and (is_atom s1) (not (is_atom s2)) ) 
-				(...)
-			)
+		(; s1 is not nil and s2 is nil -> a1 + nil = s1
+			(and (not (eq s1 nil)) (eq s2 nil) )
+			s1
+		)
 
-			;; s1 is list and s2 is list
-			(( and (not (is_atom s1)) (not (is_atom s2)) ) 
-				(...)
-			)
-			(T NIL)
+		(; a1 is nil and s2 is not nil -> nil + s2 = s2
+			(and (eq s1 nil) (not (eq s2 nil)) )
+			s2
+		)
+
+		(; s1 and s2 are atoms 
+			(and (not (eq s1 nil)) (not (eq s2 nil)) )
+			(composite_not_nil s1 s2)
 		)
 		
+		(T NIL)
 	)
-	
+)
+
+(defun composite_not_nil (s1 s2)
+	(prog (s3, ignore) 
+		(
+			; apply s2 sustitution over s1
+			(setf s3 (sustitution s1 s2))
+			; join s3(that is s2(s1)) and s2		
+			(dolist (s2_element s2 ignore) 
+				( when (s2_element.denominador not in s3.denominadores) (s3.append(s2_element)) )
+			)
+			(return s3)
+		)
+
+	)
 )
