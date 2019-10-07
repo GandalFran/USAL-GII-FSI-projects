@@ -54,3 +54,4 @@ CONSEJO 3 CLASE:
 
 	+ 1 funcion = 1 fichero
 	+ funcion carga -> cargar ficheros y pruebas
+	+ resultados -> da igual pero explicar el formato
