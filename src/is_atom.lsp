@@ -10,20 +10,12 @@
 )
 
 (defun is_var(a)
-	(
-		if ( and (eq (first a) '?) (eq (length a) 2) ) 
-			T
-		;else
-			NIL
-	)
-)
-
-(defun is_equal_var(v1 v2)
-	(
-		if ( (equal v1 v2) ) 
-			T
-		;else
-			NIL
+	(cond
+		; if is not list is not var
+		((atom a) NIL)
+		; if has ? and lenght 2 is var
+		(( and (eq (first a) '?) (eq (length a) 2) ) T)
+		(T NIL)
 	)
 )
 
@@ -33,8 +25,6 @@
 		( (and (eq NIL a1) (eq NIL a2)) T )
 		; if a1 and a2 are atoms (lisp atoms)
 		( (and (atom a1) (atom a2)) (eq a1 a2) )
-		; a1 and a2 are var
-		( (and (is_var a1) (is_var a2)) (is_equal_var a1 a2))
 		; if a1 and a2 are list
 		( (and (not(atom a1)) (not(atom a2)))  (equal a1 a2))
 		; in other case NIL
