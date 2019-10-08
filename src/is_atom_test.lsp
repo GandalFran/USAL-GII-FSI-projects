@@ -1,4 +1,4 @@
-(load "is_atom.lsp")
+(load "load.lsp")
 
 
 (format t "~%INFO:is_atom_test.lsp: TESTS OF is_atom")
