@@ -1,4 +1,5 @@
 
 (load "is_atom.lsp")
-(load "apply.lsp")
+(load "sustitution.lsp")
+(load "composition.lsp")
 

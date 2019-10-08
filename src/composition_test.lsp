@@ -20,7 +20,7 @@
 (format t "~%INFO:composition_test.lsp: (composition ~S ~S): ~S (expected: ((x y)))" test_composition_var_1 test_composition_var_2 test_composition_var_result)
 
 ; test something,something -> composition
-(setf test_composition_var_1 '((x y)))
-(setf test_composition_var_2 '((z x)))
+(setf test_composition_var_1 '((x y) (a b)) )
+(setf test_composition_var_2 '((z x) (m n)) )
 (setf test_composition_var_result (composition test_composition_var_1 test_composition_var_2) )
 (format t "~%INFO:composition_test.lsp: (composition ~S ~S): ~S (expected: ((z y))))" test_composition_var_1 test_composition_var_2 test_composition_var_result)
