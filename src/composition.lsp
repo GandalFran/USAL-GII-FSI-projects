@@ -32,6 +32,8 @@
 	(format t "~%INFO:composition.lsp:composite_not_nil: sustitution( ~S ~S ) = ~S" s1 s2 s3)
 	; join s3(that is s2(s1)) and s2
 	(dolist (s2_element s2) 
+		(format t "~%INFO:composition.lsp ~S:composite_not_nil: loop s2_element ~S | ~S " s2_element s3)
+		(format t "~%INFO:composition.lsp:composite_not_nil: ~S } ~S" (last s2_element) (last s3))
 		; when s2_element denominator not in s3 denominators, s3.append(s2_element)
 		( when (not (is_composition_in_list s2_element s3)) (nconc s2_element s3))
 	)
