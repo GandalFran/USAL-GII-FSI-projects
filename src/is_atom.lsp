@@ -39,5 +39,4 @@
 		; in other case NIL
 		(T NIL)
 	)
-	
 )
