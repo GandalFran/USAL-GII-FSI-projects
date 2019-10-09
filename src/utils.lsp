@@ -31,3 +31,11 @@
 		(T NIL)
 	)
 )
+
+(defun get_postition_in_list(element list &optional(n 0))
+    (cond
+        ((null list) list)
+        ((equal (car list) element) n)
+        (t (get_postition_in_list element (cdr list) (+ n 1)))
+    )
+)
