@@ -41,23 +41,20 @@
 )
 
 (defun is_in_list (item list_)
-	(
-		(dolist (list_item list_)
-			(
-				(cond
-					(; if list_item is list go recursive
-						(not (is_atom list_item))
-						(is_in_list item list_item)
-					)
+	
+	(dolist (list_item list_)
+		(cond
+			(; if list_item is list go recursive
+				(not (is_atom list_item))
+				(is_in_list item list_item)
+			)
 
-					(; if list_item is atom, compare
-						T
-						(when (is_equal item list_item) (return-from is_in_list T))
-					)
-				)
+			(; if list_item is atom, compare
+				T
+				(when (is_equal item list_item) (return-from is_in_list T))
 			)
 		)
-		; if there is no match return NIL
-		(return-from is_in_list NIL)
 	)
+	; if there is no match return NIL
+	(return-from is_in_list NIL)	
 )
