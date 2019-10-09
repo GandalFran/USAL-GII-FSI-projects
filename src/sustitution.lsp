@@ -1,3 +1,13 @@
+
+(defun multiple_sustitution (listaACambiar listaCambios)
+    (dolist (cambio listaCambios) 
+        (format t "~%DEBUG:sustitution.lsp:multiple_sustitution: applying sustitution [ ~S ] to [ ~S ]" cambio listaACambiar) 
+        (sustitution listaACambiar cambio)
+        (format t "~%DEBUG:sustitution.lsp:multiple_sustitution: sustitution [ ~S ] result [ ~S ]" cambio listaACambiar)
+    )
+)
+
+
 (defun sustitution (listaACambiar cambio)
     (cond
         ((is_atom listaACambiar)
