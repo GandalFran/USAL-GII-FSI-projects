@@ -19,7 +19,7 @@
             (dolist (var listaACambiar)
                 (setf tempList (list var))
                 (when (listp var)
-                    (apply (var cambio))
+                    (apply var cambio)
                 )
                 (when (equal tempList (rest cambio))
                     (setf tempVar (get_postition_in_list var listaACambiar))
