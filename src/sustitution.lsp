@@ -26,6 +26,12 @@
                     (when (listp var)
                         (sustitution var cambio_editable)
                     )
+                    
+                    (when (is_atom cambio_editable)
+                        (print "ENTRO")
+                        (setf cambio_editable (list cambio_editable))
+                    )
+
                     (when (equal tempList (rest cambio_editable))
                         (setf tempVar (getPosition var listaACambiar_editable))
                         (setf (nth tempVar listaACambiar_editable) (first cambio_editable))
