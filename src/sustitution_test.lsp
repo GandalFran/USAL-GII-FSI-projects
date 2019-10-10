@@ -1,8 +1,6 @@
 
 (load "load.lsp")
 
-(setf debug T)
-
 (format t "~%INFO:sustitution_test.lsp: TESTS OF sustitution")
 
 ; basic test

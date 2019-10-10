@@ -1,7 +1,5 @@
 (load "load.lsp")
 
-(setf debug T)
-
 (format t "~%INFO:composition_test.lsp: TESTS OF composition")
 ; test nil,nil -> nil
 (setf test_composition_var_1 NIL )

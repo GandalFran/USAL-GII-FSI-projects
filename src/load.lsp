@@ -1,3 +1,4 @@
+(setf loglevel "debug")
 
 (load "utils.lsp")
 (load "sustitution.lsp")
