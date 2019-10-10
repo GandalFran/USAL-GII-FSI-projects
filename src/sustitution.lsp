@@ -2,21 +2,22 @@
     (prog (result)
         (setf result listaACambiar)
         (dolist (cambio listaCambios) 
-            (format t "~%       DEBUG:sustitution.lsp:multiple_sustitution: applying sustitution [ ~S ] to [ ~S ]" cambio result) 
+            (when (eq debug T) (format t "~%       DEBUG:sustitution.lsp:multiple_sustitution: applying sustitution [ ~S ] to [ ~S ]" cambio result)) 
             (setf result (sustitution listaACambiar cambio))
-            (format t "~%       DEBUG:sustitution.lsp:multiple_sustitution: sustitution [ ~S ] result [ ~S ]" cambio result)
+            (when (eq debug T) (format t "~%       DEBUG:sustitution.lsp:multiple_sustitution: sustitution [ ~S ] result [ ~S ]" cambio result))
         )
         (return-from multiple_sustitution result)
     )
 )
 
 (defun sustitution (listaACambiar cambio)
-
+    (when (eq debug T) (format t "~%       DEBUG:sustitution.lsp:sustitution: listaACambiar [ ~S ]  cambio [ ~S ]" listaACambiar cambio)) 
     (prog (listaACambiar_editable cambio_editable)
         (setf cambio_editable (copy-tree cambio))
         (setf listaACambiar_editable (copy-tree listaACambiar))
         (cond
             ((is_atom listaACambiar_editable)
+                (when (eq debug T) (format t "~%       DEBUG:sustitution.lsp:sustitution: listaACambiar is atom -> return NIL")) 
                 (return-from sustitution NIL)
             )
             (T
@@ -30,6 +31,7 @@
                         (setf (nth tempVar listaACambiar_editable) (first cambio_editable))
                     )
                 )
+                (when (eq debug T) (format t "~%       DEBUG:sustitution.lsp:sustitution: listaACambiar [ ~S ]  -> listaACambiar editada [ ~S ]" listaACambiar listaACambiar_editable)) 
                 (return-from sustitution listaACambiar_editable)
             )
         )
