@@ -41,14 +41,14 @@
 )
 
 (defun is_in_list (item list_)
-	
+	(format t "~% [ ~S ] [ ~S ]" item list_)
+
 	(dolist (list_item list_)
 		(cond
 			(; if list_item is list go recursive
 				(not (is_atom list_item))
-				(is_in_list item list_item)
+				(return-from is_in_list (is_in_list item list_item))
 			)
-
 			(; if list_item is atom, compare
 				T
 				(when (is_equal item list_item) (return-from is_in_list T))
