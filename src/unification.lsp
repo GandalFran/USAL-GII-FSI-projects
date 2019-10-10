@@ -20,7 +20,7 @@
 
 (defun unification_with_atom (e1 e2)
 	(format t "~%       DEBUG:unification.lsp:unification_with_atom: [ ~S ] [ ~S ]" e1 e2)
-	(prog (is_in)
+	(prog (is_in result)
 		; if e2 is atom and e1 not, switch them
 		(when (and (not(is_atom e1)) (is_atom e2) )
 			(format t "~%       DEBUG:unification.lsp:unification_with_atom: e2 is atom and e1 not -> (unification_with_atom e2 e1)")
@@ -35,24 +35,27 @@
 
 		;if e1 is variable
 		(when (is_var e1)
-			(format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var and e2 not")
 			; checking if e1 is in e2
+			(format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> checking if e1 is in e2")
 			(setf is_in (is_in_list e1 e2))
-			(format t "~%       DEBUG:unification.lsp:unification_with_atom: checking if e1 is in e2 [~S]" is_in)
 			(when (is_in)
-				(format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is in e2 -> return NIL")
+				(format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is in e2 -> return NIL")
 				(return-from unification_with_atom NIL)
 			)
 			; making e2/e1
-			(format t "~%       DEBUG:unification.lsp:unification_with_atom: making E2/E1 -> TODO que hay que hacer aqui????")
-			(return-from unification_with_atom NOSE_QUE_DEVOLVER)	
+			(format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is not in e2 -> sustitution( e2 [ ~S ] e1 [ ~S ] )" e2 e1)
+			(setf result (sustitution e2 e1))
+			(format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is not in e2 -> returning sustitution( e2 [ ~S ] e1 [ ~S ] ) = [ ~S ]" e2 e1 result)
+			(return-from unification_with_atom result)	
 		)
 
 		; if e2 is variable
 		(when (is_var e2)
 			; making e1/e2
-			(format t "~%       DEBUG:unification.lsp:unification_with_atom: making e1/e2 -> TODO: que sigintica esto E1/E2???")
-			(return-from unification_with_atom NOSE_QUE_DEVOLVER)
+			(format t "~%       DEBUG:unification.lsp:unification_with_atom: e2 is var -> sustitution( e1 [ ~S ] e2 [ ~S ] )" e1 e2)
+			(setf result (sustitution e1 e2))
+			(format t "~%       DEBUG:unification.lsp:unification_with_atom: e2 is var -> returning sustitution( e1 [ ~S ] e2 [ ~S ] ) = [ ~S ]" e1 e2 result)
+			(return-from unification_with_atom result)
 		)
 
 		;in other case return nil
