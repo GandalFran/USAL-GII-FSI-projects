@@ -40,7 +40,6 @@
 				(cond
 					(; if s2_editable is not a sustitution list 
 						(is_atom (first s2_editable))
-
 						(setf add_element (is_element_allowed s2_editable s1))
 						(if add_element 
 							(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: adding s2 element [ ~S ] into s3" s2_element))
@@ -48,7 +47,7 @@
 							(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: not adding s2 element [ ~S ] into s3 [ ~S ]" s2_element))
 						)
 						(when add_element
-							(setf s3 (append s3 (list s2_editable)))
+							(setf s3 (append s3 (list (first s2_editable))))
 						)
 					)
 					(; if s2_editable is list
@@ -90,7 +89,6 @@
 			(setf sustitution_list_element_first (first sustitution_list_element)) 
 			; if the last element of the sustituion is in the sustitution_list element 
 			;    return NIL
-			(when (string= loglevel "debug") (format t "~% ( ~S ~S )  ( ~S ~S ) " sustitution_first sustitution_last sustitution_list_element_first sustitution_list_element_last))
 			(when (or (is_equal sustitution_last sustitution_list_element_first))
 				(return-from is_element_allowed NIL)
 			)
