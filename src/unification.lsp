@@ -1,14 +1,19 @@
 
 (defun unification (e1 e2)
 	(format t "~%       DEBUG:unification.lsp:unification: [ ~S ] [ ~S ]" e1 e2)
-	(cond
-		(; e1 or e2 is atom
-			(or (is_atom e1) (is_atom e2))
-			(return-from unification (unification_with_atom e1 e2))
-		)
-		(; e1 and e2 are not atom
-			(and (not (is_atom e1)) (not (is_atom e2)))
-			(return-from unification (unification_with_list e1 e2))
+	
+	(prog (e1_editable e2_editable) 
+		(setf e1_editable (copy-tree e1))
+		(setf e2_editable (copy-tree e2))
+		(cond
+			(; e1 or e2 is atom
+				(or (is_atom e1_editable) (is_atom e2_editable))
+				(return-from unification (unification_with_atom e1_editable e2_editable))
+			)
+			(; e1 and e2 are not atom
+				(and (not (is_atom e1_editable)) (not (is_atom e2_editable)))
+				(return-from unification (unification_with_list e1_editable e2_editable))
+			)
 		)
 	)
 )
@@ -60,8 +65,8 @@
 	(format t "~%       DEBUG:unification.lsp:unification_with_list: [ ~S ] [ ~S ]" e1 e2)
 	(prog (f1 f2 t1 t2 z1 z2 g1 g2 result)
 		;getting f1, f2, t1, t2
-		(setf t2 (rest e2))
 		(setf t1 (rest e1))
+		(setf t2 (rest e2))
 		(setf f1 (first e1))
 		(setf f2 (first e2))
 		(format t "~%       DEBUG:unification.lsp:unification_with_list: f1 [ ~S ] t1 [ ~S ] f2 [ ~S ] t2 [ ~S ]" f1 t1 f2 t2)
