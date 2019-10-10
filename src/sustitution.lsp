@@ -28,7 +28,6 @@
                     )
                     
                     (when (is_atom cambio_editable)
-                        (print "ENTRO")
                         (setf cambio_editable (list cambio_editable))
                     )
 

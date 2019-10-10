@@ -27,27 +27,46 @@
 				; copy args to edit only editable elements
 				(setf s1_editable (copy-tree s1))
 				(setf s2_editable (copy-tree s2))
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: s1 and s2 are not NIL, so applying complex composition"))
+				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: s1 and s2 are not NIL -> applying complex composition"))
 				
 				; apply s2 sustitution over s1
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: applying s2 sustitution on s1"))
+				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: sustitution( s1 [ ~S ] s2 [ ~S ] )" s1 s2))
 				(setf s3 (multiple_sustitution s1_editable s2_editable))
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: s2 sustitution on s1 result [ ~S ]" s3))
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: joining s3 and s3 into result"))
+				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: sustitution( s1 [ ~S ] s2 [ ~S ] ) = [ ~S ]" s1 s2 s3))
 
 				; put in s3 the s2 elements which denominator is not in s1 denominators
 				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: adding s2 elements (which denominator is not in s1 denominators) to s3"))
-				(dolist (s2_element s2_editable) 
-					(setf add_element (is_element_allowed s2_element s1))
-					(if add_element 
-						(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: adding s2 element into s3 [ ~S ] " s2_element))
-					;else
-						(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: not adding s2 element into s3 [ ~S ] " s2_element))
+				
+				(cond
+					(; if s2_editable is not a sustitution list 
+						(is_atom (first s2_editable))
+
+						(setf add_element (is_element_allowed s2_editable s1))
+						(if add_element 
+							(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: adding s2 element [ ~S ] into s3" s2_element))
+						;else
+							(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: not adding s2 element [ ~S ] into s3 [ ~S ]" s2_element))
+						)
+						(when add_element
+							(setf s3 (append s3 (list s2_editable)))
+						)
 					)
-					(when add_element 
-						(setf s3 (append s3 (list s2_element)))
+					(; if s2_editable is list
+						T
+						(dolist (s2_element s2_editable) 
+							(setf add_element (is_element_allowed s2_element s1))
+							(if add_element 
+								(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: adding s2 element into s3 [ ~S ] " s2_element))
+							;else
+								(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: not adding s2 element into s3 [ ~S ] " s2_element))
+							)
+							(when add_element 
+								(setf s3 (append s3 (list s2_element)))
+							)
+						)
 					)
 				)
+				
 				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: the resulting s3 is [ ~S ]" s3))
 				(return-from composition s3)
 			)
