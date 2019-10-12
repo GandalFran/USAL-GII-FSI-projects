@@ -37,8 +37,8 @@
         (cond
             (; cant apply change
                 (or (is_atom change) (eq 1 (length change)) )
-                (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: change not applicable [ ~S ] -> reutrn NIL" change)) 
-                (return-from single_sustitution NIL)
+                (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: change not applicable [ ~S ] -> reutrn list_to_change [ ~S ]" change list_to_change)) 
+                (return-from single_sustitution list_to_change)
             )
 
             (; the change is applicable
@@ -49,11 +49,11 @@
                 )
 
                 ; get elements from chagne
-                (setf what_to_be_changed (first change))
-                (setf what_to_change (first(last change)))
+                (setf what_to_change (first change))
+                (setf for_what_to_be_changed (first(last change)))
 
                 ; apply change
-                (setf result (subst what_to_be_changed what_to_change list_to_change_editable)) 
+                (setf result (subst  what_to_change for_what_to_be_changed list_to_change_editable)) 
 
                 (return-from single_sustitution result)
             )

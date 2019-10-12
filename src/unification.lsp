@@ -1,4 +1,6 @@
 
+(setf unification_error "unification_error")
+
 (defun unification (e1 e2)
 	
 	(prog (e1_editable e2_editable) 
@@ -20,6 +22,9 @@
 			(; e1 and e2 are not atom
 				(and (not (is_atom e1_editable)) (not (is_atom e2_editable)))
 				(return-from unification (unification_with_list e1_editable e2_editable))
+			)
+			( T 
+				(print "~% POS NO SE QUE HACER EN ESTE CASO")
 			)
 		)
 	)
@@ -49,12 +54,12 @@
 				; checking if e1 is in e2
 				(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> checking if e1 is in e2"))
 				(when (member e1 e2)
-					(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is in e2 -> return NIL"))
-					(return-from unification_with_atom NIL)
+					(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is in e2 -> return unification_error"))
+					(return-from unification_with_atom unification_error)
 				)
 				; making e2/e1
 				(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is not in e2 -> e2 [ ~S ] / e1 [ ~S ] " e2 e1))
-				(setf result (list e1 e2))
+				(setf result (list e2 e1))
 				(return-from unification_with_atom result)	
 			)
 
@@ -62,14 +67,14 @@
 				(is_var e2)
 				
 				(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e2 is var -> e1 [ ~S ] / e2 [ ~S ]" e1 e2))
-				(setf result (list e2 e1))
+				(setf result (list e1 e2))
 				(return-from unification_with_atom result)
 			)
 
 			( T
-				;in other case return nil
-				(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 and e2 are not var -> return NIL "))
-				(return-from unification_with_atom NIL)
+				;in other case return error
+				(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 and e2 are not var -> return unification_error "))
+				(return-from unification_with_atom unification_error)
 			)
 		)
 	)
@@ -88,7 +93,7 @@
 		(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_list: calculating z1 -> unification( f1 [ ~S ] f2 [ ~S ])" f1 f2))
 		(setf z1 (unification f1 f2))
 		(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_list: calculating z1 -> unification( f1 [ ~S ] f2 [ ~S ]) = [ ~S ]" f1 f2 z1))
-		(when (is_equal z1 NIL)
+		(when (is_equal z1 unification_error)
 			(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_list: z1 result is NIL -> return NIL"))
 			(return-from unification_with_list NIL)
 		)
@@ -104,7 +109,7 @@
 		(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_list: calculating z2 -> unification( g1 [ ~S ] g2 [ ~S ])" g1 g2))
 		(setf z2 (unification g1 g2))
 		(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_list: calculating z2 -> unification( g1 [ ~S ] g2 [ ~S ]) = [ ~S ]" g1 g2 z2))
-		(when (is_equal z2 NIL)
+		(when (is_equal z2 unification_error)
 			(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_list: z2 result is NIL -> return NIL"))
 			(return-from unification_with_list NIL)
 		)
