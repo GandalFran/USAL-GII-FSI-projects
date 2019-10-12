@@ -31,7 +31,7 @@
 				
 				; apply s2 sustitution over s1
 				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: sustitution( s1 [ ~S ] s2 [ ~S ] )" s1 s2))
-				(setf s3 (multiple_sustitution s1_editable s2_editable))
+				(setf s3 (sustitution s1_editable s2_editable))
 				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: sustitution( s1 [ ~S ] s2 [ ~S ] ) = [ ~S ]" s1 s2 s3))
 
 				; put in s3 the s2 elements which denominator is not in s1 denominators
