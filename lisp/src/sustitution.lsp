@@ -11,6 +11,7 @@
 
             (; single change
                 (is_atom (first changes))
+                ;; TODO aqui puede haber el mismo problema que el marcado en compoiscion
                 (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:sustitution: single change recived single_sustitution( list_to_change [ ~S ] change [ ~S ] )" list_to_change changes))
                 (setf list_with_changes (single_sustitution list_with_changes changes))
                 (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:sustitution: single change recived single_sustitution( list_to_change [ ~S ] change [ ~S ] ) = [ ~S ]" list_to_change changes list_with_changes))
