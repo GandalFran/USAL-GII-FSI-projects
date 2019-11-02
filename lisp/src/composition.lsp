@@ -43,7 +43,7 @@
 
 				; put in s3 the s2 elements which denominator is not in s1 denominators
 				(logging "debug" NIL t "DEBUG:composition.lsp:composition: adding s2 elements (which denominator is not in s1 denominators) to s3")
-				
+
 				(cond
 					(; if s2_editable is a single sustitution instead a sustitution list 
 						;; TODO POSIBLE PROBLEMA: aqui intentamos saber si s2_editable es una lista de sustituciones o una sola sustitucion
@@ -60,6 +60,7 @@
 					)
 					(; if s2_editable is a list of sustitutions
 						T
+						; body
 						(dolist (s2_element s2_editable) 
 							(setf add_element (is_element_allowed s2_element s1))
 							(if add_element 
@@ -84,18 +85,30 @@
 	)
 )
 
-(defun is_element_allowed (sustitution sustitutions_list)
-	(prog (sustitution_last sustitution_first sustitution_list_element_last sustitution_list_element_first)
+(defun is_element_allowed (sustitution sustitutions_list)				
+	(logging "debug" NIL t "DEBUG:composition.lsp:is_element_allowed: sustitution [ ~S ] sustitutions_list [ ~S ] " sustitution sustitutions_list)
+
+	(logging "debug" NIL t " sustitution [ ~S ] sustitution_first [ ~S ] sustitution_last [ ~S ] " sustitution (first sustitution) (first (last sustitution)) )
+	(prog (sustitution_last sustitution_first sustitution_list_element_last sustitution_list_element_first sustitution_list_tmp)
 		; get sustitution last element into sustitution_last
 		(setf sustitution_last (first(last sustitution)))
 		(setf sustitution_first (first sustitution))
-			;NOTE: first(last(list)) because last return a list 
+		;NOTE: first(last(list)) because last return a list 
+
+		;if if the sustitution_list is a single sustitution, create a list
+		;; TODO POSIBLE PROBLEMA: aqui intentamos saber si s2_editable es una lista de sustituciones o una sola sustitucion
+		(if (and (eq 2 (length sustitutions_list)) (or (is_atom (first sustitutions_list)) (is_atom (first (last sustitutions_list))) ) )
+			(setf sustitution_list_tmp (list sustitutions_list))
+		;else
+			(setf sustitution_list_tmp sustitutions_list)
+		)
+
 		; iterate through all elements in sustitutions_list
-		( dolist (sustitution_list_element sustitutions_list)
+		( dolist (sustitution_list_element sustitution_list_tmp)
 			; get last element from sustitution_list_element
 			(setf sustitution_list_element_last (first(last sustitution_list_element)))
 			(setf sustitution_list_element_first (first sustitution_list_element)) 
-			; if the last element of the sustituion is in the sustitution_list element 
+			; if the last element of the sustitution is in the sustitution_list element 
 			;    return NIL
 			(when (or (is_equal sustitution_last sustitution_list_element_first))
 				(return-from is_element_allowed NIL)
