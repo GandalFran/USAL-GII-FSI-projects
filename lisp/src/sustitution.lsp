@@ -54,8 +54,8 @@
                 (setf old (first(last change)))
 
                 (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: change old [ ~S ] for new [ ~S ]" old new)) 
-                
                 (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: iterating through list [ ~S ] to apply changes" list_to_change_editable)) 
+                
                 ; iterate through changes list to apply changes
                 (dolist (element list_to_change_editable)
                     ; get element position
