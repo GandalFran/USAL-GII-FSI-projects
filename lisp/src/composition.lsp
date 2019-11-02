@@ -85,10 +85,7 @@
 	)
 )
 
-(defun is_element_allowed (sustitution sustitutions_list)				
-	(logging "debug" NIL t "DEBUG:composition.lsp:is_element_allowed: sustitution [ ~S ] sustitutions_list [ ~S ] " sustitution sustitutions_list)
-
-	(logging "debug" NIL t " sustitution [ ~S ] sustitution_first [ ~S ] sustitution_last [ ~S ] " sustitution (first sustitution) (first (last sustitution)) )
+(defun is_element_allowed (sustitution sustitutions_list)
 	(prog (sustitution_last sustitution_first sustitution_list_element_last sustitution_list_element_first sustitution_list_tmp)
 		; get sustitution last element into sustitution_last
 		(setf sustitution_last (first(last sustitution)))
