@@ -3,9 +3,9 @@
 (setf loglevel "debug")
 
 (defun test_sustitution (test_name first_var second_var expected) 
-	(when (string= loglevel "debug") (format t "~%TEST:sustitution_test.lsp: ~S :(sustitution ~S ~S) (expected: ~S)" test_name first_var second_var expected))
+	(logging loglevel "+" t "TEST:sustitution_test.lsp: ~S :(sustitution ~S ~S) (expected: ~S)" test_name first_var second_var expected)
 	(setf result (sustitution first_var second_var))
-	(format t "~%TEST:sustitution_test.lsp: ~S : (sustitution ~S ~S) = ~S (expected: ~S)" test_name first_var second_var result expected)
+	(logging loglevel "-" t "TEST:sustitution_test.lsp: ~S : (sustitution ~S ~S) = ~S (expected: ~S)" test_name first_var second_var result expected)
 )
 
 (format t "~%TEST:sustitution_test.lsp: TESTS OF SUSTITUTION")

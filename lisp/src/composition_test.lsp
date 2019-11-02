@@ -1,11 +1,11 @@
 
 (load "load.lsp")
-(setf loglevel "wa")
+(setf loglevel "debug")
 
 (defun test_composition (test_name first_var second_var expected) 
-	(when (string= loglevel "debug") (format t "~%TEST:composition_test.lsp: ~S :(composition ~S ~S) (expected: ~S)" test_name first_var second_var expected))
+	(logging loglevel "+" t "TEST:composition_test.lsp: ~S :(composition ~S ~S) (expected: ~S)" test_name first_var second_var expected)
 	(setf result (composition first_var second_var))
-	(format t "~%TEST:composition_test.lsp: ~S : (composition ~S ~S) = ~S (expected: ~S)" test_name first_var second_var result expected)
+	(logging loglevel "-" t "TEST:composition_test.lsp: ~S : (composition ~S ~S) = ~S (expected: ~S)" test_name first_var second_var result expected)
 )
 
 (format t "~%TEST:composition_test.lsp: TESTS OF COMPOSITION")

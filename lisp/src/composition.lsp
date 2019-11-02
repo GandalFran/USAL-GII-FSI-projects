@@ -1,24 +1,24 @@
 ;; INPUT FORMAT 
 ;; ej: {x/y, f(g)/z}	( (x y) ((f (? g)) z) )
 (defun composition (s1 s2) 
-	(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: [ ~S ] [ ~S ]" s1 s2))
+	(logging "debug" NIL t "DEBUG:composition.lsp:composition: [ ~S ] [ ~S ]" s1 s2)
 	(prog (s1_editable s2_editable s2_element add_element s3 result) 
 		(cond
 			(; s1 and s2 are nill -> nil + nil = nil
 				(and (eq s1 NIL) (eq s2 NIL))
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: composition result NIL"))
+				(logging "debug" NIL t "DEBUG:composition.lsp:composition: composition result NIL")
 				(return-from composition NIL )
 			)
 
 			(; s1 is not nil and s2 is nil -> a1 + nil = s1
 				(and (not (eq s1 NIL)) (eq s2 NIL) )
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: composition result is s1 because s2 is NIL [ ~S ]" s1))
+				(logging "debug" NIL t "DEBUG:composition.lsp:composition: composition result is s1 because s2 is NIL [ ~S ]" s1)
 				(return-from composition s1 )
 			)
 
 			(; a1 is nil and s2 is not nil -> nil + s2 = s2
 				(and (eq s1 NIL) (not (eq s2 NIL)) )
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: composition result is s2 because s1 is NIL [ ~S ]" s2))
+				(logging "debug" NIL t "DEBUG:composition.lsp:composition: composition result is s2 because s1 is NIL [ ~S ]" s2)
 				(return-from composition s2 )
 			)
 
@@ -34,15 +34,15 @@
 					(setf s1_editable (list s1_editable))
 				)
 
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: s1 and s2 are not NIL -> applying complex composition"))
+				(logging "debug" NIL t "DEBUG:composition.lsp:composition: s1 and s2 are not NIL -> applying complex composition")
 				
 				; apply s2 sustitution over s1
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: sustitution( s1 [ ~S ] s2 [ ~S ] )" s1 s2))
+				(logging "debug" "+" t "DEBUG:composition.lsp:composition: sustitution( s1 [ ~S ] s2 [ ~S ] )" s1 s2)
 				(setf s3 (sustitution s1_editable s2_editable))
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: sustitution( s1 [ ~S ] s2 [ ~S ] ) = [ ~S ]" s1 s2 s3))
+				(logging "debug" "-" t "DEBUG:composition.lsp:composition: sustitution( s1 [ ~S ] s2 [ ~S ] ) = [ ~S ]" s1 s2 s3)
 
 				; put in s3 the s2 elements which denominator is not in s1 denominators
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: adding s2 elements (which denominator is not in s1 denominators) to s3"))
+				(logging "debug" NIL t "DEBUG:composition.lsp:composition: adding s2 elements (which denominator is not in s1 denominators) to s3")
 				
 				(cond
 					(; if s2_editable is a single sustitution instead a sustitution list 
@@ -50,9 +50,9 @@
 						(and (eq 2 (length s2_editable)) (or (is_atom (first s2_editable)) (is_atom (first (last s2_editable))) ) )
 						(setf add_element (is_element_allowed s2_editable s1))
 						(if add_element 
-							(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: adding s2 element [ ~S ] into s3" s2_editable))
+							(logging "debug" NIL t "DEBUG:composition.lsp:composition: adding s2 element [ ~S ] into s3" s2_editable)
 						;else
-							(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: not adding s2 element [ ~S ] into s3 [ ~S ]" s2_editable))
+							(logging "debug" NIL t "DEBUG:composition.lsp:composition: not adding s2 element [ ~S ] into s3 [ ~S ]" s2_editable)
 						)
 						(when add_element
 							(setf s3 (append s3 (list s2_editable)))
@@ -63,19 +63,18 @@
 						(dolist (s2_element s2_editable) 
 							(setf add_element (is_element_allowed s2_element s1))
 							(if add_element 
-								(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: adding s2 element into s3 [ ~S ] " s2_element))
+								(logging "debug" NIL t "DEBUG:composition.lsp:composition: adding s2 element into s3 [ ~S ] " s2_element)
 							;else
-								(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: not adding s2 element into s3 [ ~S ] " s2_element))
+								(logging "debug" NIL t "DEBUG:composition.lsp:composition: not adding s2 element into s3 [ ~S ] " s2_element)
 							)
 							(when add_element 
-								(print "~% ")
 								(setf s3 (append s3 (list s2_element)))
 							)
 						)
 					)
 				)
 				
-				(when (string= loglevel "debug") (format t "~%       DEBUG:composition.lsp:composition: the resulting s3 is [ ~S ]" s3))
+				(logging "debug" NIL t "DEBUG:composition.lsp:composition: the resulting s3 is [ ~S ]" s3)
 				(return-from composition s3)
 			)
 			
