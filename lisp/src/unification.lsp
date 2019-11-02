@@ -6,13 +6,17 @@
 	(prog (e1_editable e2_editable) 
 		(setf e1_editable (copy-tree e1))
 		(setf e2_editable (copy-tree e2))
-		;apply processing to input elements 
-		(when (eq (length e1_editable) 1) 
-			(setf e1_editable (first e1_editable))
-		)
-		(when (eq (length e2_editable) 1) 
-			(setf e2_editable (first e2_editable))
-		)
+		;apply processing to input elements
+		(when (not (is_atom e1_editable))
+			(when (eq (length e1_editable) 1)
+				(setf e1_editable (first e1_editable))
+			)
+		) 
+		(when (not (is_atom e2_editable))
+			(when (eq (length e2_editable) 1)
+				(setf e2_editable (first e2_editable))
+			)
+		) 
 		(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification: [ ~S ] [ ~S ]" e1_editable e2_editable))
 		(cond
 			(; e1 or e2 is atom
@@ -53,7 +57,7 @@
 				
 				; checking if e1 is in e2
 				(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> checking if e1 is in e2"))
-				(when (member e1 e2)
+				(when (and (listp e2) (member e1 e2))
 					(when (string= loglevel "debug") (format t "~%       DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is in e2 -> return unification_error"))
 					(return-from unification_with_atom unification_error)
 				)

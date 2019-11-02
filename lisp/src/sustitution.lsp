@@ -32,8 +32,8 @@
 )
 
 (defun single_sustitution (list_to_change change)
-    (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: list_to_change [ ~S ]  change [ ~S ]" list_to_change change)) 
-    (prog (list_to_change_editable what_to_change what_to_be_changed result)
+    (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: list_to_change [ ~S ]  change [ ~S ]" list_to_change change )) 
+    (prog (list_to_change_editable old new element element_pos new_element)
         (setf list_to_change_editable (copy-tree list_to_change))
         (cond
             (; cant apply change
@@ -50,13 +50,39 @@
                 )
 
                 ; get elements from chagne
-                (setf what_to_change (first change))
-                (setf for_what_to_be_changed (first(last change)))
+                (setf new (first change))
+                (setf old (first(last change)))
 
-                ; apply change
-                (setf result (subst  what_to_change for_what_to_be_changed list_to_change_editable)) 
+                (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: change old [ ~S ] for new [ ~S ]" old new)) 
+                
+                (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: iterating through list [ ~S ] to apply changes" list_to_change_editable)) 
+                ; iterate through changes list to apply changes
+                (dolist (element list_to_change_editable)
+                    ; get element position
+                    (setf element_pos (position element list_to_change_editable))
 
-                (return-from single_sustitution result)
+                    (cond
+                        ( (is_atom element) ; the element is a var or a constant
+                            (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: the element ~S is atom [ ~S ] in list [ ~S ]" element_pos element list_to_change_editable))  
+                            ; if the element is equal to old, make a replacement
+                            (when (is_equal element old)
+                                ; replace old element in list for new by position
+                                (setf (nth element_pos list_to_change_editable) new)      
+                            )
+                        )
+
+                        ( T ; the element is a list and not a var or constant
+                            (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: the element ~S is list [ ~S ] in list [ ~S ]" element_pos element list_to_change_editable)) 
+                            ; make a recursive call to substitution to apply the change to element list
+                            (when (string= loglevel "debug") (format t "~%       DEBUG:sustitution.lsp:single_sustitution: recursive call (sustitution [ ~S ] [ ~S ])"  element change))
+                            (setf new_element (sustitution element change))
+                            ; make the replacement
+                            (setf (nth element_pos list_to_change_editable) new_element)   
+                        )
+                    ) 
+                )
+
+                (return-from single_sustitution list_to_change_editable)
             )
         )
     )
