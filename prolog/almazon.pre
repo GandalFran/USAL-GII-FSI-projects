@@ -1,0 +1,19 @@
+/*****************************************************************************
+
+		Copyright (c) aLmazon.Inc
+
+ Project:  ALMAZON
+ FileName: almazon.PRE
+ Purpose: Predicate definitions for ALMAZON.PRO
+ Written by: Hector Sanchez San Blas y Francisco Pinto Santos
+ Comments:
+******************************************************************************/
+
+%BEGIN_DECL, System generated global predicates
+GLOBAL PREDICATES
+
+  project_ShowHelpContext(INTEGER Index) - (i)
+  dlg_about_dialog_Create(WINDOW Parent) - (i)
+  tb_project_toolbar_Create(WINDOW Parent) - (i)
+  tb_help_line_Create(WINDOW Parent) - (i)
+%END_DECL
