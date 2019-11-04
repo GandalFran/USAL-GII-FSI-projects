@@ -35,38 +35,54 @@ domains
 predicates
   	
 	/*reglas de produccion*/
-  	seleccionapila(est,est)
-  	apila(estp, estp)
+  	nondeterm seleccionapila(est,est)
+  	nondeterm apila(estp, estp)
+  	nondeterm desapila(estp, estp)
 	mayordiasalida(box,box)
 	
 	/*backtracking*/
-  	miembro(est,lista)
-  	backtrack(lista,est,limite,limite) /* Lista de estados, Estado final, Profundidad actual, Profundiad maxima */
+  	nondeterm miembro(est,lista)
+  	nondeterm backtrack(lista,est,limite,limite) /* Lista de estados, Estado final, Profundidad actual, Profundiad maxima */
   	escribe(lista)
-  	solution(integer,lbox,almacen)
+  	nondeterm solution(integer,lbox,almacen)
 
 clauses
 
 	/*reglas de produccion*/
 	
 	/*seleccionar una de las pilas del almacen*/
-	seleccionapila(estado(LBoxi,alm(Pi,_,_,_,_)),estado(LBoxf,alm(Pf,_,_,_,_))) :-
+	seleccionapila(estado(LBoxi,alm(Pi,P2,P3,P4,P5)),estado(LBoxf,alm(Pf,P2,P3,P4,P5))):-
 		apila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
 		
-	seleccionapila(estado(LBoxi,alm(_,Pi,_,_,_)),estado(LBoxf,alm(_,Pf,_,_,_))) :-
+	seleccionapila(estado(LBoxi,alm(P1,Pi,P3,P4,P5)),estado(LBoxf,alm(P1,Pf,P3,P4,P5))):-
 		apila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
 		
-	seleccionapila(estado(LBoxi,alm(_,_,Pi,_,_)),estado(LBoxf,alm(_,_,Pf,_,_))) :-
+	seleccionapila(estado(LBoxi,alm(P1,P2,Pi,P4,P5)),estado(LBoxf,alm(P1,P2,Pf,P4,P5))):-
 		apila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
 		
-	seleccionapila(estado(LBoxi,alm(_,_,_,Pi,_)),estado(LBoxf,alm(_,_,_,Pf,_))) :-
+	seleccionapila(estado(LBoxi,alm(P1,P2,P3,Pi,P5)),estado(LBoxf,alm(P1,P2,P3,Pf,P5))):-
 		apila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
 		
-	seleccionapila(estado(LBoxi,alm(_,_,_,_,Pi)),estado(LBoxf,alm(_,_,_,_,Pf))) :-
+	seleccionapila(estado(LBoxi,alm(P1,P2,P3,P4,Pi)),estado(LBoxf,alm(P1,P2,P3,P4,Pf))):-
 		apila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		/*
+	seleccionapila(estado(LBoxi,alm(Pi,P2,P3,P4,P5)),estado(LBoxf,alm(Pf,P2,P3,P4,P5))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
 		
+	seleccionapila(estado(LBoxi,alm(P1,Pi,P3,P4,P5)),estado(LBoxf,alm(P1,Pf,P3,P4,P5))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		
+	seleccionapila(estado(LBoxi,alm(P1,P2,Pi,P4,P5)),estado(LBoxf,alm(P1,P2,Pf,P4,P5))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		
+	seleccionapila(estado(LBoxi,alm(P1,P2,P3,Pi,P5)),estado(LBoxf,alm(P1,P2,P3,Pf,P5))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		
+	seleccionapila(estado(LBoxi,alm(P1,P2,P3,P4,Pi)),estado(LBoxf,alm(P1,P2,P3,P4,Pf))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		*/
 	/*si pila vacia => meter caja*/
-	apila(estadopila(LPRODi, p(_,ACTUALi,LIMITE)), estadopila(LPRODf,p(LBOXf,ACTUALf,LIMITE))) :-
+	apila(estadopila(LPRODi, p([],ACTUALi,LIMITE)), estadopila(LPRODf,p(LBOXf,ACTUALf,LIMITE))):-
 		ACTUALi=0,
 		ACTUALf=ACTUALi+1,
 		LPRODi=[Box|LPRODiTail],
@@ -74,16 +90,23 @@ clauses
 		LBOXf=[Box].
 	
 	/*si pila no vacia Y pila no llena Y pop(pila).diasalida>caja.fechasalida => meter caja*/
-	apila(estadopila(LPRODi, p(LBOXi,ACTUALi,LIMITE)), estadopila(LPRODf,p(LBOXf,ACTUALf,LIMITE))) :-
+	apila(estadopila(LPRODi, p(LBOXi,ACTUALi,LIMITE)), estadopila(LPRODf,p(LBOXf,ACTUALf,LIMITE))):-
 		ACTUALi <> 0,
 		ACTUALi<LIMITE,
-		LBOXi=[LBOXiHead|TopBox],
+		LBOXi=[TopBox|_],
 		LPRODi=[Box|LPRODiTail],
 		mayordiasalida(Box,TopBox),
 		ACTUALf=ACTUALi+1,
 		LPRODf=LPRODiTail,
-		LBOXf=[LBOXiHead|TopBox],
-		LBOXf=[LBOXf|Box].
+		LBOXf=[Box|LBOXi].
+	
+	/*si pila no vacia => sacar caja*/
+	desapila(estadopila(LPRODi, p(LBOXi,ACTUALi,LIMITE)), estadopila(LPRODf,p(LBOXf,ACTUALf,LIMITE))):-
+		ACTUALi <> 0,
+		LBOXi=[TopBox|LOBXiTail],
+		ACTUALf=ACTUALi-1,
+		LPRODf=[TopBox|LPRODi],
+		LBOXf=LOBXiTail.
 		
 	/*para verificar que el dia de salida de la caja actual es menor que el de la priemra caja de la pila*/
 	mayordiasalida(b(_,_,DSBOX),b(_,_,DSTOPBOX)):-
@@ -103,6 +126,7 @@ clauses
         	escribe(Lista).
         
         backtrack(Lista,Destino,Lim_ant,Limite):-
+        	write(Limite," backtrack \n"),
         	Lista=[H|T],
         	not(miembro(H,T)),
         	seleccionapila(H,Hfinal),
@@ -121,14 +145,18 @@ clauses
         	backtrack([estado(ListaProd,Almacen)],estado([],_),1,LIM).
         	
         solution(LIM, ListaProd, Almacen):-
+        	write(LIM,'\n'),
         	NLIM=LIM+1,
         	solution(NLIM, ListaProd, Almacen).
 		
 goal
 
-     solution(1, [b(9,1,17),b(10,1,17),b(11,1,17),b(12,1,17),b(13,1,17),b(14,1,17),b(15,1,17),
-		b(16,1,17),b(17,1,17),b(18,1,17),b(19,1,17),b(20,1,17),b(3,1,18),b(4,1,18),
-		b(5,1,18),b(6,1,18),b(7,1,18),b(8,1,18),b(1,1,19),b(2,1,19)], alm( p([],0,4), p([],0,4), p([],0,4), p([],0,4), p([],0,4))).
+     solution(1
+     	,[b(9,1,17),b(10,1,17),b(11,1,17),b(12,1,17),b(13,1,17),b(14,1,17),b(15,1,17),
+	  b(16,1,17),b(17,1,17),b(18,1,17),b(19,1,17),b(20,1,17),b(3,1,18),b(4,1,18),
+	  b(5,1,18),b(6,1,18),b(7,1,18),b(8,1,18),b(1,1,19),b(2,1,19)
+	], alm( p([],0,4), p([],0,4), p([],0,4), p([],0,4), p([],0,4))
+     ).
      
 /*
 	POSSIBLE SOLUTION

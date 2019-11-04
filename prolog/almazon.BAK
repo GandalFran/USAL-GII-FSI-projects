@@ -37,13 +37,14 @@ predicates
 	/*reglas de produccion*/
   	nondeterm seleccionapila(est,est)
   	nondeterm apila(estp, estp)
+  	nondeterm desapila(estp, estp)
 	mayordiasalida(box,box)
 	
 	/*backtracking*/
   	nondeterm miembro(est,lista)
   	nondeterm backtrack(lista,est,limite,limite) /* Lista de estados, Estado final, Profundidad actual, Profundiad maxima */
   	escribe(lista)
-  	solution(integer,lbox,almacen)
+  	nondeterm solution(integer,lbox,almacen)
 
 clauses
 
@@ -64,8 +65,22 @@ clauses
 		
 	seleccionapila(estado(LBoxi,alm(P1,P2,P3,P4,Pi)),estado(LBoxf,alm(P1,P2,P3,P4,Pf))):-
 		apila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		/*
+	seleccionapila(estado(LBoxi,alm(Pi,P2,P3,P4,P5)),estado(LBoxf,alm(Pf,P2,P3,P4,P5))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
 		
+	seleccionapila(estado(LBoxi,alm(P1,Pi,P3,P4,P5)),estado(LBoxf,alm(P1,Pf,P3,P4,P5))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
 		
+	seleccionapila(estado(LBoxi,alm(P1,P2,Pi,P4,P5)),estado(LBoxf,alm(P1,P2,Pf,P4,P5))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		
+	seleccionapila(estado(LBoxi,alm(P1,P2,P3,Pi,P5)),estado(LBoxf,alm(P1,P2,P3,Pf,P5))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		
+	seleccionapila(estado(LBoxi,alm(P1,P2,P3,P4,Pi)),estado(LBoxf,alm(P1,P2,P3,P4,Pf))):-
+		desapila(estadopila(LBoxi,Pi),estadopila(LBoxf,Pf)).
+		*/
 	/*si pila vacia => meter caja*/
 	apila(estadopila(LPRODi, p([],ACTUALi,LIMITE)), estadopila(LPRODf,p(LBOXf,ACTUALf,LIMITE))):-
 		ACTUALi=0,
@@ -84,6 +99,14 @@ clauses
 		ACTUALf=ACTUALi+1,
 		LPRODf=LPRODiTail,
 		LBOXf=[Box|LBOXi].
+	
+	/*si pila no vacia => sacar caja*/
+	desapila(estadopila(LPRODi, p(LBOXi,ACTUALi,LIMITE)), estadopila(LPRODf,p(LBOXf,ACTUALf,LIMITE))):-
+		ACTUALi <> 0,
+		LBOXi=[TopBox|LOBXiTail],
+		ACTUALf=ACTUALi-1,
+		LPRODf=[TopBox|LPRODi],
+		LBOXf=LOBXiTail.
 		
 	/*para verificar que el dia de salida de la caja actual es menor que el de la priemra caja de la pila*/
 	mayordiasalida(b(_,_,DSBOX),b(_,_,DSTOPBOX)):-
@@ -103,6 +126,7 @@ clauses
         	escribe(Lista).
         
         backtrack(Lista,Destino,Lim_ant,Limite):-
+        	write("\n backtrack")
         	Lista=[H|T],
         	not(miembro(H,T)),
         	seleccionapila(H,Hfinal),
@@ -121,6 +145,7 @@ clauses
         	backtrack([estado(ListaProd,Almacen)],estado([],_),1,LIM).
         	
         solution(LIM, ListaProd, Almacen):-
+        	write(LIM,'\n'),
         	NLIM=LIM+1,
         	solution(NLIM, ListaProd, Almacen).
 		
