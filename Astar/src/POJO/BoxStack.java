@@ -1,11 +1,11 @@
 package POJO;
 
-import Astar.AstarPOJO;
+import Astar.AStarPOJO;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BoxStack implements AstarPOJO{
+public class BoxStack implements AStarPOJO {
     private final static Logger LOGGER = Logger.getLogger("POJO.BoxStack");
 
     private int ID;

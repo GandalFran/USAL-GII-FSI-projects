@@ -1,4 +1,4 @@
 package Astar;
 
-public interface AstarPOJO {
+public interface AStarPOJO {
 }
