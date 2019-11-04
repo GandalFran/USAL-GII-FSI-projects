@@ -52,7 +52,7 @@
 						(if add_element 
 							(logging "debug" NIL t "DEBUG:composition.lsp:composition: adding s2 element [ ~S ] into s3" s2_editable)
 						;else
-							(logging "debug" NIL t "DEBUG:composition.lsp:composition: not adding s2 element [ ~S ] into s3 [ ~S ]" s2_editable)
+							(logging "debug" NIL t "DEBUG:composition.lsp:composition: not adding s2 element [ ~S ] into s3" s2_editable)
 						)
 						(when add_element
 							(setf s3 (append s3 (list s2_editable)))
@@ -107,7 +107,7 @@
 			(setf sustitution_list_element_first (first sustitution_list_element)) 
 			; if the last element of the sustitution is in the sustitution_list element 
 			;    return NIL
-			(when (or (is_equal sustitution_last sustitution_list_element_first))
+			(when (or (is_equal sustitution_last sustitution_list_element_last))
 				(return-from is_element_allowed NIL)
 			)
 		)

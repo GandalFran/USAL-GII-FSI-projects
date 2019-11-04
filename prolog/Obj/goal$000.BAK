@@ -37,11 +37,13 @@ predicates
 	/*REGLAS DE PRODUCCION*/
 	muevecaja(est,est)
   	colocaenpila(box,almacen,almacen)
-  	sacadepila(box,almacen,almacen)
   	coloca(box,pila,pila)
-  	saca(box,pila,pila)
 	mayordiasalida(box,box)
 	contienepila(box,lbox)
+  	/*
+  	sacadepila(box,almacen,almacen)
+  	saca(box,pila,pila)
+  	*/
 	
 	/*SISTEMA DE CONTROL*/
   	miembro(est,lista)
@@ -63,16 +65,22 @@ clauses
 		LBoxi=[BOX|LBoxiTail],
 		colocaenpila(BOX,ALMACENi,ALMACENf).
 	
-	/*seleccionar caja de pila para meter en lista de produccion*/
-	muevecaja(estado(LBOXi,ALMACENi),estado(LBOXf,ALMACENf)):-
-		sacadepila(BOX,ALMACENi,ALMACENf),
-		LBOXf = [LBOXi|BOX].
-		
-	/*seleccionar caja de pila para meter en otra pila*/
-	muevecaja(estado(LBOX,ALMACENi),estado(LBOX,ALMACENf)):-
-		sacadepila(BOX,ALMACENi,ALMACENtmp),
-		colocaenpila(BOX,ALMACENtmp,ALMACENf).
-	
+	/*vaciar pila entera*/
+	muevecaja(estado(LBOX,alm(Pi,P2,P3,P4,P5)),estado(LBOX,alm(Pf,P2,P3,P4,P5))):-
+		saca(BOX,Pi,Pf)
+		colocaenpila(BOX,alm(Pf,P2,P3,P4,P5),ALMACENf).
+
+	vaciapila(LPROD,LPROD,p([],ACTUAL,LIMITE),p([],ACTUAL,LIMITE)).
+	vaciapila(LProdi,LProdf,p(LBOXi,ACTUALi,LIMITE),p(LBOXf,ACTUALi,LIMITE)) :-	
+		ACTUALi <> 0,
+		ACTUALf = ACTUALi - 1,
+		LBOXi=[BOX|LBOXiTail],
+		LBOXf=LBOXiTail
+		LProdtmp1=[BOX|LProdi],
+		vaciapila(LProdtmp1,LProdtmp2),
+		LProdf=LProdtmp2.
+
+
 	/*seleccionar una de las pilas del almacen para meter caja*/
 	colocaenpila(BOX,alm(Pi,P2,P3,P4,P5),alm(Pf,P2,P3,P4,P5)):-
 		coloca(BOX,Pi,Pf).
@@ -88,24 +96,6 @@ clauses
 		
 	colocaenpila(BOX,alm(P1,P2,P3,P4,Pi),alm(P1,P2,P3,P4,Pf)):-
 		coloca(BOX,Pi,Pf).
-		
-	/*seleccionar una de las pilas del almacen para sacar caja*/
-	
-	sacadepila(BOX,alm(P1,P2,P3,P4,Pi),alm(P1,P2,P3,P4,Pf)):-
-		saca(BOX,Pi,Pf).
-		
-	sacadepila(BOX,alm(P1,P2,P3,Pi,P5),alm(P1,P2,P3,Pf,P5)):-
-		saca(BOX,Pi,Pf).
-	
-	sacadepila(BOX,alm(P1,P2,Pi,P4,P5),alm(P1,P2,Pf,P4,P5)):-
-		saca(BOX,Pi,Pf).
-		
-	sacadepila(BOX,alm(P1,Pi,P3,P4,P5),alm(P1,Pf,P3,P4,P5)):-
-		saca(BOX,Pi,Pf).
-	
-	sacadepila(BOX,alm(Pi,P2,P3,P4,P5),alm(Pf,P2,P3,P4,P5)):-
-		saca(BOX,Pi,Pf).
-		
 		
 	/*si pila vacia => meter caja*/
 	coloca(BOX, p(PID,_,ACTUALi,LIMITE), p(PID,LBOXf,ACTUALf,LIMITE)):-
@@ -125,14 +115,6 @@ clauses
 		LBOXf=[Box|LBOXi].
 		/*write("\nAccion ",Box," -> ", PID,":", LBOXf).*/
 	
-	/*si pila tiene mas de dos elementos => sacar caja*/
-	saca(BOX, p(PID,LBOXi,ACTUALi,LIMITE),p(PID,LBOXf,ACTUALf,LIMITE)):-
-		ACTUALi > 1,
-		LBOXi = [Box|LBOXiTail],
-		ACTUALf = ACTUALi -1,
-		LBOXf = LBOXiTail,
-		BOX = Box.
-	
 	/*para verificar que el dia de salida de la caja actual es menor que el de la priemra caja de la pila*/
 	mayordiasalida(b(_,_,DSBOX),b(_,_,DSTOPBOX)):-
 		DSBOX <= DSTOPBOX.
@@ -142,7 +124,6 @@ clauses
         contienepila(E,[_|T]):-
         	contienepila(E,T).
 	
-		
         /*SISTEMA DE CONTROL*/
         
         backtrack(Lista,Destino,Lim_ant,_):-
@@ -175,6 +156,7 @@ clauses
         	miembro(E,T).
         
         /*IMPRIMR POR PANTALLA*/
+        
 	imprimeestado(estado(LProd,ALMACEN)):-
 		write("\n Lista produccion: ", LProd),
 		write("\n Almacen:"),
@@ -203,7 +185,7 @@ clauses
 		
 goal
 
-     solution(21
+     solution(22
      	,[b(9,1,17),b(10,1,17),b(11,1,17),b(12,1,17),b(13,1,17),b(14,1,17),b(15,1,17),
 	  b(16,1,17),b(17,1,17),b(18,1,17),b(19,1,17),b(20,1,17),b(3,1,18),b(4,1,18),
 	  b(5,1,18),b(6,1,18),b(7,1,18),b(8,1,18),b(1,1,19),b(2,1,19)
@@ -217,4 +199,35 @@ goal
 	p([b(20,1,17),b(19,1,17),b(18,1,17),b(17,1,17)],4,4)
 	p([b(6,1,18),b(5,1,18),b(4,1,18),b(3,1,18)],4,4
 	p([b(8,1,18),b(7,1,18),b(2,1,19),b(1,1,19)],4,4)
+*/
+
+	/*seleccionar caja de pila para meter en lista de produccion
+	muevecaja(estado(LBOXi,ALMACENi),estado(LBOXf,ALMACENf)):-
+		sacadepila(BOX,ALMACENi,ALMACENf),
+		LBOXf = [BOX|LBOXi].
+	
+	seleccionar una de las pilas del almacen para sacar caja
+	
+	sacadepila(BOX,alm(P1,P2,P3,P4,Pi),alm(P1,P2,P3,P4,Pf)):-
+		saca(BOX,Pi,Pf).
+		
+	sacadepila(BOX,alm(P1,P2,P3,Pi,P5),alm(P1,P2,P3,Pf,P5)):-
+		saca(BOX,Pi,Pf).
+	
+	sacadepila(BOX,alm(P1,P2,Pi,P4,P5),alm(P1,P2,Pf,P4,P5)):-
+		saca(BOX,Pi,Pf).
+		
+	sacadepila(BOX,alm(P1,Pi,P3,P4,P5),alm(P1,Pf,P3,P4,P5)):-
+		saca(BOX,Pi,Pf).
+	
+	sacadepila(BOX,alm(Pi,P2,P3,P4,P5),alm(Pf,P2,P3,P4,P5)):-
+		saca(BOX,Pi,Pf).
+	
+	si pila tiene mas de dos elementos => sacar caja
+	saca(BOX, p(PID,LBOXi,ACTUALi,LIMITE),p(PID,LBOXf,ACTUALf,LIMITE)):-
+		ACTUALi > 1,
+		LBOXi = [Box|LBOXiTail],
+		ACTUALf = ACTUALi -1,
+		LBOXf = LBOXiTail,
+		BOX = Box.
 */
