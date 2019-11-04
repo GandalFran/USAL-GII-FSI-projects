@@ -99,12 +99,11 @@ clauses
 		
         /*SISTEMA DE CONTROL*/
         
-        backtrack(Lista,Destino,Lim_ant,Limite):-
+        backtrack(Lista,Destino,Lim_ant,_):-
         	Lista=[H|_],
         	Destino=H,
-        	write("\n\n\n\n\n Solucion encontrada:"),
-        	write("\nProfundidad (",Lim_ant,"/",Limite,"):"),
-        	imprimelistaestados(Lista,1).
+        	write("\n\n\n\n\n Solucion encontrada a profundidad ",Lim_ant,":"),
+        	imprimelistaestados(Lista,Lim_ant).
         
         backtrack(Lista,Destino,Lim_ant,Limite):-
         	Lista=[H|T],
@@ -148,11 +147,11 @@ clauses
         imprimepila(p(ID, LBOX, ACTUAL, LIMITE)) :-
         	write("[",ID,"] (",ACTUAL,"/",LIMITE,") : ",LBOX).
      
-        imprimelistaestados([],0):-!.
-        imprimelistaestados([H|T],NUM):-
-        	imprimelistaestados(T,NUM_NUEVO),
-        	NUM = NUM_NUEVO+1,
-        	write("\n ESTADO ", NUM),
+        imprimelistaestados([],_).
+        imprimelistaestados([H|T],NumEstado):-
+        	NumEstado2 = NumEstado - 1,
+        	imprimelistaestados(T,NumEstado2),
+        	write("\nESTADO ",NumEstado),
         	imprimeestado(H).
 		
 goal
