@@ -41,10 +41,8 @@ predicates
 	mayordiasalida(box,box)
 	contienepila(box,lbox)
 	vaciapila(lbox,lbox,pila,pila)
-  	/*
-  	sacadepila(box,almacen,almacen)
-  	saca(box,pila,pila)
-  	*/
+  	vacia(pila,pila,lbox)
+  	append(lbox,lbox,lbox)
 	
 	/*SISTEMA DE CONTROL*/
   	miembro(est,lista)
@@ -82,16 +80,17 @@ clauses
 	muevecaja(estado(LProdi,alm(P1,P2,P3,P4,Pi)),estado(LProdf,alm(P1,P2,P3,P4,Pf))):-
 		vaciapila(LProdi,LProdf,Pi,Pf).
 		
-	vaciapila(LPROD,LPROD,p([],ACTUAL,LIMITE),p([],ACTUAL,LIMITE)).
-	vaciapila(LProdi,LProdf,p(LBOXi,ACTUALi,LIMITE),p(LBOXf,ACTUALf,LIMITE)) :-	
-		ACTUALi <> 0,
-		ACTUALf = ACTUALi - 1,
-		LBOXi=[BOX|LBOXiTail],
-		LBOXf=LBOXiTail,
-		LProdtmp1=[BOX|LProdi],
-		vaciapila(LProdtmp1,LProdtmp2,p(LBOXf,ACTUALf,LIMITE)),
-		LProdf=LProdtmp2.
-
+	vaciapila(LProdi,LProdf,PILAi,PILAf) :-	
+		vacia(PILAi,PILAf,LPILA),
+		append(LProdi,LPILA,LProdf).
+		
+	vacia(p(ID,LBOXi,ACTUAL,LIMITE),p(ID,[],0,LIMITE),LBOXi):-
+		ACTUAL>0.
+	
+	/*añade L2 al final de L1*/
+	append([],L,L).
+	append([E|T],L2,[E|L1L2]):-
+		append(T,L2,L1L2).
 
 	/*seleccionar una de las pilas del almacen para meter caja*/
 	colocaenpila(BOX,alm(Pi,P2,P3,P4,P5),alm(Pf,P2,P3,P4,P5)):-
@@ -197,7 +196,7 @@ clauses
 		
 goal
 
-     solution(22
+     solution(30
      	,[b(9,1,17),b(10,1,17),b(11,1,17),b(12,1,17),b(13,1,17),b(14,1,17),b(15,1,17),
 	  b(16,1,17),b(17,1,17),b(18,1,17),b(19,1,17),b(20,1,17),b(3,1,18),b(4,1,18),
 	  b(5,1,18),b(6,1,18),b(7,1,18),b(8,1,18),b(1,1,19),b(2,1,19)
