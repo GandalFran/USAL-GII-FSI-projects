@@ -1,5 +1,5 @@
 
-(setq numberOfTabs 0)
+(setq numberOfTabs 1)
 
 (defun logging (level incrementTab &rest args) 
 
