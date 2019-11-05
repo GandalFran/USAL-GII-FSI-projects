@@ -32,7 +32,6 @@
 				(setf s2_editable (copy-tree s2))
 
 				; if s1 is a simple composition, create a list to contain it
-				;; TODO POSIBLE PROBLEMA: aqui intentamos saber si s2_editable es una lista de sustituciones o una sola sustitucion
 				(when (and (eq 2 (length s1_editable)) (or (is_atom (first s1_editable)) (is_atom (first (last s2_editable))))) 
 					(setf s1_editable (list s1_editable))
 				)
@@ -48,8 +47,7 @@
 				(logging "debug" NIL t "DEBUG:composition.lsp:composition: adding s2 elements (which denominator is not in s1 denominators) to s3")
 
 				(cond
-					(; if s2_editable is a single sustitution instead a sustitution list 
-						;; TODO POSIBLE PROBLEMA: aqui intentamos saber si s2_editable es una lista de sustituciones o una sola sustitucion
+					(; if s2_editable is a single sustitution instead a sustitution list
 						(and (eq 2 (length s2_editable)) (or (is_atom (first s2_editable)) (is_atom (first (last s2_editable))) ) )
 						(setf add_element (is_element_allowed s2_editable s1))
 						(if add_element 
@@ -96,7 +94,6 @@
 		;NOTE: first(last(list)) because last return a list 
 
 		;if if the sustitution_list is a single sustitution, create a list
-		;; TODO POSIBLE PROBLEMA: aqui intentamos saber si s2_editable es una lista de sustituciones o una sola sustitucion
 		(if (and (eq 2 (length sustitutions_list)) (or (is_atom (first sustitutions_list)) (is_atom (first (last sustitutions_list))) ) )
 			(setf sustitution_list_tmp (list sustitutions_list))
 		;else

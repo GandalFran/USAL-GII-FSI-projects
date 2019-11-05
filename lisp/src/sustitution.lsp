@@ -16,7 +16,6 @@
 
             (; single change
                 (is_atom (first changes))
-                ;; TODO aqui puede haber el mismo problema que el marcado en compoiscion
                 (logging "debug" "+" t "DEBUG:sustitution.lsp:sustitution: single change recived single_sustitution( list_to_change [ ~S ] change [ ~S ] )" list_to_change changes)
                 (setf list_with_changes (single_sustitution list_with_changes changes))
                 (logging "debug" "-" t "DEBUG:sustitution.lsp:sustitution: single change recived single_sustitution( list_to_change [ ~S ] change [ ~S ] ) = [ ~S ]" list_to_change changes list_with_changes)
