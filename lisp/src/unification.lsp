@@ -17,13 +17,19 @@
 				(setf e2_editable (first e2_editable))
 			)
 		) 
-		(logging "info" NIL t "DEBUG:unification.lsp:unification: [ ~S ] [ ~S ]" e1_editable e2_editable)
 		(logging "debug" NIL t "DEBUG:unification.lsp:unification: [ ~S ] [ ~S ]" e1_editable e2_editable)
-		(if (or (is_atom e1_editable) (is_atom e2_editable))
-			; e1 or e2 is atom 
+		(cond
+			(; e1 or e2 is atom
+				(or (is_atom e1_editable) (is_atom e2_editable))
 				(return-from unification (unification_with_atom e1_editable e2_editable))
-		;else		
+			)
+			(; e1 and e2 are not atom
+				(and (not (is_atom e1_editable)) (not (is_atom e2_editable)))
 				(return-from unification (unification_with_list e1_editable e2_editable))
+			)
+			( T 
+				(print "~% POS NO SE QUE HACER EN ESTE CASO")
+			)
 		)
 	)
 )
@@ -86,48 +92,36 @@
 		(setf t2 (rest e2))
 		(setf f1 (first e1))
 		(setf f2 (first e2))
-		(logging "info" NIL t "DEBUG:unification.lsp:unification_with_list: f1 [ ~S ] t1 [ ~S ] f2 [ ~S ] t2 [ ~S ]" f1 t1 f2 t2)
 		(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_list: f1 [ ~S ] t1 [ ~S ] f2 [ ~S ] t2 [ ~S ]" f1 t1 f2 t2)
 		;calculating unification of f1 and f2 into z1
-		(logging "info" "+" t "DEBUG:unification.lsp:unification_with_list: calculating z1 -> unification( f1 [ ~S ] f2 [ ~S ])" f1 f2)
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating z1 -> unification( f1 [ ~S ] f2 [ ~S ])" f1 f2)
 		(setf z1 (unification f1 f2))
-		(logging "info" "-" t "DEBUG:unification.lsp:unification_with_list: calculating z1 -> unification( f1 [ ~S ] f2 [ ~S ]) = [ ~S ]" f1 f2 z1)
 		(logging "debug" "-" t "DEBUG:unification.lsp:unification_with_list: calculating z1 -> unification( f1 [ ~S ] f2 [ ~S ]) = [ ~S ]" f1 f2 z1)
 		(when (is_equal z1 unification_error)
 			(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_list: z1 result is NIL -> return NIL")
 			(return-from unification_with_list unification_error)
 		)
 		;calculating sustitution of z1 and t1 into g1
-		(logging "info" "+" t "DEBUG:unification.lsp:unification_with_list: calculating g1 -> sustitution( t1 [ ~S ] z1 [ ~S ])" t1 z1)
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating g1 -> sustitution( t1 [ ~S ] z1 [ ~S ])" t1 z1)
 		(setf g1 (sustitution t1 z1))
-		(logging "info" "-" t "DEBUG:unification.lsp:unification_with_list: calculating g1 -> sustitution( t1 [ ~S ] z1 [ ~S ]) = [ ~S ]" t1 z1 g1)
 		(logging "debug" "-" t "DEBUG:unification.lsp:unification_with_list: calculating g1 -> sustitution( t1 [ ~S ] z1 [ ~S ]) = [ ~S ]" t1 z1 g1)
 		;calculating sustitution of z1 and t1 into g1
-		(logging "info" "+" t "DEBUG:unification.lsp:unification_with_list: calculating g2 -> sustitution( t2 [ ~S ] z1 [ ~S ])" t2 z1)
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating g2 -> sustitution( t2 [ ~S ] z1 [ ~S ])" t2 z1)
 		(setf g2 (sustitution t2 z1))
-		(logging "info" "-" t "DEBUG:unification.lsp:unification_with_list: calculating g2 -> sustitution( t2 [ ~S ] z1 [ ~S ]) = [ ~S ]" t2 z1 g2)
 		(logging "debug" "-" t "DEBUG:unification.lsp:unification_with_list: calculating g2 -> sustitution( t2 [ ~S ] z1 [ ~S ]) = [ ~S ]" t2 z1 g2)
 		;calculating unification of g1 and g2 into z2
-		(logging "info" "+" t "DEBUG:unification.lsp:unification_with_list: calculating z2 -> unification( g1 [ ~S ] g2 [ ~S ])" g1 g2)
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating z2 -> unification( g1 [ ~S ] g2 [ ~S ])" g1 g2)
 		(setf z2 (unification g1 g2))
-		(logging "info" "-" t "DEBUG:unification.lsp:unification_with_list: calculating z2 -> unification( g1 [ ~S ] g2 [ ~S ]) = [ ~S ]" g1 g2 z2)
 		(logging "debug" "-" t "DEBUG:unification.lsp:unification_with_list: calculating z2 -> unification( g1 [ ~S ] g2 [ ~S ]) = [ ~S ]" g1 g2 z2)
 		(when (is_equal z2 unification_error)
 			(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_list: z2 result is NIL -> return NIL")
 			(return-from unification_with_list unification_error)
 		)
 		;calculating composition of z1 and z2
-		(logging "info" "+" t "DEBUG:unification.lsp:unification_with_list: calculating result -> composition( z1 [ ~S ] z2 [ ~S ])" z1 z2)
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating result -> composition( z1 [ ~S ] z2 [ ~S ])" z1 z2)
 		(setf result (composition z1 z2))
-		(logging "info" "-" t "DEBUG:unification.lsp:unification_with_list: calculating result -> composition( z1 [ ~S ] z2 [ ~S ]) = [ ~S ]" z1 z2 result)
 		(logging "debug" "-" t "DEBUG:unification.lsp:unification_with_list: calculating result -> composition( z1 [ ~S ] z2 [ ~S ]) = [ ~S ]" z1 z2 result)
 		;finished unification, returning result
-		(logging "info" NIL t "DEBUG:unification.lsp:unification_with_list: finished unification( e1 [ ~S ] e2 [ ~S ]) = [ ~S ]" e1 e2 result)
 		(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_list: finished unification( e1 [ ~S ] e2 [ ~S ]) = [ ~S ]" e1 e2 result)
 		(return-from unification_with_list result)
 	)

@@ -1,6 +1,6 @@
 ; ALL LOGLVELES IN lowercase
-; allowed loglevels: debug, info, none
-(setf loglevel "none")
+; allowed loglevels: debug, error
+(setf loglevel "debug")
 
 (load "log.lsp")
 (load "utils.lsp")
