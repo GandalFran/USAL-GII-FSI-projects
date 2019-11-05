@@ -1,15 +1,15 @@
 
 (load "load.lsp")
-(setf loglevel "debug")
 
 (defun test_composition (test_name first_var second_var expected) 
-	(logging loglevel "+" t "TEST:composition_test.lsp: ~S :(composition ~S ~S) (expected: ~S)" test_name first_var second_var expected)
+	(logging "debug" "+" t "TEST:composition_test.lsp: ~S :(composition ~S ~S) (expected: ~S)" test_name first_var second_var expected)
 	(setf result (composition first_var second_var))
-	(logging loglevel "-" t "TEST:composition_test.lsp: ~S : (composition ~S ~S) = ~S (expected: ~S)" test_name first_var second_var result expected)
+	(setf result_equal (is_equal result expected))
+	(logging loglevel "-" t "TEST:composition_test.lsp: ~S [correcto ~S] : (composition ~S ~S) = ~S (expected: ~S)" test_name result_equal first_var second_var result expected)
 )
 
 (format t "~%TEST:composition_test.lsp: TESTS OF COMPOSITION")
-(test_composition "single composition - NIL x NIL      " NIL            NIL        NIL                        )
-(test_composition "single composition - object x NIL   " '((x y))       NIL        '((x y))                   )
-(test_composition "single composition - NIL x object   " NIL            '((x y))   '((x y))                   )
-(test_composition "single composition - object x object" '((F H) (? X)) '(A (? Y)) '(((F H) (? X)) (A (? Y))) )
+(test_composition "test 00" NIL            NIL        NIL                        )
+(test_composition "test 01" '((x y))       NIL        '((x y))                   )
+(test_composition "test 02" NIL            '((x y))   '((x y))                   )
+(test_composition "test 03" '((F H) (? X)) '(A (? Y)) '(((F H) (? X)) (A (? Y))) )
