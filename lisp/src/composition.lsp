@@ -3,9 +3,6 @@
 ;	date: 10/10/2019
 ;	file: composition.lsp
 
-
-;; INPUT FORMAT 
-;; ej: {x/y, f(g)/z}	( (x y) ((f (? g)) z) )
 (defun composition (s1 s2) 
 	(logging "debug" NIL t "DEBUG:composition.lsp:composition: [ ~S ] [ ~S ]" s1 s2)
 	(prog (s1_editable s2_editable s2_element add_element s3 result) 
