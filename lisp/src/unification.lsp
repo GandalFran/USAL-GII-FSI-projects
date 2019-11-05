@@ -1,5 +1,7 @@
-
-(setq unification_error 'UNIFICATION_ERROR)
+;
+;	author: Héctor Sánchez San Blas & Francisco Pinto-Santos
+;	date: 10/10/2019
+;	file: unification.lsp
 
 (defun unification (e1 e2)
 	
@@ -59,7 +61,7 @@
 				(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_atom: e1 is var -> checking if e1 is in e2")
 				(when (and (listp e2) (member e1 e2))
 					(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is in e2 -> return unification_error")
-					(return-from unification_with_atom unification_error)
+					(return-from unification_with_atom 'UNIFICATION_ERROR)
 				)
 				; making e2/e1
 				(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_atom: e1 is var -> e1 is not in e2 -> e2 [ ~S ] / e1 [ ~S ] " e2 e1)
@@ -78,7 +80,7 @@
 			( T
 				;in other case return error
 				(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_atom: e1 and e2 are not var -> return unification_error ")
-				(return-from unification_with_atom unification_error)
+				(return-from unification_with_atom 'UNIFICATION_ERROR)
 			)
 		)
 	)
@@ -97,9 +99,9 @@
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating z1 -> unification( f1 [ ~S ] f2 [ ~S ])" f1 f2)
 		(setf z1 (unification f1 f2))
 		(logging "debug" "-" t "DEBUG:unification.lsp:unification_with_list: calculating z1 -> unification( f1 [ ~S ] f2 [ ~S ]) = [ ~S ]" f1 f2 z1)
-		(when (is_equal z1 unification_error)
+		(when (is_equal z1 'UNIFICATION_ERROR)
 			(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_list: z1 result is NIL -> return NIL")
-			(return-from unification_with_list unification_error)
+			(return-from unification_with_list 'UNIFICATION_ERROR)
 		)
 		;calculating sustitution of z1 and t1 into g1
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating g1 -> sustitution( t1 [ ~S ] z1 [ ~S ])" t1 z1)
@@ -113,9 +115,9 @@
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating z2 -> unification( g1 [ ~S ] g2 [ ~S ])" g1 g2)
 		(setf z2 (unification g1 g2))
 		(logging "debug" "-" t "DEBUG:unification.lsp:unification_with_list: calculating z2 -> unification( g1 [ ~S ] g2 [ ~S ]) = [ ~S ]" g1 g2 z2)
-		(when (is_equal z2 unification_error)
+		(when (is_equal z2 'UNIFICATION_ERROR)
 			(logging "debug" NIL t "DEBUG:unification.lsp:unification_with_list: z2 result is NIL -> return NIL")
-			(return-from unification_with_list unification_error)
+			(return-from unification_with_list 'UNIFICATION_ERROR)
 		)
 		;calculating composition of z1 and z2
 		(logging "debug" "+" t "DEBUG:unification.lsp:unification_with_list: calculating result -> composition( z1 [ ~S ] z2 [ ~S ])" z1 z2)

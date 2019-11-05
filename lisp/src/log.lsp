@@ -1,3 +1,7 @@
+;
+;	author: Héctor Sánchez San Blas & Francisco Pinto-Santos
+;	date: 10/10/2019
+;	file: log.lsp
 
 (setq numberOfTabs 1)
 

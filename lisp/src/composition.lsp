@@ -1,3 +1,9 @@
+;
+;	author: Héctor Sánchez San Blas & Francisco Pinto-Santos
+;	date: 10/10/2019
+;	file: composition.lsp
+
+
 ;; INPUT FORMAT 
 ;; ej: {x/y, f(g)/z}	( (x y) ((f (? g)) z) )
 (defun composition (s1 s2) 

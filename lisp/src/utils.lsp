@@ -1,3 +1,8 @@
+;
+;	author: Héctor Sánchez San Blas & Francisco Pinto-Santos
+;	date: 10/10/2019
+;	file: utils.lsp
+
 (defun is_atom(var)
 	(cond
 		; is a real atom -> T 

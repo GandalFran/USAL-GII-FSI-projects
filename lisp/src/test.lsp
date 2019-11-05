@@ -1,3 +1,8 @@
+;
+;	author: Héctor Sánchez San Blas & Francisco Pinto-Santos
+;	date: 10/10/2019
+;	file: test.lsp
+
 (load "load.lsp")
 
 (load "sustitution_test.lsp")

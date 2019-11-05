@@ -1,3 +1,8 @@
+;
+;   author: Héctor Sánchez San Blas & Francisco Pinto-Santos
+;   date: 10/10/2019
+;   file: sustitution.lsp
+
 (defun sustitution (list_to_change changes)
     (logging "debug" NIL t "DEBUG:sustitution.lsp:sustitution: list_to_change [ ~S ]  changes [ ~S ]" list_to_change changes)
     (prog (list_with_changes)
