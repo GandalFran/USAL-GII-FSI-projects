@@ -31,30 +31,3 @@
 		(T NIL)
 	)
 )
-
-(defun get_postition_in_list(element list &optional(n 0))
-    (cond
-        ((null list) list)
-        ((equal (car list) element) n)
-        (t (get_postition_in_list element (cdr list) (+ n 1)))
-    )
-)
-
-(defun is_in_list (item list_)
-	(format t "~% [ ~S ] [ ~S ]" item list_)
-
-	(dolist (list_item list_)
-		(cond
-			(; if list_item is list go recursive
-				(not (is_atom list_item))
-				(return-from is_in_list (is_in_list item list_item))
-			)
-			(; if list_item is atom, compare
-				T
-				(when (is_equal item list_item) (return-from is_in_list T))
-			)
-		)
-	)
-	; if there is no match return NIL
-	(return-from is_in_list NIL)	
-)
