@@ -33,7 +33,8 @@ public class BoxStack implements Cloneable{
     public Object clone(){
         Box [] newboxes = new Box [MAX_BOX_PER_STACK];
         for(int i=0; i<this.boxes.length; i++)
-            newboxes[i] = (Box) this.boxes[i].clone();
+            if(null != this.boxes[i])
+                newboxes[i] = (Box) this.boxes[i].clone();
         return new BoxStack(this.ID,newboxes,this.actual,this.limite);
     }
 
@@ -60,7 +61,7 @@ public class BoxStack implements Cloneable{
     @Override
     public String toString() {
         return "BoxStack{" +
-                "boxes=" + boxes +
+                "boxes=" + boxes.toString() +
                 ", actual=" + actual +
                 ", limite=" + limite +
                 '}';

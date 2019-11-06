@@ -1,6 +1,7 @@
 package Astar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,8 +9,8 @@ import java.util.logging.Logger;
 public class AStar {
     private final static Logger LOGGER = Logger.getLogger("AStar.AStar");
 
-    private List<AState> opened;
-    private List<AState> closed;
+    private List<AStarState> opened;
+    private List<AStarState> closed;
 
     public AStar(){
         this.opened = new ArrayList<>();
@@ -21,7 +22,8 @@ public class AStar {
         this.closed.clear();
     }
 
-    public void run(AState initialState) throws NoAvailableStatesException{
+    public AStarState run(AStarState initialState) throws NoAvailableStatesException{
+        AStarState openedNode, finalState;
 
         //add first node to opened
         LOGGER.log(Level.INFO,String.format("Added first state to opened [%s]", this.opened.toString()) );
@@ -42,45 +44,67 @@ public class AStar {
 
             //take first node of opened, put it on closed and open it
             LOGGER.log(Level.INFO,String.format("Select first node from opened: [%s]",this.opened.get(0).toString()));
-            AState openedNode = this.opened.get(0);
+            openedNode = this.opened.get(0);
             this.opened.remove(openedNode);
             this.closed.add(this.closed.size(),openedNode);
 
             //check if node is final state
-            LOGGER.log(Level.INFO,"Check if node is final state");
+            LOGGER.log(Level.INFO,"check if node is final state");
             if(openedNode.isFinalState()){
+                LOGGER.log(Level.INFO,"found final state");
+                finalState = openedNode;
                 break;
             }
 
             //expand node
             LOGGER.log(Level.INFO,"expand selected node");
-            List<AState> descendants = this.expand(openedNode);
+            List<AStarState> descendants = this.expand(openedNode);
 
-            //set father pointer in childs
-            LOGGER.log(Level.INFO,"Set father pointers in new state nodes");
-            for(AState child : descendants) {
+            //set father pointer in children
+            LOGGER.log(Level.INFO,"set father pointers in new state nodes");
+            for(AStarState child : descendants) {
                 this.selectFather(child,openedNode);
-                if(! this.opened.contains(child)
-                        && ! this.closed.contains(child)){
-                   this.opened.add(child);
-                }
+                this.addToLists(child);
             }
 
             //sort opened
             LOGGER.log(Level.INFO,"sort opened nodes list");
-            this.sortopened();
+            this.sortOpenedNodes();
         }
+
+        return finalState;
     }
 
-    public List<AState> expand(AState node){
+    private List<AStarState> expand(AStarState node){
         return null;
     }
 
-    public void selectFather(AState node, AState defaultFather){
+    private void selectFather(AStarState node, AStarState defaultFather){
 
     }
 
-    public void sortopened(){
+    private void addToLists(AStarState node){
+        if(! this.opened.contains(node)
+                && ! this.closed.contains(node)){
+            this.opened.add(node);
+        }
+    }
 
+    private void sortOpenedNodes(){
+        Collections.sort(this.opened);
+    }
+
+    public static List<AStarState> stateTreeAsList(AStarState node){
+        List<AStarState> stateList = new ArrayList<>();
+
+        if(null == node)
+            return null;
+
+        do {
+            stateList.add(node.clone());
+            node = node.getFather();
+        }while(null != node);
+
+        return stateList;
     }
 }

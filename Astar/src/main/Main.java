@@ -1,8 +1,9 @@
 package main;
 
 import Astar.AStar;
+import Astar.AStarState;
 import Astar.NoAvailableStatesException;
-import Astar.StorageState;
+import Astar.StorageStarState;
 import POJO.Box;
 import POJO.Storage;
 import org.jetbrains.annotations.NotNull;
@@ -14,19 +15,28 @@ public class Main {
 
     public static void main(String[] args) {
         AStar aStar = new AStar();
-        aStar.initialize();
+        AStarState finalState = null;
         try{
-            aStar.run(initialState());
+            aStar.initialize();
+            finalState = aStar.run(initialState());
         }catch (NoAvailableStatesException e){
             System.out.println("Unable to find solution for initial state: " + initialState().toString());
             System.exit(0);
         }
+
+        List<AStarState> stateList = AStar.stateTreeAsList(finalState);
+
+        System.out.println("Solution found in depth " + stateList.size() + ": ");
+        for(int i=0; i<stateList.size(); i++){
+           System.out.println("STATE " + i + ": ");
+           System.out.print(stateList.get(i).toString());
+        }
     }
 
     @NotNull
-    public static StorageState initialState(){
+    public static StorageStarState initialState(){
         List<Box> boxes = new ArrayList<>();
         Storage storage = new Storage();
-        return new StorageState(boxes,storage);
+        return new StorageStarState(boxes,storage);
     }
 }

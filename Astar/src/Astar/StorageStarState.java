@@ -6,32 +6,39 @@ import POJO.Storage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StorageState extends AState{
+public class StorageStarState extends AStarState {
 
     private Storage storage;
     private List<Box> boxes;
 
+    public StorageStarState(List<Box> boxes, Storage storage){
+        this.boxes = boxes;
+        this.storage = storage;
+    }
 
-    public StorageState(List<Box> boxes, Storage storage){
+    private StorageStarState(List<Box> boxes, Storage storage, int gn, int hn, AStarState father){
+        super.setGn(gn);
+        super.setHn(hn);
+        super.setFather(father);
         this.boxes = boxes;
         this.storage = storage;
     }
 
     @Override
-    public AState clone() {
+    public AStarState clone() {
         List<Box> newBoxes = new ArrayList<>();
         for (Box box : this.boxes)
             newBoxes.add((Box)box.clone());
-        return new StorageState(newBoxes,(Storage) this.storage.clone());
+        return new StorageStarState(newBoxes,(Storage) this.storage.clone(), super.getGn(), super.getHn(), super.getFather());
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StorageState)) return false;
+        if (!(o instanceof StorageStarState)) return false;
         if (!super.equals(o)) return false;
 
-        StorageState that = (StorageState) o;
+        StorageStarState that = (StorageStarState) o;
 
         if (getStorage() != null ? !getStorage().equals(that.getStorage()) : that.getStorage() != null) return false;
         return getBoxes() != null ? getBoxes().equals(that.getBoxes()) : that.getBoxes() == null;
@@ -47,9 +54,13 @@ public class StorageState extends AState{
 
     @Override
     public String toString() {
-        return "StorageState{" +
-                "storage=" + storage +
+        return "StorageStarState{" +
+                ", gn=" + super.getGn() +
+                ", hn=" + super.getHn() +
+                ", fn=" + super.getFn() +
+                ", storage=" + storage +
                 ", boxes=" + boxes +
+                ", father=" + super.getFather() +
                 '}';
     }
 
