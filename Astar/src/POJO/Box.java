@@ -45,11 +45,7 @@ public class Box implements Cloneable {
 
     @Override
     public String toString() {
-        return "Box{" +
-                "ID=" + ID +
-                ", diaentrada=" + diaentrada +
-                ", diasalida=" + diasalida +
-                '}';
+        return ("Box(" + ID + ", " + diaentrada + ", " + diasalida + ")");
     }
 
     public int getID() {

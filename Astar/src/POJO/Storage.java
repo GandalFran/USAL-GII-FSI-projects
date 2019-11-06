@@ -49,9 +49,12 @@ public class Storage implements Cloneable{
 
     @Override
     public String toString() {
-        return "Storage{" +
-                "stacks=" + Arrays.toString(stacks) +
-                '}';
+        StringBuilder sb = new StringBuilder();
+
+        for(BoxStack bs : stacks)
+            sb.append("\n\t").append(bs.toString());
+
+        return sb.toString();
     }
 
     public BoxStack[] getStacks() {

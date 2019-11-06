@@ -60,11 +60,14 @@ public class BoxStack implements Cloneable{
 
     @Override
     public String toString() {
-        return "BoxStack{" +
-                "boxes=" + boxes.toString() +
-                ", actual=" + actual +
-                ", limite=" + limite +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("("+actual+"/"+limite+") [");
+        for(Box b : boxes) {
+            if(null != b)
+                sb.append(b.toString()).append(", ");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
     public boolean isBoxAllowed(Box b){

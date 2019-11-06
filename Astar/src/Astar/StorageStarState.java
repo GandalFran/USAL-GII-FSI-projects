@@ -54,14 +54,22 @@ public class StorageStarState extends AStarState {
 
     @Override
     public String toString() {
-        return "StorageStarState{" +
-                ", gn=" + super.getGn() +
-                ", hn=" + super.getHn() +
-                ", fn=" + super.getFn() +
-                ", storage=" + storage +
-                ", boxes=" + boxes +
-                ", father=" + super.getFather() +
-                '}';
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\tf(n): ").append(super.getFn())
+                .append("\n\tg(n): ").append(super.getGn())
+                .append("\n\th(n): ").append(super.getHn())
+                .append("\n\tfather: ").append(super.getFather())
+                .append("\n\tboxes: [");
+
+        for(Box b: boxes)
+            sb.append(b.toString()).append(", ");
+
+        sb.append("]")
+                .append("\n\tstorage:")
+                .append(storage.toString().replace("\n","\n\t" ));
+
+        return sb.toString();
     }
 
     @Override
