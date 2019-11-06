@@ -4,18 +4,31 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Storage {
+public class Storage implements Cloneable{
     private final static Logger LOGGER = Logger.getLogger("POJO.Storage");
 
-    private BoxStack [] pilas;
+    private BoxStack [] stacks;
     private final int NUM_STACKS = 5;
 
     public Storage() {
 
-        this.pilas = new BoxStack[NUM_STACKS];
+        this.stacks = new BoxStack[NUM_STACKS];
         for(int i=0; i<NUM_STACKS; i++)
-            this.pilas[i] = new BoxStack(i);
+            this.stacks[i] = new BoxStack(i);
         LOGGER.log(Level.INFO, String.format("Storage: new [%s]", this.toString()));
+    }
+
+    private Storage(BoxStack [] boxStack){
+        this.stacks = boxStack;
+    }
+
+    @Override
+    public Object clone(){
+        BoxStack [] newBoxStack = new BoxStack[NUM_STACKS];
+        for(int i =0; i<this.stacks.length; i++){
+            newBoxStack[i] = (BoxStack) this.stacks[i].clone();
+        }
+        return new Storage(newBoxStack);
     }
 
     @Override
@@ -26,23 +39,22 @@ public class Storage {
         Storage storage = (Storage) o;
 
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(getPilas(), storage.getPilas());
+        return Arrays.equals(getStacks(), storage.getStacks());
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(getPilas());
+        return Arrays.hashCode(getStacks());
     }
 
     @Override
     public String toString() {
         return "Storage{" +
-                "pilas=" + Arrays.toString(pilas) +
+                "stacks=" + Arrays.toString(stacks) +
                 '}';
     }
 
-    public BoxStack[] getPilas() {
-        return pilas;
+    public BoxStack[] getStacks() {
+        return stacks;
     }
-
 }

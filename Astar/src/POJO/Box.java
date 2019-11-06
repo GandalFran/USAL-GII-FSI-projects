@@ -1,11 +1,10 @@
 package POJO;
 
-import Astar.AStarPOJO;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Box implements AStarPOJO {
+public class Box implements Cloneable {
     private final static Logger LOGGER = Logger.getLogger("POJO.Box");
 
     private int ID;
@@ -17,6 +16,11 @@ public class Box implements AStarPOJO {
         this.diaentrada = diaentrada;
         this.diasalida = diasalida;
         LOGGER.log(Level.INFO, String.format("Box: new [%s]", this.toString()));
+    }
+
+    @Override
+    public Object clone(){
+        return new Box(this.ID,this.diaentrada,this.diasalida);
     }
 
     @Override

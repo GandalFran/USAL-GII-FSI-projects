@@ -1,15 +1,14 @@
 package POJO;
 
-import Astar.AStarPOJO;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BoxStack implements AStarPOJO {
+public class BoxStack implements Cloneable{
     private final static Logger LOGGER = Logger.getLogger("POJO.BoxStack");
 
     private int ID;
-    private Box [] lbox;
+    private Box [] boxes;
     private int actual;
     private int limite;
 
@@ -17,10 +16,25 @@ public class BoxStack implements AStarPOJO {
 
     public BoxStack(int ID) {
         this.ID = ID;
-        this.lbox = new Box [MAX_BOX_PER_STACK];
+        this.boxes = new Box [MAX_BOX_PER_STACK];
         this.actual = 0;
         this.limite = MAX_BOX_PER_STACK;
         LOGGER.log(Level.INFO, String.format("BoxStack: %d: new [%s]", this.ID, this.toString()));
+    }
+
+    private BoxStack(int ID, Box[] boxes, int actual, int limite) {
+        this.ID = ID;
+        this.boxes = boxes;
+        this.actual = actual;
+        this.limite = limite;
+    }
+
+    @Override
+    public Object clone(){
+        Box [] newboxes = new Box [MAX_BOX_PER_STACK];
+        for(int i=0; i<this.boxes.length; i++)
+            newboxes[i] = (Box) this.boxes[i].clone();
+        return new BoxStack(this.ID,newboxes,this.actual,this.limite);
     }
 
     @Override
@@ -32,12 +46,12 @@ public class BoxStack implements AStarPOJO {
 
         if (actual != boxStack.actual) return false;
         if (limite != boxStack.limite) return false;
-        return lbox.equals(boxStack.lbox);
+        return boxes.equals(boxStack.boxes);
     }
 
     @Override
     public int hashCode() {
-        int result = lbox.hashCode();
+        int result = boxes.hashCode();
         result = 31 * result + actual;
         result = 31 * result + limite;
         return result;
@@ -46,7 +60,7 @@ public class BoxStack implements AStarPOJO {
     @Override
     public String toString() {
         return "BoxStack{" +
-                "lbox=" + lbox +
+                "boxes=" + boxes +
                 ", actual=" + actual +
                 ", limite=" + limite +
                 '}';
@@ -54,7 +68,7 @@ public class BoxStack implements AStarPOJO {
 
     public boolean isBoxAllowed(Box b){
         boolean isAllowed = (this.actual == 0
-                || (this.actual < this.limite && b.getDiasalida() > this.lbox[this.actual].getDiasalida())
+                || (this.actual < this.limite && b.getDiasalida() > this.boxes[this.actual].getDiasalida())
         );
         LOGGER.log(Level.INFO, String.format("isBoxAllowed: %d: [%b] [%s]", this.ID, isAllowed, b.toString()));
         return isAllowed;
@@ -64,7 +78,7 @@ public class BoxStack implements AStarPOJO {
         LOGGER.log(Level.INFO, String.format("addBox: %d: trying to add box [%b]", this.ID, b.toString()));
         if(this.isBoxAllowed(b)) {
             this.actual++;
-            this.lbox[this.actual] = b;
+            this.boxes[this.actual] = b;
             LOGGER.log(Level.INFO, String.format("addBox: %d: box added to stack [%b]", this.ID, b.toString()));
             return true;
         }else{
@@ -76,8 +90,8 @@ public class BoxStack implements AStarPOJO {
     public boolean removeBox() {
         LOGGER.log(Level.INFO, String.format("addBox: %d: trying to remove box", this.ID));
         if (this.actual > 0) {
-            LOGGER.log(Level.INFO, String.format("addBox: %d: removed box [%s]", this.ID, this.lbox[actual].toString()));
-            this.lbox[actual] = null;
+            LOGGER.log(Level.INFO, String.format("addBox: %d: removed box [%s]", this.ID, this.boxes[actual].toString()));
+            this.boxes[actual] = null;
             this.actual--;
             return true;
         }else{
