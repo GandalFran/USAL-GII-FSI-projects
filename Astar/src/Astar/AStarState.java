@@ -49,10 +49,13 @@ public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
         return (this.getFn()-s.getFn());
     }
 
+
     @Override
     public AStarState clone() {
         return null;
     }
+
+    public abstract boolean isSameNode(AStarState node);
 
     public abstract boolean isFinalState();
 

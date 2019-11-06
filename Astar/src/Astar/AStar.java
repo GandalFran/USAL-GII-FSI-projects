@@ -81,6 +81,31 @@ public class AStar {
 
     private void selectFather(AStarState node, AStarState defaultFather){
 
+        boolean isNodeInOpened = false;
+        boolean isNodeInClosed = false;
+
+        for(AStarState n : this.opened){
+            if(node.isSameNode(n)){
+                isNodeInOpened = true;
+            }
+        }
+
+        for(AStarState n : this.opened){
+            if(node.isSameNode(n)){
+                isNodeInClosed = true;
+            }
+        }
+
+        if(!isNodeInOpened && !isNodeInClosed){
+            node.setFather(defaultFather);
+        }else if(isNodeInOpened || isNodeInClosed){
+            this.updateFatherOnConflict(node, defaultFather);
+            this.sortOpenedNodes();
+        }
+    }
+
+    private void updateFatherOnConflict(AStarState node, AStarState newfather){
+
     }
 
     private void addToLists(AStarState node){
@@ -101,7 +126,7 @@ public class AStar {
             return null;
 
         do {
-            stateList.add(node.clone());
+            stateList.add(0,node.clone());
             node = node.getFather();
         }while(null != node);
 

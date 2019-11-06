@@ -1,0 +1,47 @@
+
+
+TEST:utils_test.lsp: TESTS OF UTILS
+    TEST:utils_test.lsp: "is_atom   0" [correcto T] : (is_atom NIL) = T (expected: T)
+    TEST:utils_test.lsp: "is_atom   1" [correcto T] : (is_atom X) = T (expected: T)
+    TEST:utils_test.lsp: "is_atom   2" [correcto T] : (is_atom (? X)) = T (expected: T)
+    TEST:utils_test.lsp: "is_atom   3" [correcto T] : (is_atom (A X)) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_var    0" [correcto T] : (is_var NIL) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_var    1" [correcto T] : (is_var X) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_var    2" [correcto T] : (is_var (? X)) = T (expected: T)
+    TEST:utils_test.lsp: "is_var    3" [correcto T] : (is_var (A X)) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal  0" [correcto T] : (is_equal NIL NIL) = T (expected: T)
+    TEST:utils_test.lsp: "is_equal  1" [correcto T] : (is_equal NIL A) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal  2" [correcto T] : (is_equal NIL (A X)) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal  3" [correcto T] : (is_equal A NIL) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal  4" [correcto T] : (is_equal (A X) NIL) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal  5" [correcto T] : (is_equal X Y) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal  6" [correcto T] : (is_equal X X) = T (expected: T)
+    TEST:utils_test.lsp: "is_equal  7" [correcto T] : (is_equal X (? X)) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal  8" [correcto T] : (is_equal (? X) (? X)) = T (expected: T)
+    TEST:utils_test.lsp: "is_equal  9" [correcto T] : (is_equal (A X) (? X)) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal 10" [correcto T] : (is_equal (? X) (A X)) = NIL (expected: NIL)
+    TEST:utils_test.lsp: "is_equal 11" [correcto T] : (is_equal (A X) (A X)) = T (expected: T)
+
+TEST:sustitution_test.lsp: TESTS OF SUSTITUTION
+    TEST:sustitution_test.lsp: "test 0" [correcto T] : (sustitution (X) (Y X)) = (Y) (expected: (Y))
+    TEST:sustitution_test.lsp: "test 1" [correcto T] : (sustitution (X) ((? X) X)) = ((? X)) (expected: ((? X)))
+    TEST:sustitution_test.lsp: "test 2" [correcto T] : (sustitution ((? X)) (Y (? X))) = (Y) (expected: (Y))
+    TEST:sustitution_test.lsp: "test 3" [correcto T] : (sustitution ((? X)) ((? Y) (? X))) = ((? Y)) (expected: ((? Y)))
+    TEST:sustitution_test.lsp: "test 4" [correcto T] : (sustitution (F H (? X)) (((? Y) F) ((A B C (? Z)) (? X)))) = ((? Y) H (A B C (? Z))) (expected: ((? Y) H (A B C (? Z))))
+
+TEST:composition_test.lsp: TESTS OF COMPOSITION
+    TEST:composition_test.lsp: "test 0" [correcto T] : (composition NIL NIL) = NIL (expected: NIL)
+    TEST:composition_test.lsp: "test 1" [correcto T] : (composition ((X Y)) NIL) = ((X Y)) (expected: ((X Y)))
+    TEST:composition_test.lsp: "test 2" [correcto T] : (composition NIL ((X Y))) = ((X Y)) (expected: ((X Y)))
+    TEST:composition_test.lsp: "test 3" [correcto T] : (composition ((F H) (? X)) (A (? Y))) = (((F H) (? X)) (A (? Y))) (expected: (((F H) (? X)) (A (? Y))))
+    TEST:composition_test.lsp: "test 4" [correcto T] : (composition (((? X) (? Y)) (A B)) ((M (? X)) (R B))) = ((M (? Y)) (A R) (M (? X))) (expected: ((M (? Y)) (A R) (M (? X))))
+
+TEST:unification_test.lsp: TESTS OF UNIFICATION
+    TEST:unification_test.lsp: "test 0" [correcto T] : (unification (F (? X) (G (? X))) (F (? A) (G (? B)))) = (((? B) (? X)) ((? B) (? A))) (expected: (((? B) (? X)) ((? B) (? A))))
+    TEST:unification_test.lsp: "test 1" [correcto T] : (unification (F (? X) (G (? X))) (F A (G A))) = (A (? X)) (expected: (A (? X)))
+    TEST:unification_test.lsp: "test 2" [correcto T] : (unification (G (? X) A) (G (M N) (? Y))) = (((M N) (? X)) (A (? Y))) (expected: (((M N) (? X)) (A (? Y))))
+    TEST:unification_test.lsp: "test 3" [correcto T] : (unification (FRUTA MANZANA) (FRUTA (? X))) = (MANZANA (? X)) (expected: (MANZANA (? X)))
+    TEST:unification_test.lsp: "test 4" [correcto T] : (unification (A B C D) (X Y Z Z)) = UNIFICATION_ERROR (expected: UNIFICATION_ERROR)
+
+IMPORTANT: LOGLVEL SET TO "none", TO CHANGE IT GO TO load.lsp
+
