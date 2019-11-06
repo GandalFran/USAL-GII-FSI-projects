@@ -53,7 +53,7 @@ public class AStar {
             }
 
             //expand node
-            LOGGER.log(Level.INFO,"Expand selected node");
+            LOGGER.log(Level.INFO,"expand selected node");
             List<AState> descendants = this.expand(openedNode);
 
             //set father pointer in childs

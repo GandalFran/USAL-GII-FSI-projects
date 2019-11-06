@@ -29,17 +29,19 @@ public class StorageState extends AState{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StorageState)) return false;
+        if (!super.equals(o)) return false;
 
         StorageState that = (StorageState) o;
 
-        if (!getStorage().equals(that.getStorage())) return false;
-        return getBoxes().equals(that.getBoxes());
+        if (getStorage() != null ? !getStorage().equals(that.getStorage()) : that.getStorage() != null) return false;
+        return getBoxes() != null ? getBoxes().equals(that.getBoxes()) : that.getBoxes() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getStorage().hashCode();
-        result = 31 * result + getBoxes().hashCode();
+        int result = super.hashCode();
+        result = 31 * result + (getStorage() != null ? getStorage().hashCode() : 0);
+        result = 31 * result + (getBoxes() != null ? getBoxes().hashCode() : 0);
         return result;
     }
 

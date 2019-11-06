@@ -1,6 +1,7 @@
 package main;
 
 import Astar.AStar;
+import Astar.NoAvailableStatesException;
 import Astar.StorageState;
 import POJO.Box;
 import POJO.Storage;
@@ -14,7 +15,12 @@ public class Main {
     public static void main(String[] args) {
         AStar aStar = new AStar();
         aStar.initialize();
-        aStar.run(initialState());
+        try{
+            aStar.run(initialState());
+        }catch (NoAvailableStatesException e){
+            System.out.println("Unable to find solution for initial state: " + initialState().toString());
+            System.exit(0);
+        }
     }
 
     @NotNull
