@@ -1,5 +1,6 @@
-package Astar;
+package AStarStorageImpl;
 
+import AStar.AStarState;
 import POJO.Box;
 import POJO.Storage;
 

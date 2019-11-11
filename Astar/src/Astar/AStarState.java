@@ -1,4 +1,4 @@
-package Astar;
+package AStar;
 
 
 public abstract class AStarState implements Cloneable, Comparable<AStarState>  {

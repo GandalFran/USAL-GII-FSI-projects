@@ -1,9 +1,7 @@
-package main;
-
-import Astar.AStar;
-import Astar.AStarState;
-import Astar.NoAvailableStatesException;
-import Astar.StorageStarState;
+import AStar.AStar;
+import AStar.AStarState;
+import AStar.exceptions.NoAvailableStatesException;
+import AStarStorageImpl.StorageStarState;
 import POJO.Box;
 import POJO.Storage;
 import org.jetbrains.annotations.NotNull;

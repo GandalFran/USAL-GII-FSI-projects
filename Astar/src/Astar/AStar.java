@@ -1,8 +1,13 @@
-package Astar;
+package AStar;
+
+import AStar.exceptions.NoAvailableStatesException;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,18 +16,21 @@ public class AStar {
 
     private List<AStarState> opened;
     private List<AStarState> closed;
-
+    private MutableGraph<AStarState> graph;
     public AStar(){
         this.opened = new ArrayList<>();
         this.closed = new ArrayList<>();
+        this.graph = null;
     }
 
     public void initialize(){
         this.opened.clear();
         this.closed.clear();
+        // instance new graph
+        this.graph = GraphBuilder.directed().allowsSelfLoops(false).build();
     }
 
-    public AStarState run(AStarState initialState) throws NoAvailableStatesException{
+    public AStarState run(AStarState initialState) throws NoAvailableStatesException {
         AStarState openedNode, finalState;
 
         //add first node to opened
@@ -63,7 +71,7 @@ public class AStar {
             //set father pointer in children
             LOGGER.log(Level.INFO,"set father pointers in new state nodes");
             for(AStarState child : descendants) {
-                this.selectFather(child,openedNode);
+                this.selectFather(child);
                 this.addToLists(child);
             }
 
@@ -77,12 +85,12 @@ public class AStar {
 
     private List<AStarState> expand(AStarState node){
         return null;
-    }
 
-    private void selectFather(AStarState node, AStarState defaultFather){
-
-        boolean isNodeInOpened = false;
-        boolean isNodeInClosed = false;
+        //PARA HECTOR
+        // hace falta comprobar si hay el mismo nodo en abiertos o cerrados con isSameNode (lo hice en selectFather
+        // pero no deberia ir ahi ahora con el grafo, por lo que si quieres puedes copiar y pegar). esto se hace para
+        // poder enganchar al nodo actual a todos los padres que deba tener.
+        /*
 
         for(AStarState n : this.opened){
             if(node.isSameNode(n)){
@@ -96,16 +104,32 @@ public class AStar {
             }
         }
 
-        if(!isNodeInOpened && !isNodeInClosed){
-            node.setFather(defaultFather);
-        }else if(isNodeInOpened || isNodeInClosed){
-            this.updateFatherOnConflict(node, defaultFather);
-            this.sortOpenedNodes();
+        */
+
+        //PARA HECTOR2:
+        //  añadir nodo al grafo:
+        //  this.graph.addNode(newnode);
+        //  this.graph.putEdge(parent, newnode);
+
+        //PARA HECTOR3:
+        //  en el estado, pon al nodo actual como padre en plan de nuevoNodoHijo.setFather(node)
+    }
+
+
+    private void selectFather(AStarState node){
+        //IMPORTANTE: TODO: si fathers no devuelve null cuando no hay padres, no va a funciona
+        Set<AStarState> fathers = this.graph.predecessors(node);
+        if(fathers != null){
+            this.updateFatherOnConflict(node, fathers);
+            for(AStarState sucesor : this.graph.successors(node)){
+                this.selectFather(sucesor);
+            }
         }
     }
 
-    private void updateFatherOnConflict(AStarState node, AStarState newfather){
-
+    private void updateFatherOnConflict(AStarState node, Set<AStarState> availableFathers){
+        //TODO: seleccionar el padre para este nodo
+        //TODO: la recursivdiad no se hace aqui sino en select father
     }
 
     private void addToLists(AStarState node){

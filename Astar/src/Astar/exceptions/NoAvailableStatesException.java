@@ -1,4 +1,5 @@
-package Astar;
+package AStar.exceptions;
+
 
 public class NoAvailableStatesException extends Exception{
 
