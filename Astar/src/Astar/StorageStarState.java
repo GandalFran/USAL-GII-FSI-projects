@@ -16,39 +16,28 @@ public class StorageStarState extends AStarState {
         this.storage = storage;
     }
 
-    private StorageStarState(List<Box> boxes, Storage storage, int gn, int hn, AStarState father){
+    public StorageStarState(List<Box> boxes, Storage storage, int gn, AStarState father){
         super.setGn(gn);
-        super.setHn(hn);
         super.setFather(father);
         this.boxes = boxes;
         this.storage = storage;
     }
 
     @Override
-    public AStarState clone() {
-        List<Box> newBoxes = new ArrayList<>();
-        for (Box box : this.boxes)
-            newBoxes.add((Box)box.clone());
-        return new StorageStarState(newBoxes,(Storage) this.storage.clone(), super.getGn(), super.getHn(), super.getFather());
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StorageStarState)) return false;
-        if (!super.equals(o)) return false;
 
         StorageStarState that = (StorageStarState) o;
 
-        if (getStorage() != null ? !getStorage().equals(that.getStorage()) : that.getStorage() != null) return false;
-        return getBoxes() != null ? getBoxes().equals(that.getBoxes()) : that.getBoxes() == null;
+        if (!getStorage().equals(that.getStorage())) return false;
+        return getBoxes().equals(that.getBoxes());
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (getStorage() != null ? getStorage().hashCode() : 0);
-        result = 31 * result + (getBoxes() != null ? getBoxes().hashCode() : 0);
+        int result = getStorage().hashCode();
+        result = 31 * result + getBoxes().hashCode();
         return result;
     }
 
@@ -72,12 +61,6 @@ public class StorageStarState extends AStarState {
         return sb.toString();
     }
 
-    @Override
-    public boolean isFinalState() {
-        return this.boxes.isEmpty();
-    }
-
-
     public Storage getStorage() {
         return storage;
     }
@@ -93,4 +76,41 @@ public class StorageStarState extends AStarState {
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
     }
+
+    @Override
+    public AStarState clone() {
+        List<Box> newBoxes = new ArrayList<>();
+        for (Box box : this.boxes)
+            newBoxes.add((Box)box.clone());
+        return new StorageStarState(newBoxes,(Storage) this.storage.clone(), super.getGn(), super.getFather());
+    }
+
+    @Override
+    public boolean isFinalState() {
+        return this.boxes.isEmpty();
+    }
+
+    @Override
+    public int calculateHn() {
+        //hn -> numero de pilas que faltan para meter las cajas restantes
+        int restingBoxes = this.boxes.size();
+        int restingBoxesInStack = 0;
+
+        for(int i=0; i< this.storage.getStacks().length; i++){
+            if(!this.storage.getStacks()[i].isEmpty())
+                restingBoxesInStack = this.storage.getStacks()[i].getLimite() - this.storage.getStacks()[i].getActual();
+                restingBoxes -= restingBoxesInStack;
+        }
+
+        return (int) Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());
+    }
+
+    @Override
+    public boolean isSameNode(AStarState node) {
+        if(!node.getClass().equals(this.getClass()))
+            return false;
+        else
+            return this.storage.equals(((StorageStarState)node).storage);
+    }
+
 }

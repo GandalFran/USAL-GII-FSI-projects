@@ -103,6 +103,10 @@ public class BoxStack implements Cloneable{
         }
     }
 
+    public boolean isEmpty(){
+        return (this.limite - this.actual == 0);
+    }
+
     public int getActual() {
         return actual;
     }

@@ -37,6 +37,6 @@ public class Main {
     public static StorageStarState initialState(){
         List<Box> boxes = new ArrayList<>();
         Storage storage = new Storage();
-        return new StorageStarState(boxes,storage);
+        return new StorageStarState(boxes,storage,0,null);
     }
 }

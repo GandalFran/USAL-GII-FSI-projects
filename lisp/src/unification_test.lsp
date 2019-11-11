@@ -18,3 +18,8 @@
 (test_unification "test 2" '(G (? X) A)          '(G (M N) (? y))       '(((M N) (? X)) (A (? Y)))     )
 (test_unification "test 3" '(FRUTA MANZANA)      '(FRUTA (? x))         '(MANZANA (? X))               )
 (test_unification "test 4" '(A B C D)            '(X Y Z Z)             'UNIFICATION_ERROR             )
+
+
+(setf loglevel "debug")
+
+(unification  '(((g (f (? s)) ) z )) '((A  x) (B  y) (C  (? s)) (D  z)))
