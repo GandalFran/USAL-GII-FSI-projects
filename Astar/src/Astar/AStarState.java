@@ -1,6 +1,8 @@
 package AStar;
 
 
+import java.util.List;
+
 public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
 
     private int gn;
@@ -57,5 +59,7 @@ public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
     public abstract boolean isFinalState();
 
     public abstract int calculateHn();
+
+    public abstract List<AStarState> expand();
 
 }

@@ -87,24 +87,9 @@ public class AStar {
         return null;
 
         //PARA HECTOR
-        // hace falta comprobar si hay el mismo nodo en abiertos o cerrados con isSameNode (lo hice en selectFather
-        // pero no deberia ir ahi ahora con el grafo, por lo que si quieres puedes copiar y pegar). esto se hace para
-        // poder enganchar al nodo actual a todos los padres que deba tener.
-        /*
-
-        for(AStarState n : this.opened){
-            if(node.isSameNode(n)){
-                isNodeInOpened = true;
-            }
-        }
-
-        for(AStarState n : this.opened){
-            if(node.isSameNode(n)){
-                isNodeInClosed = true;
-            }
-        }
-
-        */
+        // hace falta comprobar si hay el mismo nodo en abiertos o cerrados con isSameNode (para eso tienes isNodeInList).
+        // esto se hace para poder enganchar al nodo actual a todos los padres que deba tener, ya que si es el mismo nodo,
+        // en vez de usar el nuevo clonado, tienes que devolver la referencia a el nodo que ya existe con el mismo contenido.
 
         //PARA HECTOR2:
         //  añadir nodo al grafo:
@@ -113,13 +98,15 @@ public class AStar {
 
         //PARA HECTOR3:
         //  en el estado, pon al nodo actual como padre en plan de nuevoNodoHijo.setFather(node)
+
+        //PARA HECTOR4:
+        //  la implementacion de la expansion hay que impelmentarla en el propio estado
     }
 
 
     private void selectFather(AStarState node){
-        //IMPORTANTE: TODO: si fathers no devuelve null cuando no hay padres, no va a funciona
         Set<AStarState> fathers = this.graph.predecessors(node);
-        if(fathers != null){
+        if(!fathers.isEmpty()){
             this.updateFatherOnConflict(node, fathers);
             for(AStarState sucesor : this.graph.successors(node)){
                 this.selectFather(sucesor);
@@ -133,11 +120,20 @@ public class AStar {
     }
 
     private void addToLists(AStarState node){
-        if(! this.opened.contains(node)
-                && ! this.closed.contains(node)){
+        if(! this.isInNodeInList(node,this.opened)
+                && ! this.isInNodeInList(node,this.closed)){
             this.opened.add(node);
         }
     }
+
+    private boolean isInNodeInList(AStarState node, List<AStarState> nodeList){
+        for(AStarState n : nodeList){
+            if(n.isSameNode(node))
+                return true;
+        }
+        return false;
+    }
+
 
     private void sortOpenedNodes(){
         Collections.sort(this.opened);

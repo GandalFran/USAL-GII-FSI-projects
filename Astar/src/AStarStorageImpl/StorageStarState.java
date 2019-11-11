@@ -92,6 +92,14 @@ public class StorageStarState extends AStarState {
     }
 
     @Override
+    public boolean isSameNode(AStarState node) {
+        if(!node.getClass().equals(this.getClass()))
+            return false;
+        else
+            return this.storage.equals(((StorageStarState)node).storage);
+    }
+
+    @Override
     public int calculateHn() {
         //hn -> numero de pilas que faltan para meter las cajas restantes
         int restingBoxes = this.boxes.size();
@@ -100,18 +108,15 @@ public class StorageStarState extends AStarState {
         for(int i=0; i< this.storage.getStacks().length; i++){
             if(!this.storage.getStacks()[i].isEmpty())
                 restingBoxesInStack = this.storage.getStacks()[i].getLimite() - this.storage.getStacks()[i].getActual();
-                restingBoxes -= restingBoxesInStack;
+            restingBoxes -= restingBoxesInStack;
         }
 
         return (int) Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());
     }
 
     @Override
-    public boolean isSameNode(AStarState node) {
-        if(!node.getClass().equals(this.getClass()))
-            return false;
-        else
-            return this.storage.equals(((StorageStarState)node).storage);
+    public List<AStarState> expand() {
+        return null;
     }
 
 }
