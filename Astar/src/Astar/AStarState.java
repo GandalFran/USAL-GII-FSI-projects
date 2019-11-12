@@ -38,10 +38,15 @@ public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
     }
 
     @Override
-    public abstract int hashCode();
+    public boolean equals(Object o){
+        if(!this.getClass().equals(o.getClass()))
+            return false;
+        else
+            return this.isSameNode((AStarState) o);
+    }
 
     @Override
-    public abstract boolean equals(Object o);
+    public abstract int hashCode();
 
     @Override
     public abstract String toString();

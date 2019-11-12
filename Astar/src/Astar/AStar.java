@@ -72,7 +72,7 @@ public class AStar {
             LOGGER.log(Level.INFO,"set father pointers in new state nodes");
             for(AStarState child : descendants) {
                 this.selectFather(child);
-                this.addToLists(child);
+                this.addToList(child);
             }
 
             //sort opened
@@ -84,12 +84,14 @@ public class AStar {
     }
 
     private List<AStarState> expand(AStarState node){
-        return null;
+        return new ArrayList<>();
 
-        //PARA HECTOR
+        //PARA HECTOR - MODIFICADO
         // hace falta comprobar si hay el mismo nodo en abiertos o cerrados con isSameNode (para eso tienes isNodeInList).
         // esto se hace para poder enganchar al nodo actual a todos los padres que deba tener, ya que si es el mismo nodo,
         // en vez de usar el nuevo clonado, tienes que devolver la referencia a el nodo que ya existe con el mismo contenido.
+        // NUEVO -> ya puedes usar el modificar, no te hace falta el isNodeInList
+
 
         //PARA HECTOR2:
         //  añadir nodo al grafo:
@@ -106,34 +108,32 @@ public class AStar {
 
     private void selectFather(AStarState node){
         Set<AStarState> fathers = this.graph.predecessors(node);
-        if(!fathers.isEmpty()){
-            this.updateFatherOnConflict(node, fathers);
-            for(AStarState sucesor : this.graph.successors(node)){
-                this.selectFather(sucesor);
+        if(fathers.size() > 1){
+            this.updateNodeOnFatherConflict(node, fathers);
+            for(AStarState successor : this.graph.successors(node)){
+                this.selectFather(successor);
             }
         }
     }
 
-    private void updateFatherOnConflict(AStarState node, Set<AStarState> availableFathers){
-        //TODO: seleccionar el padre para este nodo
+    private void updateNodeOnFatherConflict(AStarState node, Set<AStarState> availableFathers){
+
+        for(AStarState possibleFather : availableFathers){
+            //importante: se hace el bulce completo sin break para coger el menor padre
+            if(node.getFather().getGn() > possibleFather.getGn()){
+                node.setFather(possibleFather);
+                //TODO actualizar gn -> creo que no hay que cambiarlo
+            }
+        }
         //TODO: la recursivdiad no se hace aqui sino en select father
     }
 
-    private void addToLists(AStarState node){
-        if(! this.isInNodeInList(node,this.opened)
-                && ! this.isInNodeInList(node,this.closed)){
+    private void addToList(AStarState node){
+        if(! this.opened.contains(node)
+                && ! this.closed.contains(node)){
             this.opened.add(node);
         }
     }
-
-    private boolean isInNodeInList(AStarState node, List<AStarState> nodeList){
-        for(AStarState n : nodeList){
-            if(n.isSameNode(node))
-                return true;
-        }
-        return false;
-    }
-
 
     private void sortOpenedNodes(){
         Collections.sort(this.opened);
