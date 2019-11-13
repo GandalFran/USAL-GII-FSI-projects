@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 public class Box implements Cloneable {
     private final static Logger LOGGER = Logger.getLogger("POJO.Box");
 
-    private int ID;
+    private int id;
     private int diaentrada;
     private int diasalida;
 
     public Box(int ID, int diaentrada, int diasalida) {
-        this.ID = ID;
+        this.id = ID;
         this.diaentrada = diaentrada;
         this.diasalida = diasalida;
         LOGGER.log(Level.INFO, String.format("Box: new [%s]", this.toString()));
@@ -20,7 +20,7 @@ public class Box implements Cloneable {
 
     @Override
     public Object clone(){
-        return new Box(this.ID,this.diaentrada,this.diasalida);
+        return new Box(this.id,this.diaentrada,this.diasalida);
     }
 
     @Override
@@ -30,14 +30,14 @@ public class Box implements Cloneable {
 
         Box box = (Box) o;
 
-        if (getID() != box.getID()) return false;
+        if (getId() != box.getId()) return false;
         if (getDiaentrada() != box.getDiaentrada()) return false;
         return getDiasalida() == box.getDiasalida();
     }
 
     @Override
     public int hashCode() {
-        int result = getID();
+        int result = getId();
         result = 31 * result + getDiaentrada();
         result = 31 * result + getDiasalida();
         return result;
@@ -45,11 +45,11 @@ public class Box implements Cloneable {
 
     @Override
     public String toString() {
-        return ("Box(" + ID + ", " + diaentrada + ", " + diasalida + ")");
+        return ("Box(" + id + ", " + diaentrada + ", " + diasalida + ")");
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public int getDiaentrada() {

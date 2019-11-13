@@ -12,13 +12,14 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
+
         AStar aStar = new AStar();
         AStarState finalState = null;
         try{
             aStar.initialize();
             finalState = aStar.run(initialState());
         }catch (NoAvailableStatesException e){
-            System.out.println("Unable to find solution for initial state: " + initialState().toString());
+            System.out.println("Unable to find solution for initial state: \n " + initialState().toString());
             System.exit(0);
         }
 
@@ -31,10 +32,11 @@ public class Main {
         }
     }
 
-    @NotNull
-    public static StorageStarState initialState(){
-        List<Box> boxes = new ArrayList<>();
+
+    public static AStarState initialState(){
         Storage storage = new Storage();
-        return new StorageStarState(boxes,storage,0,null);
+        List<Box> boxes = TestLoader.getBoxes(TestLoader.getTestFileWithName("test1"));
+        AStarState state = new StorageStarState(boxes,storage,null);
+        return state;
     }
 }
