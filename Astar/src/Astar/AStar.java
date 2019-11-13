@@ -84,48 +84,61 @@ public class AStar {
     }
 
     private List<AStarState> expand(AStarState node){
-        return new ArrayList<>();
+        AStarState definitiveNode;
+        List<AStarState> expansionResult = new ArrayList<>();
 
-        //PARA HECTOR - MODIFICADO
-        // hace falta comprobar si hay el mismo nodo en abiertos o cerrados con isSameNode (para eso tienes isNodeInList).
-        // esto se hace para poder enganchar al nodo actual a todos los padres que deba tener, ya que si es el mismo nodo,
-        // en vez de usar el nuevo clonado, tienes que devolver la referencia a el nodo que ya existe con el mismo contenido.
-        // NUEVO -> ya puedes usar el modificar, no te hace falta el isNodeInList
+        for(AStarState expandedNode : node.expand()){
+            if(this.opened.contains(expandedNode)){
+                definitiveNode = this.getNodeInList(expandedNode,this.opened);
+            } else if(this.closed.contains(expandedNode)){
+                definitiveNode = this.getNodeInList(expandedNode,this.closed);
+            } else{
+                definitiveNode = expandedNode;
+                this.graph.addNode(definitiveNode);
+            }
 
+            expansionResult.add(definitiveNode);
+            this.graph.putEdge(node, definitiveNode);
+        }
 
-        //PARA HECTOR2:
-        //  añadir nodo al grafo:
-        //  this.graph.addNode(newnode);
-        //  this.graph.putEdge(parent, newnode);
+        return expansionResult;
+    }
 
-        //PARA HECTOR3:
-        //  en el estado, pon al nodo actual como padre en plan de nuevoNodoHijo.setFather(node)
-
-        //PARA HECTOR4:
-        //  la implementacion de la expansion hay que impelmentarla en el propio estado
+    private AStarState getNodeInList(AStarState node, List<AStarState> list){
+        for(AStarState lNode : list){
+            if(lNode.isSameNode(node)) {
+                return lNode;
+            }
+        }
+        return null;
     }
 
 
     private void selectFather(AStarState node){
         Set<AStarState> fathers = this.graph.predecessors(node);
+        // if node has more than one father
         if(fathers.size() > 1){
+            // update the node information -> father and G(n)
             this.updateNodeOnFatherConflict(node, fathers);
+            // apply the select father method to all node childs
             for(AStarState successor : this.graph.successors(node)){
+                //TODO -> A lo mejor da problemas el gn porque hay que recalcularlo en toda la descenencia. Por lo que
+                //TODO    si hacemos lo de que dependa del padre, hacer una funcion recursiva pillando el padre hasta
+                //TODO    null para ir sumando de 1 en 1 y asi calcualr el gn cada vez.
                 this.selectFather(successor);
             }
         }
     }
 
     private void updateNodeOnFatherConflict(AStarState node, Set<AStarState> availableFathers){
-
+        //the recursivity is only made on selectFather
         for(AStarState possibleFather : availableFathers){
             //importante: se hace el bulce completo sin break para coger el menor padre
             if(node.getFather().getGn() > possibleFather.getGn()){
                 node.setFather(possibleFather);
-                //TODO actualizar gn -> creo que no hay que cambiarlo
+                node.updateGnOnFatherConflict(possibleFather);
             }
         }
-        //TODO: la recursivdiad no se hace aqui sino en select father
     }
 
     private void addToList(AStarState node){

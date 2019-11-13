@@ -91,15 +91,16 @@ public class BoxStack implements Cloneable{
         }
     }
 
-    public boolean removeBox() {
+    public Box removeBox() {
         LOGGER.log(Level.INFO, String.format("addBox: %d: trying to remove box", this.ID));
         if (this.actual > 0) {
             LOGGER.log(Level.INFO, String.format("addBox: %d: removed box [%s]", this.ID, this.boxes[actual].toString()));
+            Box deletedBox = this.boxes[actual];
             this.boxes[actual] = null;
             this.actual--;
-            return true;
+            return deletedBox;
         }else{
-            return false;
+            return null;
         }
     }
 

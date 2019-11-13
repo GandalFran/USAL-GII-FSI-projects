@@ -61,6 +61,8 @@ public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
 
     public abstract int calculateHn();
 
+    public abstract void updateGnOnFatherConflict(AStarState newFather);
+
     public abstract List<AStarState> expand();
 
 }
