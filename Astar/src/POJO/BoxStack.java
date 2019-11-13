@@ -16,9 +16,16 @@ public class BoxStack implements Cloneable{
 
     public BoxStack(int ID) {
         this.ID = ID;
-        this.boxes = new Box [MAX_BOX_PER_STACK];
         this.actual = 0;
         this.limite = MAX_BOX_PER_STACK;
+        this.boxes = new Box [this.limite];
+    }
+
+    public BoxStack(int ID, int stackSize) {
+        this.ID = ID;
+        this.actual = 0;
+        this.limite = (stackSize <= 0) ? MAX_BOX_PER_STACK : stackSize;
+        this.boxes = new Box [this.limite];
     }
 
     private BoxStack(int ID, Box[] boxes, int actual, int limite) {
@@ -73,7 +80,7 @@ public class BoxStack implements Cloneable{
         boolean isAllowed = (
                 this.actual == 0
                 || (this.actual < this.limite
-                        && b.getDiasalida() > this.boxes[this.actual-1].getDiasalida()
+                        && b.getDiasalida() >= this.boxes[this.actual-1].getDiasalida()
                 )
         );
         return isAllowed;

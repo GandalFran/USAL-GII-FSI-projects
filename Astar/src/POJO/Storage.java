@@ -11,10 +11,15 @@ public class Storage implements Cloneable{
     private final int NUM_STACKS = 5;
 
     public Storage() {
-
         this.stacks = new BoxStack[NUM_STACKS];
         for(int i=0; i<NUM_STACKS; i++)
             this.stacks[i] = new BoxStack(i);
+    }
+
+    public Storage(int numStacks, int numBoxPerStack) {
+        this.stacks = new BoxStack[ (numStacks<=0) ? NUM_STACKS : numStacks];
+        for(int i=0; i<NUM_STACKS; i++)
+            this.stacks[i] = new BoxStack(i, numBoxPerStack);
     }
 
     private Storage(BoxStack [] boxStack){

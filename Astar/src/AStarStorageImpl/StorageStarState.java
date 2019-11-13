@@ -51,7 +51,7 @@ public class StorageStarState extends AStarState {
                 .append("\n\th(n): ").append(this.calculateHn())
                 //.append("\n\tfather: ").append(super.getFather())
                 .append("\n\tboxes: [");
-        
+
         for(Box b: this.boxes)
             sb.append(b.toString()).append(", ");
 

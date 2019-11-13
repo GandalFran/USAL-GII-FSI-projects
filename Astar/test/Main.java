@@ -27,16 +27,13 @@ public class Main {
 
         System.out.println("Solution found in depth " + stateList.size() + ": ");
         for(int i=0; i<stateList.size(); i++){
-           System.out.println("STATE " + i + ": ");
+           System.out.println("\nSTATE " + i + ": ");
            System.out.print(stateList.get(i).toString());
         }
     }
 
 
     public static AStarState initialState(){
-        Storage storage = new Storage();
-        List<Box> boxes = TestLoader.getBoxes(TestLoader.getTestFileWithName("test1"));
-        AStarState state = new StorageStarState(boxes,storage,null);
-        return state;
+        return TestLoader.loadState("test1");
     }
 }
