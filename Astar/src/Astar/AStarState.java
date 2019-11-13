@@ -5,11 +5,9 @@ import java.util.List;
 
 public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
 
-    private int gn;
     private AStarState father;
 
     public AStarState() {
-        this.gn = 0;
         this.father = null;
     }
 
@@ -21,12 +19,8 @@ public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
         this.father = father;
     }
 
-    public int getGn() {
-        return gn;
-    }
-
-    public void setGn(int gn) {
-        this.gn = gn;
+    public int getGn(){
+        return this.calculateGn();
     }
 
     public int getHn(){
@@ -62,6 +56,8 @@ public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
     public abstract boolean isSameNode(AStarState node);
 
     public abstract boolean isFinalState();
+
+    public abstract int calculateGn();
 
     public abstract int calculateHn();
 

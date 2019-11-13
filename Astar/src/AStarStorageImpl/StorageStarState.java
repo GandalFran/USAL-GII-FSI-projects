@@ -2,6 +2,7 @@ package AStarStorageImpl;
 
 import AStar.AStarState;
 import POJO.Box;
+import POJO.BoxStack;
 import POJO.Storage;
 
 import java.util.ArrayList;
@@ -17,8 +18,7 @@ public class StorageStarState extends AStarState {
         this.storage = storage;
     }
 
-    public StorageStarState(List<Box> boxes, Storage storage, int gn, AStarState father){
-        super.setGn(gn);
+    public StorageStarState(List<Box> boxes, Storage storage, AStarState father){
         super.setFather(father);
         this.boxes = boxes;
         this.storage = storage;
@@ -47,8 +47,8 @@ public class StorageStarState extends AStarState {
         StringBuilder sb = new StringBuilder();
 
         sb.append("\tf(n): ").append(super.getFn())
-                .append("\n\tg(n): ").append(super.getGn())
-                .append("\n\th(n): ").append(super.getHn())
+                .append("\n\tg(n): ").append(this.calculateGn())
+                .append("\n\th(n): ").append(this.calculateHn())
                 .append("\n\tfather: ").append(super.getFather())
                 .append("\n\tboxes: [");
 
@@ -83,7 +83,7 @@ public class StorageStarState extends AStarState {
         List<Box> newBoxes = new ArrayList<>();
         for (Box box : this.boxes)
             newBoxes.add((Box)box.clone());
-        return new StorageStarState(newBoxes,(Storage) this.storage.clone(), super.getGn(), super.getFather());
+        return new StorageStarState(newBoxes,(Storage) this.storage.clone(), super.getFather());
     }
 
     @Override
@@ -101,8 +101,15 @@ public class StorageStarState extends AStarState {
 
     @Override
     public int calculateHn() {
-        //hn -> numero de pilas que faltan para meter las cajas restantes
-        int restingBoxes = this.boxes.size();
+        //H(n) = -1* numero de pilas vacias
+        int emptyStacks = 0;
+        for(BoxStack stack : this.storage.getStacks()) {
+            if (stack.isEmpty()) {
+                emptyStacks++;
+            }
+        }
+        return (-1*emptyStacks);
+        /*int restingBoxes = this.boxes.size();
         int restingBoxesInStack = 0;
 
         for(int i=0; i< this.storage.getStacks().length; i++){
@@ -111,7 +118,19 @@ public class StorageStarState extends AStarState {
             restingBoxes -= restingBoxesInStack;
         }
 
-        return (int) Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());
+        return (int) Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());*/
+    }
+
+    @Override
+    public int calculateGn() {
+        //G(n) = numero de pilas con alguna caja
+        int notEmptyStacks = 0;
+        for(BoxStack stack : this.storage.getStacks()) {
+            if (!stack.isEmpty()) {
+                notEmptyStacks++;
+            }
+        }
+        return notEmptyStacks;
     }
 
     @Override
