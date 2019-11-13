@@ -66,16 +66,8 @@ public class StorageStarState extends AStarState {
         return storage;
     }
 
-    public void setStorage(Storage storage) {
-        this.storage = storage;
-    }
-
     public List<Box> getBoxes() {
         return boxes;
-    }
-
-    public void setBoxes(List<Box> boxes) {
-        this.boxes = boxes;
     }
 
     @Override
