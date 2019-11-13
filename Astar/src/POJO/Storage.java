@@ -15,7 +15,6 @@ public class Storage implements Cloneable{
         this.stacks = new BoxStack[NUM_STACKS];
         for(int i=0; i<NUM_STACKS; i++)
             this.stacks[i] = new BoxStack(i);
-        LOGGER.log(Level.INFO, String.format("Storage: new [%s\n]", this.toString()));
     }
 
     private Storage(BoxStack [] boxStack){

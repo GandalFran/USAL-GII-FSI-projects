@@ -49,9 +49,9 @@ public class StorageStarState extends AStarState {
         sb.append("\tf(n): ").append(super.getFn())
                 .append("\n\tg(n): ").append(this.calculateGn())
                 .append("\n\th(n): ").append(this.calculateHn())
-                .append("\n\tfather: ").append(super.getFather())
+                //.append("\n\tfather: ").append(super.getFather())
                 .append("\n\tboxes: [");
-
+        
         for(Box b: this.boxes)
             sb.append(b.toString()).append(", ");
 
@@ -177,8 +177,10 @@ public class StorageStarState extends AStarState {
             if(!this.storage.getStacks()[i].isEmpty()) {
                 StorageStarState newState = (StorageStarState) this.clone();
                 removedBox = newState.storage.getStacks()[i].removeBox();
-                newState.boxes.add(removedBox);
-                states.add(newState);
+                if(null != removedBox) {
+                    newState.boxes.add(removedBox);
+                    states.add(newState);
+                }
             }
         }
 

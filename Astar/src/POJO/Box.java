@@ -15,7 +15,6 @@ public class Box implements Cloneable {
         this.id = ID;
         this.diaentrada = diaentrada;
         this.diasalida = diasalida;
-        LOGGER.log(Level.INFO, String.format("Box: new [%s]", this.toString()));
     }
 
     @Override

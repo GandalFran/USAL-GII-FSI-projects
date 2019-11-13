@@ -19,7 +19,6 @@ public class BoxStack implements Cloneable{
         this.boxes = new Box [MAX_BOX_PER_STACK];
         this.actual = 0;
         this.limite = MAX_BOX_PER_STACK;
-        LOGGER.log(Level.INFO, String.format("BoxStack: %d: new [%s]", this.ID, this.toString()));
     }
 
     private BoxStack(int ID, Box[] boxes, int actual, int limite) {
@@ -71,18 +70,19 @@ public class BoxStack implements Cloneable{
     }
 
     public boolean isBoxAllowed(Box b){
-        boolean isAllowed = (this.actual == 0
-                || (this.actual < this.limite && b.getDiasalida() > this.boxes[this.actual].getDiasalida())
+        boolean isAllowed = (
+                this.actual == 0
+                || (this.actual < this.limite
+                        && b.getDiasalida() > this.boxes[this.actual-1].getDiasalida()
+                )
         );
-        LOGGER.log(Level.INFO, String.format("isBoxAllowed: %d: [%b] [%s]", this.ID, isAllowed, b.toString()));
         return isAllowed;
     }
 
     public boolean addBox(Box b) {
-        LOGGER.log(Level.INFO, String.format("addBox: %d: trying to add box [%b]", this.ID, b.toString()));
         if(this.isBoxAllowed(b)) {
-            this.actual++;
             this.boxes[this.actual] = b;
+            this.actual++;
             LOGGER.log(Level.INFO, String.format("addBox: %d: box added to stack [%b]", this.ID, b.toString()));
             return true;
         }else{
@@ -92,14 +92,14 @@ public class BoxStack implements Cloneable{
     }
 
     public Box removeBox() {
-        LOGGER.log(Level.INFO, String.format("addBox: %d: trying to remove box", this.ID));
         if (this.actual > 0) {
-            LOGGER.log(Level.INFO, String.format("addBox: %d: removed box [%s]", this.ID, this.boxes[actual].toString()));
-            Box deletedBox = this.boxes[actual];
-            this.boxes[actual] = null;
+            Box deletedBox = this.boxes[this.actual-1];
+            this.boxes[actual-1] = null;
             this.actual--;
+            LOGGER.log(Level.INFO, String.format("removeBox: %d: removed box [%s]", this.ID, deletedBox.toString()));
             return deletedBox;
         }else{
+            LOGGER.log(Level.INFO, String.format("removeBox: %d: box not removed from stack [%d]", this.ID, this.actual));
             return null;
         }
     }
