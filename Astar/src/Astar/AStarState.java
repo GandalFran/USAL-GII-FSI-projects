@@ -19,15 +19,15 @@ public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
         this.father = father;
     }
 
-    public int getGn(){
+    public float getGn(){
         return this.calculateGn();
     }
 
-    public int getHn(){
+    public float getHn(){
         return this.calculateHn();
     }
 
-    public int getFn(){
+    public float getFn(){
         return this.getHn() + this.getGn();
     }
 
@@ -50,16 +50,17 @@ public abstract class AStarState implements Cloneable, Comparable<AStarState>  {
 
     @Override
     public int compareTo(AStarState s) {
-        return (this.getFn()-s.getFn());
+        if(s == null) return 1;
+        return Float.compare(this.getFn(), s.getFn());
     }
 
     public abstract boolean isSameNode(AStarState node);
 
     public abstract boolean isFinalState();
 
-    public abstract int calculateGn();
+    public abstract float calculateGn();
 
-    public abstract int calculateHn();
+    public abstract float calculateHn();
 
     public abstract void updateGnOnFatherConflict(AStarState newFather);
 

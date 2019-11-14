@@ -92,39 +92,44 @@ public class StorageStarState extends AStarState {
     }
 
     @Override
-    public int calculateHn() {
-        //H(n) = numero de cajas por colocar
-        //return this.boxes.size();
-
-        /*
-        //H(n) = -1* numero de pilas vacias
+    public float calculateHn() {
+        /*//H(n) = numero de cajas por colocar
+        return this.boxes.size();
+        */
+        /*//H(n) = -1* numero de pilas vacias
         int emptyStacks = 0;
         for(BoxStack stack : this.storage.getStacks()) {
             if (stack.isEmpty()) {
                 emptyStacks++;
             }
         }
-        return (-1*emptyStacks);*/
+        return (-1*emptyStacks);
+        */
+        //H(n) = used stacks
+        float usedStacks = 0;
+        for(BoxStack bs : this.storage.getStacks()) {
+            if(!bs.isEmpty()) {
+                usedStacks++;
+            }
+        }
+        return usedStacks;
+        /*
         int restingBoxes = this.boxes.size();
         int restingBoxesInStack = 0;
 
         for(int i=0; i< this.storage.getStacks().length; i++){
             if(!this.storage.getStacks()[i].isEmpty())
                 restingBoxesInStack = this.storage.getStacks()[i].getLimite() - this.storage.getStacks()[i].getActual();
-            restingBoxes -= restingBoxesInStack;
+            restingBoxes += restingBoxesInStack;
         }
 
-        return (int) Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());
+        return (int) - Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());*/
     }
 
-    @Override
-    public void updateGnOnFatherConflict(AStarState newFather) {
-
-    }
 
     @Override
-    public int calculateGn() {
-        //G(n) = numero de pilas con alguna caja
+    public float calculateGn() {
+        /*//G(n) = numero de pilas con alguna caja
         int notEmptyStacks = 0;
         for(BoxStack stack : this.storage.getStacks()) {
             if (!stack.isEmpty()) {
@@ -132,12 +137,39 @@ public class StorageStarState extends AStarState {
             }
         }
         return notEmptyStacks;
-        //G(n) = - numero cajas colocadas / numero de pasos
-        /*int storedBoxes = 0;
+        */
+        /*//G(n) = - numero cajas colocadas / numero de pasos
+        int storedBoxes = 0;
         for(BoxStack bs: this.storage.getStacks())
             storedBoxes += bs.getActual();
 
-        return (- storedBoxes)/this.getDepth();*/
+        return (- storedBoxes)/this.getDepth();
+        */
+
+        //G(n) = tasa de ocupacion
+        int numOfNotEmptyStacks = 0;
+        int numOfStackedBoxes = 0;
+        for(BoxStack stack : this.storage.getStacks()) {
+            if(!stack.isEmpty()) {
+                numOfNotEmptyStacks++;
+                numOfStackedBoxes += stack.getActual();
+            }
+        }
+        float ocupationRate = ((float)numOfStackedBoxes)/numOfNotEmptyStacks ;
+
+        return - ocupationRate;
+        /*
+        //G(n) = number of not used stacks / number of stored boxes
+        int emptyStacks = 0;
+        int storedBoxes = 1;
+        for(BoxStack stack : this.storage.getStacks()) {
+            if(stack.isEmpty())
+                emptyStacks ++;
+            else
+                storedBoxes += stack.getActual();
+        }
+        return -1 * ((int) Math.ceil(emptyStacks/storedBoxes));
+        */
     }
 
     private int getDepth(){
@@ -161,6 +193,10 @@ public class StorageStarState extends AStarState {
         return statesWithAllExpansions;
     }
 
+    @Override
+    public void updateGnOnFatherConflict(AStarState newFather) {
+
+    }
 
     private List<AStarState> expandAddBoxStates(){
 

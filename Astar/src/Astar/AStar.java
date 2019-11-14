@@ -123,29 +123,34 @@ public class AStar {
         Set<AStarState> fathers = this.graph.predecessors(node);
         // if node has more than one father
         if(fathers.size() > 1){
-            System.err.println(node.toString());
             // update the node information -> father and G(n)
-            this.updateNodeOnFatherConflict(node, fathers);
-            // apply the select father method to all node childs
-            for(AStarState successor : this.graph.successors(node)){
-                //TODO -> A lo mejor da problemas el gn porque hay que recalcularlo en toda la descenencia. Por lo que
-                //TODO    si hacemos lo de que dependa del padre, hacer una funcion recursiva pillando el padre hasta
-                //TODO    null para ir sumando de 1 en 1 y asi calcualr el gn cada vez.
-                this.selectFather(successor);
+            boolean nodeHasBeenUpdated = this.updateNodeOnFatherConflict(node, fathers);
+            if(nodeHasBeenUpdated) {
+                System.out.println("updated node " + node.toString());
+                // apply the select father method to all node children
+                for (AStarState successor : this.graph.successors(node)) {
+                    this.selectFather(successor);
+                }
             }
         }
     }
 
-    private void updateNodeOnFatherConflict(AStarState node, Set<AStarState> availableFathers){
+    private boolean updateNodeOnFatherConflict(AStarState node, Set<AStarState> availableFathers){
+        boolean updated = false;
         //the recursivity is only made on selectFather
         for(AStarState possibleFather : availableFathers){
             //importante: se hace el bulce completo sin break para coger el menor padre
             //importante: si el padre actual es null, es la mejor opcion porque el gn es 0
-            if(node.getFather() != null && node.getFather().getGn() > possibleFather.getGn()){
-                node.setFather(possibleFather);
-                node.updateGnOnFatherConflict(possibleFather);
+            if(node.getFather() != null && node.getFather().getGn() > possibleFather.getGn() ){
+                //avoid loops checking if node is parent
+                if(!AStar.stateTreeAsList(node).contains(possibleFather)) {
+                    updated = true;
+                    node.setFather(possibleFather);
+                    node.updateGnOnFatherConflict(possibleFather);
+                }
             }
         }
+        return updated;
     }
 
     private void addToList(AStarState node){
@@ -165,8 +170,10 @@ public class AStar {
         if(null == node)
             return null;
 
-        do {
-            stateList.add(0,node.clone());
+        do{
+            if(stateList.contains(node))
+                return stateList;
+            stateList.add(0,node);
             node = node.getFather();
         }while(null != node);
 
