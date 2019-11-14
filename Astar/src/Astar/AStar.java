@@ -122,11 +122,10 @@ public class AStar {
     private void selectFather(AStarState node){
         Set<AStarState> fathers = this.graph.predecessors(node);
         // if node has more than one father
-        if(fathers.size() > 1){
+        if(fathers != null && fathers.size() > 1){
             // update the node information -> father and G(n)
             boolean nodeHasBeenUpdated = this.updateNodeOnFatherConflict(node, fathers);
             if(nodeHasBeenUpdated) {
-                System.out.println("updated node " + node.toString());
                 // apply the select father method to all node children
                 for (AStarState successor : this.graph.successors(node)) {
                     this.selectFather(successor);
@@ -138,18 +137,21 @@ public class AStar {
     private boolean updateNodeOnFatherConflict(AStarState node, Set<AStarState> availableFathers){
         boolean updated = false;
         //the recursivity is only made on selectFather
-        for(AStarState possibleFather : availableFathers){
-            //importante: se hace el bulce completo sin break para coger el menor padre
-            //importante: si el padre actual es null, es la mejor opcion porque el gn es 0
-            if(node.getFather() != null && node.getFather().getGn() > possibleFather.getGn() ){
-                //avoid loops checking if node is parent
-                if(!AStar.stateTreeAsList(node).contains(possibleFather)) {
-                    updated = true;
-                    node.setFather(possibleFather);
-                    node.updateGnOnFatherConflict(possibleFather);
-                }
-            }
+
+        //get the node with lowest gn
+        AStarState bestFather = node.getFather();
+        for(AStarState possibleFather : availableFathers) {
+            if(bestFather != null && bestFather.getGn() > possibleFather.getGn())
+                bestFather = possibleFather;
         }
+        
+        //check if is same father
+        if(bestFather != node.getFather()){
+            updated = true;
+            node.setFather(bestFather);
+            node.updateGnOnFatherConflict(bestFather);
+        }
+
         return updated;
     }
 
