@@ -85,14 +85,18 @@ public class StorageStarState extends AStarState {
 
     @Override
     public boolean isSameNode(AStarState node) {
-        if(!node.getClass().equals(this.getClass()))
-            return false;
-        else
-            return this.storage.equals(((StorageStarState)node).storage);
+        if (this == node) return true;
+        if (!(node instanceof StorageStarState)) return false;
+
+        return this.storage.equals(((StorageStarState)node).storage);
     }
 
     @Override
     public int calculateHn() {
+        //H(n) = numero de cajas por colocar
+        //return this.boxes.size();
+
+        /*
         //H(n) = -1* numero de pilas vacias
         int emptyStacks = 0;
         for(BoxStack stack : this.storage.getStacks()) {
@@ -100,8 +104,8 @@ public class StorageStarState extends AStarState {
                 emptyStacks++;
             }
         }
-        return (-1*emptyStacks);
-        /*int restingBoxes = this.boxes.size();
+        return (-1*emptyStacks);*/
+        int restingBoxes = this.boxes.size();
         int restingBoxesInStack = 0;
 
         for(int i=0; i< this.storage.getStacks().length; i++){
@@ -110,7 +114,7 @@ public class StorageStarState extends AStarState {
             restingBoxes -= restingBoxesInStack;
         }
 
-        return (int) Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());*/
+        return (int) Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());
     }
 
     @Override
@@ -128,6 +132,20 @@ public class StorageStarState extends AStarState {
             }
         }
         return notEmptyStacks;
+        //G(n) = - numero cajas colocadas / numero de pasos
+        /*int storedBoxes = 0;
+        for(BoxStack bs: this.storage.getStacks())
+            storedBoxes += bs.getActual();
+
+        return (- storedBoxes)/this.getDepth();*/
+    }
+
+    private int getDepth(){
+
+        if(null == this.getFather())
+            return 1;
+        else
+            return 1 +((StorageStarState)this.getFather()).getDepth();
     }
 
     @Override
@@ -162,15 +180,14 @@ public class StorageStarState extends AStarState {
     }
 
     private List<AStarState> expandRemoveBoxStates(){
-        Box removedBox;
         List<AStarState> states = new ArrayList<>();
 
         for(int i=0; i < this.storage.getStacks().length; i++ ){
             if(!this.storage.getStacks()[i].isEmpty()) {
                 StorageStarState newState = (StorageStarState) this.clone();
-                removedBox = newState.storage.getStacks()[i].removeBox();
+                Box removedBox = newState.storage.getStacks()[i].removeBox();
                 if(null != removedBox) {
-                    newState.boxes.add(removedBox);
+                    newState.boxes.add(newState.boxes.size(),removedBox);
                     states.add(newState);
                 }
             }

@@ -53,7 +53,16 @@ public class BoxStack implements Cloneable{
 
         if (actual != boxStack.actual) return false;
         if (limite != boxStack.limite) return false;
-        return boxes.equals(boxStack.boxes);
+
+        for(int i=0; i<this.boxes.length; i++){
+            if(this.boxes[i] == null || boxStack.boxes[i] == null){
+                if(this.boxes[i] == null && boxStack.boxes[i] != null) return false;
+                if(this.boxes[i] != null && boxStack.boxes[i] == null) return false;
+            }
+            else if(!this.boxes[i].equals(boxStack.boxes[i]))
+                return false;
+        }
+        return true;
     }
 
     @Override
@@ -114,6 +123,14 @@ public class BoxStack implements Cloneable{
     }
 
     public boolean isEmpty(){
-        return (this.actual < this.limite);
+        return (this.actual == 0);
+    }
+
+    public int getActual(){
+        return this.actual;
+    }
+
+    public int getLimite(){
+        return this.limite;
     }
 }

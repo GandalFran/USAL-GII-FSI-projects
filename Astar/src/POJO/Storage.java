@@ -42,8 +42,11 @@ public class Storage implements Cloneable{
 
         Storage storage = (Storage) o;
 
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(getStacks(), storage.getStacks());
+        for(int i=0; i<this.getStacks().length; i++){
+            if(!this.getStacks()[i].equals(storage.getStacks()[i]))
+                return false;
+        }
+        return true;
     }
 
     @Override
