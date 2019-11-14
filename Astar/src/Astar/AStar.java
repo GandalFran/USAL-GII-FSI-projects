@@ -39,25 +39,25 @@ public class AStar {
 
         //start loop
         while(true){
-            LOGGER.log(Level.INFO,"New loop iteration");
-            LOGGER.log(Level.INFO,String.format("Content of opened: %s",this.opened.toString()));
-            LOGGER.log(Level.INFO,String.format("Content of closed: %s",this.closed.toString()));
+            LOGGER.log(Level.INFO, String.format("New loop iteration: %d opened, %d closed",this.opened.size(),this.closed.size()));
+            //LOGGER.log(Level.INFO,String.format("Content of opened: %s",this.opened.toString()));
+            //LOGGER.log(Level.INFO,String.format("Content of closed: %s",this.closed.toString()));
 
             //check if there is nodes in opened
-            LOGGER.log(Level.INFO,"Check if there is available nodes in opened");
+            //LOGGER.log(Level.INFO,"Check if there is available nodes in opened");
             if(this.opened.isEmpty()){
                 LOGGER.log(Level.WARNING,"No availabe states to open in opened");
                 throw new NoAvailableStatesException("No availabe states to open in opened");
             }
 
             //take first node of opened, put it on closed and open it
-            LOGGER.log(Level.INFO,String.format("Select first node from opened: [%s]",this.opened.get(0).toString()));
+            //LOGGER.log(Level.INFO,String.format("Select first node from opened: [%s]",this.opened.get(0).toString()));
             openedNode = this.opened.get(0);
             this.opened.remove(openedNode);
             this.closed.add(this.closed.size(),openedNode);
 
             //check if node is final state
-            LOGGER.log(Level.INFO,"check if node is final state");
+            //LOGGER.log(Level.INFO,"check if node is final state");
             if(openedNode.isFinalState()){
                 LOGGER.log(Level.INFO,"found final state");
                 finalState = openedNode;
@@ -65,18 +65,18 @@ public class AStar {
             }
 
             //expand node
-            LOGGER.log(Level.INFO,"expand selected node");
+            //LOGGER.log(Level.INFO,"expand selected node");
             List<AStarState> descendants = this.expand(openedNode);
 
             //set father pointer in children
-            LOGGER.log(Level.INFO,"set father pointers in new state nodes");
+            //LOGGER.log(Level.INFO,"set father pointers in new state nodes");
             for(AStarState child : descendants) {
                 this.selectFather(child);
                 this.addToList(child);
             }
 
             //sort opened
-            LOGGER.log(Level.INFO,"sort opened nodes list");
+            //LOGGER.log(Level.INFO,"sort opened nodes list");
             this.sortOpenedNodes();
         }
 

@@ -77,23 +77,25 @@ public class BoxStack implements Cloneable{
     }
 
     public boolean isBoxAllowed(Box b){
-        boolean isAllowed = (
-                this.actual == 0
-                || (this.actual < this.limite
-                        && b.getDiasalida() >= this.boxes[this.actual-1].getDiasalida()
-                )
-        );
-        return isAllowed;
+        if(this.isEmpty())
+            return true;
+        else if(this.actual < this.limite){
+            Box firstBox = this.boxes[this.actual-1];
+            if(firstBox.getDiasalida() >= b.getDiasalida())
+                return true;
+        }
+
+        return false;
     }
 
     public boolean addBox(Box b) {
         if(this.isBoxAllowed(b)) {
             this.boxes[this.actual] = b;
             this.actual++;
-            LOGGER.log(Level.INFO, String.format("addBox: %d: box added to stack [%b]", this.ID, b.toString()));
+            //LOGGER.log(Level.INFO, String.format("addBox: %d: box added to stack [%b]", this.ID, b.toString()));
             return true;
         }else{
-            LOGGER.log(Level.INFO, String.format("addBox: %d: box not added to stack [%b]", this.ID, b.toString()));
+            //LOGGER.log(Level.INFO, String.format("addBox: %d: box not added to stack [%b]", this.ID, b.toString()));
             return false;
         }
     }
@@ -103,15 +105,15 @@ public class BoxStack implements Cloneable{
             Box deletedBox = this.boxes[this.actual-1];
             this.boxes[actual-1] = null;
             this.actual--;
-            LOGGER.log(Level.INFO, String.format("removeBox: %d: removed box [%s]", this.ID, deletedBox.toString()));
+            //LOGGER.log(Level.INFO, String.format("removeBox: %d: removed box [%s]", this.ID, deletedBox.toString()));
             return deletedBox;
         }else{
-            LOGGER.log(Level.INFO, String.format("removeBox: %d: box not removed from stack [%d]", this.ID, this.actual));
+            //LOGGER.log(Level.INFO, String.format("removeBox: %d: box not removed from stack [%d]", this.ID, this.actual));
             return null;
         }
     }
 
     public boolean isEmpty(){
-        return (this.limite - this.actual == 0);
+        return (this.actual < this.limite);
     }
 }

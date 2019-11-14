@@ -1,0 +1,47 @@
+{
+  "numStacks": 5,
+  "numBoxPerStack": 4,
+  "boxes": [
+    {
+      "id": 1,
+      "diaentrada": 1,
+      "diasalida": 1
+    },
+    {
+      "id": 2,
+      "diaentrada": 1,
+      "diasalida": 2
+    },
+    {
+      "id": 3,
+      "diaentrada": 1,
+      "diasalida": 3
+    },
+    {
+      "id": 4,
+      "diaentrada": 1,
+      "diasalida": 4
+    },
+    {
+      "id": 5,
+      "diaentrada": 1,
+      "diasalida": 5
+    },
+    {
+      "id": 6,
+      "diaentrada": 1,
+      "diasalida": 6
+    },
+    {
+      "id": 7,
+      "diaentrada": 1,
+      "diasalida": 7
+    },
+    {
+      "id": 8,
+      "diaentrada": 1,
+      "diasalida": 8
+    }
+  ]
+}
+

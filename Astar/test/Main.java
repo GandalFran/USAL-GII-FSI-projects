@@ -1,12 +1,6 @@
 import AStar.AStar;
 import AStar.AStarState;
 import AStar.exceptions.NoAvailableStatesException;
-import AStarStorageImpl.StorageStarState;
-import POJO.Box;
-import POJO.Storage;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -34,6 +28,6 @@ public class Main {
 
 
     public static AStarState initialState(){
-        return TestLoader.loadState("test1");
+        return TestLoader.loadState("test2");
     }
 }
