@@ -19,31 +19,11 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="26" column="46" lean-forward="true" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+            <state relative-caret-position="306">
+              <caret line="35" column="38" lean-forward="true" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test1.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/resources/test1.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="13" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test2.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/resources/test2.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="1" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="1" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -51,8 +31,8 @@
       <file leaf-file-name="StorageStarState.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AStarStorageImpl/StorageStarState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6">
-              <caret line="173" column="0" lean-forward="true" selection-start-line="173" selection-start-column="0" selection-end-line="173" selection-end-column="0" />
+            <state relative-caret-position="283">
+              <caret line="49" column="32" lean-forward="true" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -60,32 +40,62 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BoxStack.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/POJO/BoxStack.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="91" column="51" lean-forward="false" selection-start-line="91" selection-start-column="51" selection-end-line="91" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Box.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/POJO/Box.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="AStar.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AStar/AStar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="143" column="38" lean-forward="false" selection-start-line="143" selection-start-column="38" selection-end-line="143" selection-end-column="38" />
-              <folding />
+            <state relative-caret-position="-1032">
+              <caret line="41" column="10" lean-forward="false" selection-start-line="41" selection-start-column="10" selection-end-line="41" selection-end-column="10" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Storage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/POJO/Storage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="34" column="25" lean-forward="true" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
+              <folding>
+                <element signature="e#744#745#0" expanded="true" />
+                <element signature="e#782#783#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AStartResult.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AStar/AStartResult.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="986">
+              <caret line="58" column="21" lean-forward="true" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
+              <folding>
+                <element signature="e#295#296#0" expanded="true" />
+                <element signature="e#327#328#0" expanded="true" />
+                <element signature="e#374#375#0" expanded="true" />
+                <element signature="e#416#417#0" expanded="true" />
+                <element signature="e#449#450#0" expanded="true" />
+                <element signature="e#481#482#0" expanded="true" />
+                <element signature="e#528#529#0" expanded="true" />
+                <element signature="e#570#571#0" expanded="true" />
+                <element signature="e#606#607#0" expanded="true" />
+                <element signature="e#640#641#0" expanded="true" />
+                <element signature="e#692#693#0" expanded="true" />
+                <element signature="e#738#739#0" expanded="true" />
+                <element signature="e#779#780#0" expanded="true" />
+                <element signature="e#812#813#0" expanded="true" />
+                <element signature="e#868#869#0" expanded="true" />
+                <element signature="e#912#913#0" expanded="true" />
+                <element signature="e#955#956#0" expanded="true" />
+                <element signature="e#990#991#0" expanded="true" />
+                <element signature="e#1050#1051#0" expanded="true" />
+                <element signature="e#1098#1099#0" expanded="true" />
+                <element signature="e#1143#1144#0" expanded="true" />
+                <element signature="e#1174#1175#0" expanded="true" />
+                <element signature="e#1232#1233#0" expanded="true" />
+                <element signature="e#1272#1273#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -118,6 +128,7 @@
     <findStrings>
       <find>abiertos</find>
       <find>cerrados</find>
+      <find>LOGGER</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -148,8 +159,9 @@
         <option value="$PROJECT_DIR$/src/POJO/BoxStack.java" />
         <option value="$PROJECT_DIR$/src/AStar/AStarState.java" />
         <option value="$PROJECT_DIR$/src/POJO/Storage.java" />
-        <option value="$PROJECT_DIR$/src/AStarStorageImpl/StorageStarState.java" />
+        <option value="$PROJECT_DIR$/src/AStar/AStartResult.java" />
         <option value="$PROJECT_DIR$/src/AStar/AStar.java" />
+        <option value="$PROJECT_DIR$/src/AStarStorageImpl/StorageStarState.java" />
         <option value="$PROJECT_DIR$/test/Main.java" />
       </list>
     </option>
@@ -355,12 +367,12 @@
       <workItem from="1573764852995" duration="336000" />
       <workItem from="1573768720154" duration="103000" />
       <workItem from="1573800118910" duration="508000" />
-      <workItem from="1573804731714" duration="1531000" />
+      <workItem from="1573804731714" duration="4836000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41755000" />
+    <option name="totallyTimeSpent" value="45060000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
@@ -375,7 +387,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34146342" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36267233" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -386,7 +398,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997879" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -409,14 +421,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/AStar/AStar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1649">
-          <caret line="106" column="0" lean-forward="true" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -431,7 +435,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1326">
           <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -459,7 +465,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2516">
           <caret line="159" column="1" lean-forward="true" selection-start-line="159" selection-start-column="1" selection-end-line="159" selection-end-column="1" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -477,7 +485,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2210">
           <caret line="130" column="31" lean-forward="false" selection-start-line="130" selection-start-column="31" selection-end-line="130" selection-end-column="31" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -495,7 +505,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -568,7 +580,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1241">
           <caret line="77" column="53" lean-forward="true" selection-start-line="77" selection-start-column="53" selection-end-line="77" selection-end-column="53" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -586,7 +600,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1428">
           <caret line="90" column="5" lean-forward="true" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -628,7 +644,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1207">
           <caret line="74" column="44" lean-forward="false" selection-start-line="74" selection-start-column="44" selection-end-line="74" selection-end-column="44" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -696,7 +714,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -780,6 +800,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/util/List.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="612" column="16" lean-forward="true" selection-start-line="612" selection-start-column="16" selection-end-line="612" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/POJO/BoxStack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="91" column="51" lean-forward="false" selection-start-line="91" selection-start-column="51" selection-end-line="91" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/AStar/AStarState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -792,52 +828,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/POJO/Storage.java">
+    <entry file="file://$PROJECT_DIR$/src/AStar/AStar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/util/List.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="612" column="16" lean-forward="true" selection-start-line="612" selection-start-column="16" selection-end-line="612" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/POJO/BoxStack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="91" column="51" lean-forward="false" selection-start-line="91" selection-start-column="51" selection-end-line="91" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AStarStorageImpl/StorageStarState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6">
-          <caret line="173" column="0" lean-forward="true" selection-start-line="173" selection-start-column="0" selection-end-line="173" selection-end-column="0" />
+        <state relative-caret-position="-1032">
+          <caret line="41" column="10" lean-forward="false" selection-start-line="41" selection-start-column="10" selection-end-line="41" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AStar/AStar.java">
+    <entry file="file://$PROJECT_DIR$/src/POJO/Storage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="143" column="38" lean-forward="false" selection-start-line="143" selection-start-column="38" selection-end-line="143" selection-end-column="38" />
-          <folding />
+        <state relative-caret-position="544">
+          <caret line="34" column="25" lean-forward="true" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
+          <folding>
+            <element signature="e#744#745#0" expanded="true" />
+            <element signature="e#782#783#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AStar/AStartResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="58" column="21" lean-forward="true" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
+          <folding>
+            <element signature="e#295#296#0" expanded="true" />
+            <element signature="e#327#328#0" expanded="true" />
+            <element signature="e#374#375#0" expanded="true" />
+            <element signature="e#416#417#0" expanded="true" />
+            <element signature="e#449#450#0" expanded="true" />
+            <element signature="e#481#482#0" expanded="true" />
+            <element signature="e#528#529#0" expanded="true" />
+            <element signature="e#570#571#0" expanded="true" />
+            <element signature="e#606#607#0" expanded="true" />
+            <element signature="e#640#641#0" expanded="true" />
+            <element signature="e#692#693#0" expanded="true" />
+            <element signature="e#738#739#0" expanded="true" />
+            <element signature="e#779#780#0" expanded="true" />
+            <element signature="e#812#813#0" expanded="true" />
+            <element signature="e#868#869#0" expanded="true" />
+            <element signature="e#912#913#0" expanded="true" />
+            <element signature="e#955#956#0" expanded="true" />
+            <element signature="e#990#991#0" expanded="true" />
+            <element signature="e#1050#1051#0" expanded="true" />
+            <element signature="e#1098#1099#0" expanded="true" />
+            <element signature="e#1143#1144#0" expanded="true" />
+            <element signature="e#1174#1175#0" expanded="true" />
+            <element signature="e#1232#1233#0" expanded="true" />
+            <element signature="e#1272#1273#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AStarStorageImpl/StorageStarState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="49" column="32" lean-forward="true" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="26" column="46" lean-forward="true" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+        <state relative-caret-position="306">
+          <caret line="35" column="38" lean-forward="true" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

@@ -30,29 +30,34 @@ public class AStar {
         this.graph = GraphBuilder.directed().allowsSelfLoops(false).build();
     }
 
-    public AStarState run(AStarState initialState) throws NoAvailableStatesException {
+    public AStartResult run(AStarState initialState) throws NoAvailableStatesException {
         AStarState openedNode, finalState;
+        AStartResult result = new AStartResult();
+
+        //measure time
+        long finishTime;
+        long startTime = System.currentTimeMillis();
 
         //add first node to opened
-        LOGGER.log(Level.INFO,String.format("Added first state to opened [%s]", this.opened.toString()) );
+        //LOGGER.log(Level.INFO,String.format("Added first state to opened [%s]", this.opened.toString()) );
         this.opened.add(initialState);
 
         //start loop
         while(true){
-            LOGGER.log(Level.INFO, String.format("New loop iteration: %d opened, %d closed",this.opened.size(),this.closed.size()));
+            //LOGGER.log(Level.INFO, String.format("New loop iteration: %d opened, %d closed",this.opened.size(),this.closed.size()));
             //LOGGER.log(Level.INFO,String.format("Content of opened: %s",this.opened.toString()));
             //LOGGER.log(Level.INFO,String.format("Content of closed: %s",this.closed.toString()));
 
             //check if there is nodes in opened
             //LOGGER.log(Level.INFO,"Check if there is available nodes in opened");
             if(this.opened.isEmpty()){
-                LOGGER.log(Level.WARNING,"No availabe states to open in opened");
+                //LOGGER.log(Level.WARNING,"No availabe states to open in opened");
                 throw new NoAvailableStatesException("No availabe states to open in opened");
             }
 
             //take first node of opened, put it on closed and open it
-            LOGGER.log(Level.INFO,String.format("Select first node from opened: \n%s",this.opened.get(0).toString().replace("\n","\n\t")));
-           /* try {
+            //LOGGER.log(Level.INFO,String.format("Select first node from opened: \n%s",this.opened.get(0).toString().replace("\n","\n\t")));
+            /*try {
                 System.in.read();
             }catch (Exception e){
 
@@ -64,8 +69,9 @@ public class AStar {
             //check if node is final state
             //LOGGER.log(Level.INFO,"check if node is final state");
             if(openedNode.isFinalState()){
-                LOGGER.log(Level.INFO,"found final state");
+                //LOGGER.log(Level.INFO,"found final state");
                 finalState = openedNode;
+                finishTime = System.currentTimeMillis();
                 break;
             }
 
@@ -85,7 +91,14 @@ public class AStar {
             this.sortOpenedNodes();
         }
 
-        return finalState;
+        result.setElapsedTime(finishTime-startTime);
+        result.setFinalState(finalState);
+        result.setInitialState(initialState);
+        result.setNumClosed(this.closed.size());
+        result.setNumOpened(this.opened.size());
+        result.setSolution(AStar.stateTreeAsList(finalState));
+
+        return result;
     }
 
     private List<AStarState> expand(AStarState node){

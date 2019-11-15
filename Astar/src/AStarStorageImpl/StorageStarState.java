@@ -46,7 +46,7 @@ public class StorageStarState extends AStarState {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("\tf(n): ").append(super.getFn())
+        sb.append("\n\tf(n): ").append(super.getFn())
                 .append("\n\tg(n): ").append(this.calculateGn())
                 .append("\n\th(n): ").append(this.calculateHn())
                 //.append("\n\tfather: ").append(super.getFather())
