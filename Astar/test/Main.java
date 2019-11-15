@@ -1,11 +1,13 @@
 import AStar.AStar;
 import AStar.AStarState;
 import AStar.exceptions.NoAvailableStatesException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         AStar aStar = new AStar();
         AStarState finalState = null;
@@ -16,6 +18,8 @@ public class Main {
             System.out.println("Unable to find solution for initial state: \n " + initialState().toString());
             System.exit(0);
         }
+
+        Thread.sleep(1000);
 
         List<AStarState> stateList = AStar.stateTreeAsList(finalState);
 

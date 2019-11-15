@@ -141,10 +141,10 @@ public class AStar {
         //get the node with lowest gn
         AStarState bestFather = node.getFather();
         for(AStarState possibleFather : availableFathers) {
-            if(bestFather != null && bestFather.getGn() > possibleFather.getGn())
+            if(bestFather != null && !this.isNodeInAntecesorLine(node,bestFather) && bestFather.getGn() > possibleFather.getGn())
                 bestFather = possibleFather;
         }
-        
+
         //check if is same father
         if(bestFather != node.getFather()){
             updated = true;
@@ -153,6 +153,16 @@ public class AStar {
         }
 
         return updated;
+    }
+
+    private boolean isNodeInAntecesorLine(AStarState node, AStarState child){
+        while(null != node){
+            if(child.isSameNode(node))
+                return true;
+            node = node.getFather();
+        }
+
+        return false;
     }
 
     private void addToList(AStarState node){
@@ -173,12 +183,33 @@ public class AStar {
             return null;
 
         do{
-            if(stateList.contains(node))
-                return stateList;
             stateList.add(0,node);
             node = node.getFather();
+            if(stateList.contains(node)){
+                System.out.println(node.toString());
+            }
         }while(null != node);
 
         return stateList;
+    }
+
+    public static void printStateTree(AStarState node, List<AStarState> stateList) {
+
+        if (null != node) {
+            stateList.add(0, node);
+            if (stateList.contains(node.getFather())) {
+                System.out.println("\n\n\n");
+                System.out.println(node.toString());
+
+                System.out.println("\n\n\nRepeated node (father of the last)");
+                System.out.println(node.getFather().toString());
+            }else {
+                printStateTree(node.getFather(), stateList);
+                System.out.println("\n\n\n");
+                System.out.println(node.toString());
+            }
+        } else {
+            System.out.println("NULL -> first node");
+        }
     }
 }

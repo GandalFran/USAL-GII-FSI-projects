@@ -187,6 +187,9 @@ public class StorageStarState extends AStarState {
         // expand all states
         statesWithAllExpansions.addAll(this.expandAddBoxStates());
         statesWithAllExpansions.addAll(this.expandRemoveBoxStates());
+        //statesWithAllExpansions.addAll(this.expandRotateList());
+
+
         // set current node as father
         statesWithAllExpansions.forEach(node -> node.setFather(this));
 
@@ -218,15 +221,31 @@ public class StorageStarState extends AStarState {
     private List<AStarState> expandRemoveBoxStates(){
         List<AStarState> states = new ArrayList<>();
 
-        for(int i=0; i < this.storage.getStacks().length; i++ ){
-            if(!this.storage.getStacks()[i].isEmpty()) {
-                StorageStarState newState = (StorageStarState) this.clone();
-                Box removedBox = newState.storage.getStacks()[i].removeBox();
-                if(null != removedBox) {
-                    newState.boxes.add(newState.boxes.size(),removedBox);
-                    states.add(newState);
+
+        if(this.boxes.size() > 1) {
+            for (int i = 0; i < this.storage.getStacks().length; i++) {
+                if (!this.storage.getStacks()[i].isEmpty()) {
+                    StorageStarState newState = (StorageStarState) this.clone();
+                    Box removedBox = newState.storage.getStacks()[i].removeBox();
+                    if (null != removedBox) {
+                        newState.boxes.add(newState.boxes.size(), removedBox);
+                        states.add(newState);
+                    }
                 }
             }
+        }
+
+        return states;
+    }
+
+    private List<AStarState> expandRotateList(){
+        List<AStarState> states = new ArrayList<>();
+
+        if(this.boxes.size() > 1){
+            StorageStarState newState = (StorageStarState) this.clone();
+            Box firstBox = newState.boxes.remove(0);
+            newState.boxes.add(newState.boxes.size(),firstBox);
+            states.add(newState);
         }
 
         return states;
