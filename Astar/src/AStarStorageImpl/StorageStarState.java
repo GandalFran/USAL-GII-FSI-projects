@@ -46,10 +46,10 @@ public class StorageStarState extends AStarState {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("\n\tf(n): ").append(super.getFn())
-                .append("\n\tg(n): ").append(this.calculateGn())
-                .append("\n\th(n): ").append(this.calculateHn())
-                //.append("\n\tfather: ").append(super.getFather())
+        sb.append("\n\tf(n): ").append(String.format("%3.2f",super.getFn()))
+                .append("\n\tg(n): ").append(String.format("%3.2f",this.calculateGn()))
+                .append("\n\th(n): ").append(String.format("%3.2f",this.calculateHn()))
+                .append("\n\tfather hash: ").append( (super.getFather() == null) ? null : super.getFather().hashCode() )
                 .append("\n\tboxes: [");
 
         for(Box b: this.boxes)
@@ -147,7 +147,7 @@ public class StorageStarState extends AStarState {
         */
 
         //G(n) = tasa de ocupacion
-        int numOfNotEmptyStacks = 0;
+        int numOfNotEmptyStacks = 1;
         int numOfStackedBoxes = 0;
         for(BoxStack stack : this.storage.getStacks()) {
             if(!stack.isEmpty()) {
@@ -155,6 +155,7 @@ public class StorageStarState extends AStarState {
                 numOfStackedBoxes += stack.getActual();
             }
         }
+
         float ocupationRate = ((float)numOfStackedBoxes)/numOfNotEmptyStacks ;
 
         return - ocupationRate;

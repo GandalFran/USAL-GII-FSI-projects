@@ -12,23 +12,44 @@ public class Main {
         AStartResult result = null;
         AStar aStar = new AStar();
 
-        //System.out.println(initialState().getGn());
 
-        //System.exit(0);
+        String test = selectTest();
 
         try{
             aStar.initialize();
-            result = aStar.run(initialState());
+            result = aStar.run(initialState(test));
         }catch (NoAvailableStatesException e){
-            System.out.println("Unable to find solution for initial state: \n " + initialState().toString());
+            System.out.println("Unable to find solution for initial state: \n " + initialState(test).toString());
             System.exit(0);
         }
         printSolution(result);
     }
 
 
-    public static AStarState initialState(){
-        return TestLoader.loadState("test1");
+    public static AStarState initialState(String test){
+        return TestLoader.loadState(test);
+    }
+
+    public static String selectTest(){
+
+        System.out.println("Available tests");
+        System.out.println("\t1) llenar todas las pilas");
+        System.out.println("\t2) cajas para dos pilas ordenadas por fecha salida");
+
+        String selection;
+        do{
+            System.out.print("selection: ");
+            selection = new Scanner(System.in).next();
+        }while(!selection.equals("1")
+                && !selection.equals("2"));
+
+        System.out.println("Calculating ... \n\n");
+
+        switch (selection){
+            case "1": return "test1";
+            case "2": return "test2";
+            default: return null;
+        }
     }
 
     public static void printSolution(AStartResult result){
@@ -63,7 +84,7 @@ public class Main {
         System.out.println(String.format("%50s"," ").replace(" ","="));
         for(int i=0; i<result.getSolution().size(); i++){
             System.out.print("\n\tSTATE " + i + ": ");
-            System.out.print(result.getSolution().get(i).toString().replace(" ","="));
+            System.out.print(result.getSolution().get(i).toString().replace("\n","\n\t"));
         }
     }
 
