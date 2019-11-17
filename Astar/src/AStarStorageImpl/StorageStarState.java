@@ -222,7 +222,6 @@ public class StorageStarState extends AStarState {
     private List<AStarState> expandRemoveBoxStates(){
         List<AStarState> states = new ArrayList<>();
 
-
         if(this.boxes.size() > 1) {
             for (int i = 0; i < this.storage.getStacks().length; i++) {
                 if (!this.storage.getStacks()[i].isEmpty()) {

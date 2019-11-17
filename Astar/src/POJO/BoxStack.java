@@ -89,7 +89,7 @@ public class BoxStack implements Cloneable{
         if(this.isEmpty())
             return true;
         else if(this.actual < this.limite){
-            Box firstBox = this.boxes[this.actual-1];
+            Box firstBox = this.boxes[0];
             if(firstBox.getDiasalida() >= b.getDiasalida())
                 return true;
         }
@@ -99,7 +99,10 @@ public class BoxStack implements Cloneable{
 
     public boolean addBox(Box b) {
         if(this.isBoxAllowed(b)) {
-            this.boxes[this.actual] = b;
+            for(int i=this.actual; i>0; i--){
+                this.boxes[i] = this.boxes[i-1];
+            }
+            this.boxes[0] = b;
             this.actual++;
             //LOGGER.log(Level.INFO, String.format("addBox: %d: box added to stack [%b]", this.ID, b.toString()));
             return true;

@@ -131,7 +131,6 @@ public class AStar {
         return null;
     }
 
-
     private void selectFather(AStarState node){
         Set<AStarState> fathers = this.graph.predecessors(node);
         // if node has more than one father

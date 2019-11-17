@@ -49,6 +49,7 @@ predicates
   	/*
   	append(lbox,lbox,lbox)
   	*/
+  	add(box,lbox,lbox)
 	mayordiasalida(box,box)
 
 /*SISTEMA DE CONTROL*/
@@ -74,7 +75,7 @@ clauses
 	/*quitar caja de pila*/
 	move(estado(LProdi,ALMACENi),estado(LProdf,ALMACENf)):-
 		pop(BOX,ALMACENi,ALMACENf),
-		LProdf=[BOX|LProdi].
+		add(BOX,LProdi,LProdf).
 	
 	/*seleccionar pila para meter caja*/
 	push(BOX,alm(Pi,P2,P3,P4,P5),alm(Pf,P2,P3,P4,P5)):-
@@ -137,6 +138,10 @@ clauses
 	append([E|T],L2,[E|L1L2]):-
 		append(T,L2,L1L2).
 	*/
+	add(X,[],[X]).
+	add(X,[Y|Tail],[Y|Tail1]):-
+        	add(X,Tail,Tail1).
+	
 	
 /*SISTEMA DE CONTROL*/
         
@@ -199,7 +204,7 @@ clauses
 goal
 
      solution(
-     	30,
+     	1,
      	estado(
      	  [b(9,1,17),b(10,1,17),b(11,1,17),b(12,1,17),b(13,1,17),b(14,1,17),b(15,1,17),
 	   b(16,1,17),b(17,1,17),b(18,1,17),b(19,1,17),b(20,1,17),b(3,1,18),b(4,1,18),
