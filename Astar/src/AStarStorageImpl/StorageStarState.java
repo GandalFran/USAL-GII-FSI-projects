@@ -105,6 +105,7 @@ public class StorageStarState extends AStarState {
         }
         return (-1*emptyStacks);
         */
+        /*
         //H(n) = used stacks
         float usedStacks = 0;
         for(BoxStack bs : this.storage.getStacks()) {
@@ -113,6 +114,8 @@ public class StorageStarState extends AStarState {
             }
         }
         return usedStacks;
+
+        */
         /*
         int restingBoxes = this.boxes.size();
         int restingBoxesInStack = 0;
@@ -124,6 +127,23 @@ public class StorageStarState extends AStarState {
         }
 
         return (int) - Math.ceil(restingBoxes/ this.storage.getStacks()[0].getLimite());*/
+
+        int numOfEmptyStacks = 0;
+        int additionDiaSalida = 0;
+
+        for(BoxStack stack : this.storage.getStacks()){
+            if(stack.isEmpty())
+                numOfEmptyStacks++;
+            else{
+                for(Box b: stack.getBoxes()){
+                    if(null != b){
+                        additionDiaSalida += b.getDiasalida();
+                    }
+                }
+            }
+        }
+        float heuristica = (float)(numOfEmptyStacks + additionDiaSalida);
+        return - heuristica;
     }
 
 
@@ -145,7 +165,7 @@ public class StorageStarState extends AStarState {
 
         return (- storedBoxes)/this.getDepth();
         */
-
+        /*
         //G(n) = tasa de ocupacion
         int numOfNotEmptyStacks = 1;
         int numOfStackedBoxes = 0;
@@ -159,6 +179,7 @@ public class StorageStarState extends AStarState {
         float ocupationRate = ((float)numOfStackedBoxes)/numOfNotEmptyStacks ;
 
         return - ocupationRate;
+        */
         /*
         //G(n) = number of not used stacks / number of stored boxes
         int emptyStacks = 0;
@@ -171,6 +192,7 @@ public class StorageStarState extends AStarState {
         }
         return -1 * ((int) Math.ceil(emptyStacks/storedBoxes));
         */
+        return 0;
     }
 
     private int getDepth(){
