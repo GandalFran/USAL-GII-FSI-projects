@@ -196,7 +196,7 @@ public class StorageStarState extends AStarState {
         for(Box b : this.boxes)
             additionDiaSalida += b.getDiasalida();
 
-        float heuristica = (float)(- numOfEmptyStacks + additionDiaSalida);
+        float heuristica = (float)(numOfEmptyStacks - additionDiaSalida);
         return heuristica;
 
     }
