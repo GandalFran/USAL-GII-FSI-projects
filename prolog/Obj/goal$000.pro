@@ -40,16 +40,8 @@ predicates
   	/*METER CAJA A PILA*/
 	push(box,almacen,almacen)
   	pushStack(box,pila,pila)
-  					
-  	/*SACAR CAJA DE PILA*/
-	pop(box,almacen,almacen)
-  	popStack(box,pila,pila)
-	
+  	
 	/*AUXILIARES*/
-  	/*
-  	append(lbox,lbox,lbox)
-  	*/
-  	add(box,lbox,lbox)
 	mayordiasalida(box,box)
 
 /*SISTEMA DE CONTROL*/
@@ -76,12 +68,6 @@ clauses
 		LProdi=[BOX|LProdiTail],
 		move(estado(LProdiTail,ALMACENi),estado(LProdf,ALMACENf)).
 	
-	/*quitar caja de pila
-	move(estado(LProdi,ALMACENi),estado(LProdf,ALMACENf)):-
-		pop(BOX,ALMACENi,ALMACENf),
-		add(BOX,LProdi,LProdf).
-	*/
-	
 	/*seleccionar pila para meter caja*/
 	push(BOX,alm(Pi,P2,P3,P4,P5),alm(Pf,P2,P3,P4,P5)):-
 		pushStack(BOX,Pi,Pf).
@@ -98,22 +84,6 @@ clauses
 	push(BOX,alm(P1,P2,P3,P4,Pi),alm(P1,P2,P3,P4,Pf)):-
 		pushStack(BOX,Pi,Pf).
 		
-	/*seleccionar pila para vaciar y meter las cajas en lista produccion*/
-	pop(BOX,alm(Pi,P2,P3,P4,P5),alm(Pf,P2,P3,P4,P5)) :-	
-		popStack(BOX,Pi,Pf).
-		
-	pop(BOX,alm(P1,Pi,P3,P4,P5),alm(P1,Pf,P3,P4,P5)) :-	
-		popStack(BOX,Pi,Pf).	
-		
-	pop(BOX,alm(P1,P2,Pi,P4,P5),alm(P1,P2,Pf,P4,P5)) :-	
-		popStack(BOX,Pi,Pf).
-		
-	pop(BOX,alm(P1,P2,P3,Pi,P5),alm(P1,P2,P3,Pf,P5)) :-	
-		popStack(BOX,Pi,Pf).	
-		
-	pop(BOX,alm(P1,P2,P3,P4,Pi),alm(P1,P2,P3,P4,Pf)) :-	
-		popStack(BOX,Pi,Pf).	
-		
 	/*si pila vacia => meter caja*/
 	pushStack(BOX, p(_,ACTUALi,LIMITE), p(LBOXf,ACTUALf,LIMITE)):-
 		ACTUALi=0,
@@ -127,27 +97,11 @@ clauses
 		LBOXi=[TopBox|_],
 		mayordiasalida(BOX,TopBox),
 		ACTUALf=ACTUALi+1.
-	
-	/*si pila no vacia => quitar caja*/
-	popStack(BOX,p(LBOXi,ACTUALi,LIMITE),p(LBOXf,ACTUALf,LIMITE)) :-	
-		ACTUALi>0,
-		ACTUALf=ACTUALi-1,
-		LBOXi=[BOX|LBOXf].
 		
 	/*para verificar que el dia de salida de la caja actual es menor que el de la priemra caja de la pila*/
 	mayordiasalida(b(_,_,DSBOX),b(_,_,DSTOPBOX)):-
 		DSBOX <= DSTOPBOX.
         
-	/*añade L2 al final de L1
-	append([],L,L).
-	append([E|T],L2,[E|L1L2]):-
-		append(T,L2,L1L2).
-	*/
-	add(X,[],[X]).
-	add(X,[Y|Tail],[Y|Tail1]):-
-        	add(X,Tail,Tail1).
-	
-	
 /*SISTEMA DE CONTROL*/
         
         backtrack(Lista,Destino,Lim_ant,_):-

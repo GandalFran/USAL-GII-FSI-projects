@@ -1,5 +1,5 @@
  PDC Linker 50.35 20000313.10.LINK55.
-  Module 'Obj\GOAL$000.EXE' Map. Tue Nov 19 15:42:52 2019
+  Module 'Obj\GOAL$000.EXE' Map. Tue Nov 19 15:44:45 2019
 
 Frame 010000   Size 003680.  Name=<   .data>, 	Chars=C0000040h. [IRW]
 Frame 020000   Size 000210.  Name=<  .rdata>, 	Chars=40000040h. [IR]
@@ -396,15 +396,15 @@ Frame 030000   Size 011DA0.  Name=<   .text>, 	Chars=60000020h. [CER]
 03:00030B7C goal$000$move$1  (Idle)
 03:00030CC0 goal$000$push$2  (Idle)
 03:00030F18 goal$000$pushstack$3  (Idle)
-03:00031040 goal$000$mayordiasalida$7  (Idle)
-03:00031064 goal$000$backtrack$8  (Idle)
-03:000311F8 goal$000$solution$9  (Idle)
-03:000312C8 goal$000$miembro$10  (Idle)
-03:00031324 goal$000$printstack$11  (Idle)
-03:00031398 goal$000$printstate$12  (Idle)
-03:000313FC goal$000$printstorage$13  (Idle)
-03:000314F4 goal$000$printstatelist$14  (Idle)
-03:000315A0 goal$000$move$15  (Idle)
+03:00031040 goal$000$mayordiasalida$4  (Idle)
+03:00031064 goal$000$backtrack$5  (Idle)
+03:000311F8 goal$000$solution$6  (Idle)
+03:000312C8 goal$000$miembro$7  (Idle)
+03:00031324 goal$000$printstack$8  (Idle)
+03:00031398 goal$000$printstate$9  (Idle)
+03:000313FC goal$000$printstorage$10  (Idle)
+03:000314F4 goal$000$printstatelist$11  (Idle)
+03:000315A0 goal$000$move$12  (Idle)
 03:000316B4 _PROLOG_Goal 
 03:0003173C goal$000$box$$eq  (Idle)
 03:0003177C goal$000$lbox$$eq  (Idle)

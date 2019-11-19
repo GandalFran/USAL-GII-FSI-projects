@@ -72,10 +72,9 @@ clauses
 		LProdi=[BOX|LProdiTail],
 		push(BOX,ALMACENi,ALMACENf).
 		
-	move(estado(LProdi,ALMACENi),estado([BOX|LProdiTail2],ALMACENf)):-
+	move(estado(LProdi,ALMACENi),estado([BOX|LProdf],ALMACENf)):-
 		LProdi=[BOX|LProdiTail],
-		LProdiTail=[BOX2|LProdiTail2],
-		push(BOX2,ALMACENi,ALMACENf).
+		move(estado(LProdiTail,ALMACENi),estado(LProdf,ALMACENf)).
 	
 	/*quitar caja de pila
 	move(estado(LProdi,ALMACENi),estado(LProdf,ALMACENf)):-
