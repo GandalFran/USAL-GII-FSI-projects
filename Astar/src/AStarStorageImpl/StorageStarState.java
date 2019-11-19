@@ -90,30 +90,21 @@ public class StorageStarState extends AStarState {
         if (this == node) return true;
         if (!(node instanceof StorageStarState)) return false;
 
-        return this.storage.equals(((StorageStarState)node).storage) && this.boxes.equals(((StorageStarState) node).boxes);
+        return this.storage.equals(((StorageStarState)node).storage);
     }
 
     @Override
     public float calculateHn() {
-        // % de cajas por ordenar -> dar prioridad a los que tienen alta tasa de ocupacion con mas cajas colocadas
-        /*float percentageOfNotStoredBoxes = ((float)this.boxes.size())/this.initialNumberOfBoxes;
-        return - percentageOfNotStoredBoxes;*/
-
-        int usedStacks = 0;
-        for(BoxStack stack : this.storage.getStacks()){
-            if(!stack.isEmpty())
-                usedStacks++;
-        }
-
-        return ((float)usedStacks)/ this.storage.getStacks().length;
+        return 0;
     }
 
     @Override
     public float calculateGn() {
-        /*
+
         //G(n) = tasa de ocupacion actual
-        int numOfNotEmptyStacks = 1;
+       /* int numOfNotEmptyStacks = 1;
         int numOfStackedBoxes = 0;
+        int boxesPerStack = this.storage.getStacks()[0].getLimite();
         for(BoxStack stack : this.storage.getStacks()) {
             if(!stack.isEmpty()) {
                 numOfNotEmptyStacks++;
@@ -121,24 +112,24 @@ public class StorageStarState extends AStarState {
             }
         }
 
-        float occupationRate = ((float)numOfStackedBoxes)/numOfNotEmptyStacks ;
-        return - occupationRate;
-        */
+        float occupationRate = ((float)numOfStackedBoxes)/(numOfNotEmptyStacks*boxesPerStack) ;
+        return - occupationRate;*/
 
-        //G(n) = tasa de ocupacion actual / mejor tasa de ocupacion posible
-        int numOfNotEmptyStacks = 1;
-        int numOfStackedBoxes = 0;
+        //G(n) = numEmptyStacks +
+        int numOfEmptyStacks = 0;
+        int additionDiaSalida = 0;
         for(BoxStack stack : this.storage.getStacks()) {
             if(!stack.isEmpty()) {
-                numOfNotEmptyStacks++;
-                numOfStackedBoxes += stack.getActual();
+                for(Box b : stack.getBoxes()) {
+                    if(null != b)
+                        additionDiaSalida += b.getDiasalida();
+                }
+            }else{
+                numOfEmptyStacks++;
             }
         }
 
-        float currentOccupationRate = ((float)numOfStackedBoxes)/numOfNotEmptyStacks;
-        float currentOccupationRate2 = ((float)numOfStackedBoxes)/(this.storage.getStacks()[0].getLimite()*numOfNotEmptyStacks);
-
-        return - currentOccupationRate2;
+        return (-(float)(numOfEmptyStacks + additionDiaSalida));
     }
 
     @Override
@@ -146,10 +137,11 @@ public class StorageStarState extends AStarState {
         List<AStarState> statesWithAllExpansions = new ArrayList<>();
 
         // expand all states
-        statesWithAllExpansions.addAll(this.expandAddBoxStates());
-        statesWithAllExpansions.addAll(this.expandRemoveBoxStates());
-        //statesWithAllExpansions.addAll(this.expandRotateList());
-
+        this.boxes.forEach(b -> {
+            statesWithAllExpansions.addAll(this.expandAddBoxStates(b));
+        });
+        //statesWithAllExpansions.addAll(this.expandAddBoxStates(this.boxes.get(0)));
+        //statesWithAllExpansions.addAll(this.expandRemoveBoxStates());
 
         // set current node as father
         statesWithAllExpansions.forEach(node -> node.setFather(this));
@@ -162,16 +154,14 @@ public class StorageStarState extends AStarState {
 
     }
 
-    private List<AStarState> expandAddBoxStates(){
-
-        Box firstBox = this.boxes.get(0);
+    private List<AStarState> expandAddBoxStates(Box box){
         List<AStarState> states = new ArrayList<>();
 
         for(int i=0; i < this.storage.getStacks().length; i++ ){
-            if(this.storage.getStacks()[i].isBoxAllowed(firstBox)) {
+            if(this.storage.getStacks()[i].isBoxAllowed(box)) {
                 StorageStarState newState = (StorageStarState) this.clone();
-                newState.boxes.remove(firstBox);
-                newState.storage.getStacks()[i].addBox(firstBox);
+                newState.boxes.remove(box);
+                newState.storage.getStacks()[i].addBox(box);
                 states.add(newState);
             }
         }
@@ -193,19 +183,6 @@ public class StorageStarState extends AStarState {
                     }
                 }
             }
-        }
-
-        return states;
-    }
-
-    private List<AStarState> expandRotateList(){
-        List<AStarState> states = new ArrayList<>();
-
-        if(this.boxes.size() > 1){
-            StorageStarState newState = (StorageStarState) this.clone();
-            Box firstBox = newState.boxes.remove(0);
-            newState.boxes.add(newState.boxes.size(),firstBox);
-            states.add(newState);
         }
 
         return states;
