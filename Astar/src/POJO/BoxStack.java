@@ -137,7 +137,7 @@ public class BoxStack implements Cloneable{
         return this.limite;
     }
 
-    public Box[] getBoxes() {
-        return boxes;
+    public Box[] getBoxes(){
+        return this.boxes;
     }
 }

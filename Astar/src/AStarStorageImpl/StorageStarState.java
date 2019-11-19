@@ -90,7 +90,7 @@ public class StorageStarState extends AStarState {
         if (this == node) return true;
         if (!(node instanceof StorageStarState)) return false;
 
-        return this.storage.equals(((StorageStarState)node).storage);
+        return this.storage.equals(((StorageStarState)node).storage) && this.boxes.equals(((StorageStarState) node).boxes);
     }
 
     @Override
