@@ -2,7 +2,7 @@ package AStar;
 
 import java.util.List;
 
-public class AStartResult {
+public class AStarResult {
 
     private int numOpened;
     private int numClosed;

@@ -1,6 +1,6 @@
 import AStar.AStar;
 import AStar.AStarState;
-import AStar.AStartResult;
+import AStar.AStarResult;
 import AStar.exceptions.NoAvailableStatesException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        AStartResult result = null;
+        AStarResult result = null;
         AStar aStar = new AStar();
 
 
@@ -52,7 +52,7 @@ public class Main {
         }
     }
 
-    public static void printSolution(AStartResult result){
+    public static void printSolution(AStarResult result){
         System.out.println(String.format("\n\n%50s"," ").replace(" ","="));
         System.out.println("\tSTATS");
         System.out.println(String.format("%50s"," ").replace(" ","="));

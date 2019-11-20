@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AStar {
-    private final static Logger LOGGER = Logger.getLogger("AStar.AStar");
 
     private List<AStarState> opened;
     private List<AStarState> closed;
@@ -23,6 +22,13 @@ public class AStar {
         this.graph = null;
     }
 
+
+    /**
+     * @author Francisco y Hector
+     *
+     * Inicializa la clase para trabajar con el algoritmo A*. Limpia las liastas de abiertos y cerrados, ademas de
+     * instanciar un nuevo grafo.
+     */
     public void initialize(){
         this.opened.clear();
         this.closed.clear();
@@ -30,64 +36,55 @@ public class AStar {
         this.graph = GraphBuilder.directed().allowsSelfLoops(false).build();
     }
 
-    public AStartResult run(AStarState initialState) throws NoAvailableStatesException {
+    /**
+     * @author Francisco y Hector
+     * @param initialState estado inicial a partir del cual iniciar la busqueda.
+     * @return el restultado de la ejecucion del algoritmo en un AStarStateResult.
+     * @throws NoAvailableStatesException cuando no quedan nodos disponibles en la lista de abiertos.
+     *
+     * Aplica el algoritmo A*.
+     */
+    public AStarResult run(AStarState initialState) throws NoAvailableStatesException {
         AStarState openedNode, finalState;
-        AStartResult result = new AStartResult();
+        AStarResult result = new AStarResult();
 
         //measure time
         long finishTime;
         long startTime = System.currentTimeMillis();
 
         //add first node to opened
-        //LOGGER.log(Level.INFO,String.format("Added first state to opened [%s]", this.opened.toString()) );
         this.opened.add(initialState);
 
         //start loop
         while(true){
-            //LOGGER.log(Level.INFO, String.format("New loop iteration: %d opened, %d closed",this.opened.size(),this.closed.size()));
-            //LOGGER.log(Level.INFO,String.format("Content of opened: %s",this.opened.toString()));
-            //LOGGER.log(Level.INFO,String.format("Content of closed: %s",this.closed.toString()));
 
             //check if there is nodes in opened
-            //LOGGER.log(Level.INFO,"Check if there is available nodes in opened");
             if(this.opened.isEmpty()){
-                //LOGGER.log(Level.WARNING,"No availabe states to open in opened");
                 throw new NoAvailableStatesException("No availabe states to open in opened");
             }
 
             //take first node of opened, put it on closed and open it
-            //LOGGER.log(Level.INFO,String.format("Select first node from opened: \n%s",this.opened.get(0).toString().replace("\n","\n\t")));
-            /*try {
-                System.in.read();
-            }catch (Exception e){
-
-            }*/
             openedNode = this.opened.get(0);
             this.opened.remove(openedNode);
             this.closed.add(this.closed.size(),openedNode);
 
             //check if node is final state
-            //LOGGER.log(Level.INFO,"check if node is final state");
             if(openedNode.isFinalState()){
-                //LOGGER.log(Level.INFO,"found final state");
                 finalState = openedNode;
                 finishTime = System.currentTimeMillis();
                 break;
             }
 
             //expand node
-            //LOGGER.log(Level.INFO,"expand selected node");
             List<AStarState> descendants = this.expand(openedNode);
 
             //set father pointer in children
-            //LOGGER.log(Level.INFO,"set father pointers in new state nodes");
             for(AStarState child : descendants) {
                 this.selectFather(child);
                 this.addToList(child);
             }
 
             //sort opened
-            //LOGGER.log(Level.INFO,"sort opened nodes list");
             this.sortOpenedNodes();
         }
 
@@ -101,6 +98,15 @@ public class AStar {
         return result;
     }
 
+    /**
+     * @author Francisco y Hector
+     * @param node nodo que se expandira.
+     * @return lista de nodos hijos de node. Si hay alguno que ya existia antes de expandir, se devolvera la referencia
+     *         a este.
+     *
+     * Expande un nodo y para cada hijo añade las relaciones necesarias en el grafo. Si hay algun hijo repetido,
+     * devuleve la referencia a el nodo ya existente en abiertos o cerrados en vez de la del nuevo nodo.
+     */
     private List<AStarState> expand(AStarState node){
         AStarState definitiveNode;
         List<AStarState> expansionResult = new ArrayList<>();
@@ -124,6 +130,14 @@ public class AStar {
         return expansionResult;
     }
 
+    /**
+     * @author Francisco y Hector
+     * @param node nodo a buscar en lista.
+     * @param list lista en la que buscar.
+     * @return referencia a el nodo en la lista cuyo contenido es el mismo que node.
+     *
+     * Busca un nodo en una lista y en el caso de encotrarlo devuelve la referencia a este.
+     */
     private AStarState getNodeInList(AStarState node, List<AStarState> list){
         for(AStarState lNode : list){
             if(lNode.isSameNode(node)) {
@@ -133,6 +147,13 @@ public class AStar {
         return null;
     }
 
+    /**
+     * @author Francisco y Hector
+     * @param node nodo del cual se va a seleccionar el apuntador al padre.
+     *
+     * En el caso de que un nodo tenga mas de un padre, actualizarlo. En el caso de actualizarlo se actualizan a sus
+     * sucesores.
+     */
     private void selectFather(AStarState node){
         Set<AStarState> fathers = this.graph.predecessors(node);
         // if node has more than one father
@@ -148,6 +169,14 @@ public class AStar {
         }
     }
 
+    /**
+     * @author Francisco y Hector
+     * @param node nodo del cual seleccionar el padre.
+     * @param availableFathers lista de padres posibles.
+     * @return true en el caso de actualizar el nodo (cambiar el padre) y false en otro caso.
+     *
+     * Selecciona el padre con el menor G(n) y en el caso de ser disinto del nodo padre, actualizar el nodo.
+     */
     private boolean updateNodeOnFatherConflict(AStarState node, Set<AStarState> availableFathers){
         boolean updated = false;
         //the recursivity is only made on selectFather
@@ -169,6 +198,14 @@ public class AStar {
         return updated;
     }
 
+    /**
+     * @author Francisco y Hector
+     * @param node nodo del que se va a comprobar si el hijo esta en sus antecesores.
+     * @param child nodo obtenido de expandir node, el cual se va a comprobar si esta en los antecesores de node.
+     * @return true en el caso de child sea un antecesor de node y false en otro caso.
+     *
+     * Comprueba si child (hijo de node) esta en los antecesores de node.
+     */
     private boolean isNodeInAntecesorLine(AStarState node, AStarState child){
         while(null != node){
             if(child.isSameNode(node))
@@ -179,6 +216,12 @@ public class AStar {
         return false;
     }
 
+    /**
+     * @author Francisco y Hector
+     * @param node nodo a añadir a abiertos
+     *
+     * Añade node a la lista de abiertos en el caso de que no este en esta.
+     */
     private void addToList(AStarState node){
         if(! this.opened.contains(node)
                 && ! this.closed.contains(node)){
@@ -186,11 +229,23 @@ public class AStar {
         }
     }
 
+    /**
+     * @author Francisco y Hector
+     *
+     * Ordenar la lista de abiertos por f(n).
+     */
     private void sortOpenedNodes(){
         Collections.sort(this.opened);
     }
 
-    public static List<AStarState> stateTreeAsList(AStarState node){
+    /**
+     * @author Francisco y Hector
+     * @param node nodo del que obtener los antecesores.
+     * @return lista con los antecesores ordenada del nodo inicial a node.
+     *
+     * Obtiene una lista del nodo inicial a node con todos los antecesores de nodo.
+     */
+    private static List<AStarState> stateTreeAsList(AStarState node){
         List<AStarState> stateList = new ArrayList<>();
 
         if(null == node)
@@ -205,25 +260,5 @@ public class AStar {
         }while(null != node);
 
         return stateList;
-    }
-
-    public static void printStateTree(AStarState node, List<AStarState> stateList) {
-
-        if (null != node) {
-            stateList.add(0, node);
-            if (stateList.contains(node.getFather())) {
-                System.out.println("\n\n\n");
-                System.out.println(node.toString());
-
-                System.out.println("\n\n\nRepeated node (father of the last)");
-                System.out.println(node.getFather().toString());
-            }else {
-                printStateTree(node.getFather(), stateList);
-                System.out.println("\n\n\n");
-                System.out.println(node.toString());
-            }
-        } else {
-            System.out.println("NULL -> first node");
-        }
     }
 }
