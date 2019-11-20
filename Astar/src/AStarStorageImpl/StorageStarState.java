@@ -12,12 +12,10 @@ public class StorageStarState extends AStarState {
 
     private Storage storage;
     private List<Box> boxes;
-    private int initialNumberOfBoxes;
 
     public StorageStarState(List<Box> boxes, Storage storage){
         this.boxes = boxes;
         this.storage = storage;
-        this.initialNumberOfBoxes = boxes.size();
     }
 
     public StorageStarState(List<Box> boxes, Storage storage, AStarState father){
@@ -100,22 +98,7 @@ public class StorageStarState extends AStarState {
 
     @Override
     public float calculateGn() {
-
-        //G(n) = tasa de ocupacion actual
-       /* int numOfNotEmptyStacks = 1;
-        int numOfStackedBoxes = 0;
-        int boxesPerStack = this.storage.getStacks()[0].getLimite();
-        for(BoxStack stack : this.storage.getStacks()) {
-            if(!stack.isEmpty()) {
-                numOfNotEmptyStacks++;
-                numOfStackedBoxes += stack.getActual();
-            }
-        }
-
-        float occupationRate = ((float)numOfStackedBoxes)/(numOfNotEmptyStacks*boxesPerStack) ;
-        return - occupationRate;*/
-
-        //G(n) = numEmptyStacks +
+        //G(n) = numOfEmptyStacks + additionDiaSalida
         int numOfEmptyStacks = 0;
         int additionDiaSalida = 0;
         for(BoxStack stack : this.storage.getStacks()) {
@@ -137,12 +120,7 @@ public class StorageStarState extends AStarState {
         List<AStarState> statesWithAllExpansions = new ArrayList<>();
 
         // expand all states
-        this.boxes.forEach(b -> {
-            statesWithAllExpansions.addAll(this.expandAddBoxStates(b));
-        });
-        //statesWithAllExpansions.addAll(this.expandAddBoxStates(this.boxes.get(0)));
-        //statesWithAllExpansions.addAll(this.expandRemoveBoxStates());
-
+        this.boxes.forEach(b -> statesWithAllExpansions.addAll(this.expandAddBoxStates(b)));
         // set current node as father
         statesWithAllExpansions.forEach(node -> node.setFather(this));
 
@@ -163,25 +141,6 @@ public class StorageStarState extends AStarState {
                 newState.boxes.remove(box);
                 newState.storage.getStacks()[i].addBox(box);
                 states.add(newState);
-            }
-        }
-
-        return states;
-    }
-
-    private List<AStarState> expandRemoveBoxStates(){
-        List<AStarState> states = new ArrayList<>();
-
-        if(this.boxes.size() > 1) {
-            for (int i = 0; i < this.storage.getStacks().length; i++) {
-                if (!this.storage.getStacks()[i].isEmpty()) {
-                    StorageStarState newState = (StorageStarState) this.clone();
-                    Box removedBox = newState.storage.getStacks()[i].removeBox();
-                    if (null != removedBox) {
-                        newState.boxes.add(newState.boxes.size(), removedBox);
-                        states.add(newState);
-                    }
-                }
             }
         }
 

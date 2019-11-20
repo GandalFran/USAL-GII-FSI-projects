@@ -104,24 +104,9 @@ public class BoxStack implements Cloneable{
             }
             this.boxes[0] = b;
             this.actual++;
-            //LOGGER.log(Level.INFO, String.format("addBox: %d: box added to stack [%b]", this.ID, b.toString()));
             return true;
         }else{
-            //LOGGER.log(Level.INFO, String.format("addBox: %d: box not added to stack [%b]", this.ID, b.toString()));
             return false;
-        }
-    }
-
-    public Box removeBox() {
-        if (this.actual > 0) {
-            Box deletedBox = this.boxes[this.actual-1];
-            this.boxes[actual-1] = null;
-            this.actual--;
-            //LOGGER.log(Level.INFO, String.format("removeBox: %d: removed box [%s]", this.ID, deletedBox.toString()));
-            return deletedBox;
-        }else{
-            //LOGGER.log(Level.INFO, String.format("removeBox: %d: box not removed from stack [%d]", this.ID, this.actual));
-            return null;
         }
     }
 
