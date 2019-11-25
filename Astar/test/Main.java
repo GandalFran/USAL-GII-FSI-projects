@@ -71,7 +71,7 @@ public class Main {
         System.out.println(result.getFinalState().toString().replace("\n","\n\t"));
         System.out.println(String.format("\n%50s"," ").replace(" ","="));
 
-        System.out.println("Print detailed solution? (Y/N)");
+        System.out.print("Print detailed solution? (Y/N) ");
         String solution;
         do{
             solution = new Scanner(System.in).next();
@@ -92,6 +92,7 @@ public class Main {
         long hours = TimeUnit.MILLISECONDS.toHours(millis);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.MINUTES.toMinutes(TimeUnit.MILLISECONDS.toHours(millis));
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toHours(millis));
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        long millis2 = millis - TimeUnit.MILLISECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toHours(millis)));
+        return String.format("%02d:%02d:%02d %d ms", hours, minutes, seconds, millis2);
     }
 }

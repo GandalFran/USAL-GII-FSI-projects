@@ -19,9 +19,9 @@ public class StorageStarState extends AStarState {
     }
 
     public StorageStarState(List<Box> boxes, Storage storage, AStarState father){
-        super.setFather(father);
         this.boxes = boxes;
         this.storage = storage;
+        super.setFather(father);
     }
 
     @Override
@@ -46,9 +46,9 @@ public class StorageStarState extends AStarState {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("\n\tf(n): ").append(String.format("%3.2f",super.getFn()))
-                .append("\n\tg(n): ").append(String.format("%3.2f",this.calculateGn()))
-                .append("\n\th(n): ").append(String.format("%3.2f",this.calculateHn()))
+        sb.append("\n\tf(n): ").append(String.format("%d",super.getFn()))
+                .append("\n\tg(n): ").append(String.format("%d",this.calculateGn()))
+                .append("\n\th(n): ").append(String.format("%d",this.calculateHn()))
                 .append("\n\tfather hash: ").append( (super.getFather() == null) ? null : super.getFather().hashCode() )
                 .append("\n\tboxes: [");
 
@@ -91,48 +91,65 @@ public class StorageStarState extends AStarState {
         return this.storage.equals(((StorageStarState)node).storage);
     }
 
+    /* F(n) =  - numero de pilas vacias + suma de la fecha de los dias de salida de las cajas en la lista
+        Debido a esto, se priorizan los estados con menos pilas ocupadas y los estados cuya suma de dias de salida en
+       la lista de produccion es menor.
+       No obstante, el numero de pilas es mucho menor en comparacion a la suma de dias de salida de cajas en la lista
+       de produccion, por lo que en un principio, se priorizaran en la lista de abiertos los estados en los que se
+       metan primero las cajas con una mayor fecha de dia salida. Tras esto, tendran mayor prioridad los estados en
+       los que se hayan ocupado menos pilas.
+     */
     @Override
-    public float calculateHn() {
-        return 0;
+    public int calculateHn() {
+        //H(n) = suma de la fecha de los dias de salida de las cajas en la lista
+        /*
+        Con esta heuristica, priorizamos los estados en los que en la lista de cajas por meter quedan cajas con una
+        fecha de dia salida menor.
+        De esta forma, se meteran primero las cajas con una fecha de salida superior posibilitando una resolucion,
+        ya que solo hemos implementado para que se metan las cajas en las pilas, no para sacar de las pilas.
+         */
+        int additionDiaSalida = 0;
+        // calculate the addition of the diaSalida of boxes resting in list
+        for(Box b : this.boxes) {
+            additionDiaSalida += b.getDiasalida();
+        }
+        return additionDiaSalida;
     }
 
     @Override
-    public float calculateGn() {
-        //G(n) = numOfEmptyStacks + additionDiaSalida
-        int numOfEmptyStacks = 0;
-        int additionDiaSalida = 0;
+    public int calculateGn() {
+        //G(n) = - numero de pilas vacias
+        /*
+        Con esta heuristica, priorizamos los estados en los que haya menos pilas usadas.
+        */
+        int numEmptyStacks = 0;
+        //calculate the number of empty stacks
         for(BoxStack stack : this.storage.getStacks()) {
-            if(!stack.isEmpty()) {
-                for(Box b : stack.getBoxes()) {
-                    if(null != b)
-                        additionDiaSalida += b.getDiasalida();
-                }
-            }else{
-                numOfEmptyStacks++;
+            if(stack.isEmpty()) {
+                numEmptyStacks++;
             }
         }
-
-        return (-(float)(numOfEmptyStacks + additionDiaSalida));
+        return -numEmptyStacks;
     }
 
     @Override
     public List<AStarState> expand(){
+        // la forma de expander es para cada caja en la lista, intentar meterla en todsa las pilas posibles
         List<AStarState> statesWithAllExpansions = new ArrayList<>();
-
         // expand all states
         this.boxes.forEach(b -> statesWithAllExpansions.addAll(this.expandAddBoxStates(b)));
         // set current node as father
         statesWithAllExpansions.forEach(node -> node.setFather(this));
-
         return statesWithAllExpansions;
     }
 
     @Override
     public void updateGnOnFatherConflict(AStarState newFather) {
-
+        // en este caso no necesitamos recalcular nada asique se queda vacio
     }
 
     private List<AStarState> expandAddBoxStates(Box box){
+        // para meter una caja en todas las pilas posibles y generar como maximo 5 estados nuevos (uno por pila)
         List<AStarState> states = new ArrayList<>();
 
         for(int i=0; i < this.storage.getStacks().length; i++ ){

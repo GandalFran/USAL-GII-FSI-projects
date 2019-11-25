@@ -1,11 +1,6 @@
 package POJO;
 
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class Box implements Cloneable {
-    private final static Logger LOGGER = Logger.getLogger("POJO.Box");
 
     private int id;
     private int diaentrada;
