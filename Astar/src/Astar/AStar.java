@@ -16,12 +16,12 @@ public class AStar {
     private List<AStarState> opened;
     private List<AStarState> closed;
     private MutableGraph<AStarState> graph;
+
     public AStar(){
         this.opened = new ArrayList<>();
         this.closed = new ArrayList<>();
         this.graph = null;
     }
-
 
     /**
      * @author Francisco y Hector
@@ -54,6 +54,7 @@ public class AStar {
 
         //add first node to opened
         this.opened.add(initialState);
+        this.graph.addNode(initialState);
 
         //start loop
         while(true){

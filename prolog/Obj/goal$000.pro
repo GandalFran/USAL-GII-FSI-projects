@@ -64,7 +64,7 @@ clauses
 		LProdi=[BOX|LProdiTail],
 		push(BOX,ALMACENi,ALMACENf).
 	
-	/*meter siguiente caja en pila => solo si no se puede meter la primera*/
+	/*si no se ha podido meter la primera caja en el move anterior => meter siguiente caja en pila*/
 	move(estado(LProdi,ALMACENi),estado([BOX|LProdf],ALMACENf)):-
 		LProdi=[BOX|LProdiTail],
 		move(estado(LProdiTail,ALMACENi),estado(LProdf,ALMACENf)).
@@ -91,12 +91,9 @@ clauses
 		pushToStack(BOX,Pi,Pf).
 		
 	/*si pila vacia => meter caja en pila*/
-	pushToStack(BOX, p(_,ACTUALi,LIMITE), p(LBOXf,ACTUALf,LIMITE)):-
-		ACTUALi=0,
-		ACTUALf=ACTUALi+1,
-		LBOXf=[BOX].
+	pushToStack(BOX, p(_,0,LIMITE), p([BOX],1,LIMITE)).
 	
-	/*si pila no vacia Y pila no llena Y pop(pila).diasalida >= caja.fechasalida => meter caja en pila*/
+	/*si pila no vacia Y pila no llena Y pop(pila).diasalida >= BOX.fechasalida => meter caja en pila*/
 	pushToStack(BOX, p(LBOXi,ACTUALi,LIMITE),p([BOX|LBOXi],ACTUALf,LIMITE)):-
 		ACTUALi <> 0,
 		ACTUALi<LIMITE,
@@ -119,7 +116,7 @@ clauses
         	printStateList(Lista,Lim_ant),
         	write("\n").
         
-        /*generar un nuevo estado then => si no se ha alcanzado el estado final Y no es un estado repetido Y  estamos en una profundidad menor o igual que la maxima then => buscar nuevo estado */
+        /*generar un nuevo estado then => si no es un estado repetido Y  estamos en una profundidad menor o igual que la maxima then => buscar nuevo estado */
         backtrack(Lista,Destino,Lim_ant,Limite):-
         	Lista=[H|T],
         	not(miembro(H,T)),
@@ -134,7 +131,7 @@ clauses
         	write("\nProfunidad ",LIM),
         	backtrack([STATEi],STATEf,1,LIM).
     
-        /*si no se encuentra solucion a maximo LIM pasos => buscar solucion de maximo LIM+1 pasos*/
+        /*si no se encuentra solucion de LIM pasos => buscar solucion de maximo LIM+1 pasos*/
         solution(LIM, STATEi, STATEf):-
         	NLIM=LIM+1,
         	solution(NLIM, STATEi, STATEf).

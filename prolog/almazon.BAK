@@ -42,10 +42,10 @@ predicates
   	pushToStack(box,pila,pila)
 	
 	/*AUXILIARES*/
-	mayordiasalida(box,box)
+	checkDiaSalida(box,box)
 
 /*SISTEMA DE CONTROL*/
-  	backtrack(lista,est,limite,limite) /* Lista de estados, Estado final, Profundidad actual, Profundiad maxima */
+  	backtrack(lista,est,limite,limite)
   	solution(integer,est, est)
   	miembro(est,lista)
   	
@@ -64,48 +64,54 @@ clauses
 		LProdi=[BOX|LProdiTail],
 		push(BOX,ALMACENi,ALMACENf).
 	
-	/*meter segunda caja en pila*/
+	/*meter siguiente caja en pila => solo si no se puede meter la primera*/
 	move(estado(LProdi,ALMACENi),estado([BOX|LProdf],ALMACENf)):-
 		LProdi=[BOX|LProdiTail],
 		move(estado(LProdiTail,ALMACENi),estado(LProdf,ALMACENf)).
 	
 	/*seleccionar pila para meter caja*/
+	/*meter caja en pila 1*/
 	push(BOX,alm(Pi,P2,P3,P4,P5),alm(Pf,P2,P3,P4,P5)):-
 		pushToStack(BOX,Pi,Pf).
 		
+	/*meter caja en pila 2*/
 	push(BOX,alm(P1,Pi,P3,P4,P5),alm(P1,Pf,P3,P4,P5)):-
 		pushToStack(BOX,Pi,Pf).
 		
+	/*meter caja en pila 3*/
 	push(BOX,alm(P1,P2,Pi,P4,P5),alm(P1,P2,Pf,P4,P5)):-
 		pushToStack(BOX,Pi,Pf).
 		
+	/*meter caja en pila 4*/
 	push(BOX,alm(P1,P2,P3,Pi,P5),alm(P1,P2,P3,Pf,P5)):-
 		pushToStack(BOX,Pi,Pf).
 		
+	/*meter caja en pila 5*/
 	push(BOX,alm(P1,P2,P3,P4,Pi),alm(P1,P2,P3,P4,Pf)):-
 		pushToStack(BOX,Pi,Pf).
 		
-	/*si pila vacia => meter caja*/
+	/*si pila vacia => meter caja en pila*/
 	pushToStack(BOX, p(_,ACTUALi,LIMITE), p(LBOXf,ACTUALf,LIMITE)):-
 		ACTUALi=0,
 		ACTUALf=ACTUALi+1,
 		LBOXf=[BOX].
 	
-	/*si pila no vacia Y pila no llena Y caja no en pila Y pop(pila).diasalida>caja.fechasalida => meter caja*/
+	/*si pila no vacia Y pila no llena Y pop(pila).diasalida >= caja.fechasalida => meter caja en pila*/
 	pushToStack(BOX, p(LBOXi,ACTUALi,LIMITE),p([BOX|LBOXi],ACTUALf,LIMITE)):-
 		ACTUALi <> 0,
 		ACTUALi<LIMITE,
 		LBOXi=[TopBox|_],
-		mayordiasalida(BOX,TopBox),
+		checkDiaSalida(BOX,TopBox),
 		ACTUALf=ACTUALi+1.
 		
-	/*para verificar que el dia de salida de la caja actual es menor que el de la priemra caja de la pila*/
-	mayordiasalida(b(_,_,DSBOX),b(_,_,DSTOPBOX)):-
+	/*verificar que el dia de salida de la caja de la pila es mayor o igual que el de la caja a meter*/
+	checkDiaSalida(b(_,_,DSBOX),b(_,_,DSTOPBOX)):-
 		DSBOX <= DSTOPBOX.
 	
 	
 /*SISTEMA DE CONTROL*/
         
+        /*comprobar si se ha alcanzado el estado final*/
         backtrack(Lista,Destino,Lim_ant,_):-
         	Lista=[H|_],
         	Destino=H,
@@ -113,6 +119,7 @@ clauses
         	printStateList(Lista,Lim_ant),
         	write("\n").
         
+        /*generar un nuevo estado then => si no se ha alcanzado el estado final Y no es un estado repetido Y  estamos en una profundidad menor o igual que la maxima then => buscar nuevo estado */
         backtrack(Lista,Destino,Lim_ant,Limite):-
         	Lista=[H|T],
         	not(miembro(H,T)),
@@ -121,16 +128,18 @@ clauses
         	Nue_Lim=Lim_ant+1,
         	Nue_Lim<=Limite,
         	backtrack(Nlista,Destino,Nue_Lim,Limite).
-        	
+        
+        /*buscar solucion de maximo LIM pasos*/	
         solution(LIM, STATEi, STATEf):-
         	write("\nProfunidad ",LIM),
         	backtrack([STATEi],STATEf,1,LIM).
-        	
+    
+        /*si no se encuentra solucion a maximo LIM pasos => buscar solucion de maximo LIM+1 pasos*/
         solution(LIM, STATEi, STATEf):-
         	NLIM=LIM+1,
         	solution(NLIM, STATEi, STATEf).
 	
-        /*Estados repetidos */
+        /*para comprobar si hay estados repetidos en la lsita de estados*/
         miembro(E,[E|_]).
         miembro(E,[_|T]):-
         	miembro(E,T).
