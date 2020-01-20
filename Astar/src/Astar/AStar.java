@@ -122,10 +122,8 @@ public class AStar {
                 this.graph.addNode(definitiveNode);
             }
 
-            if(!this.isNodeInAntecesorLine(node, definitiveNode)) {
-                expansionResult.add(definitiveNode);
-                this.graph.putEdge(node, definitiveNode);
-            }
+            expansionResult.add(definitiveNode);
+            this.graph.putEdge(node, definitiveNode);
         }
 
         return expansionResult;
@@ -185,7 +183,7 @@ public class AStar {
         //get the node with lowest gn
         AStarState bestFather = node.getFather();
         for(AStarState possibleFather : availableFathers) {
-            if(bestFather != null && bestFather.getGn() > possibleFather.getGn())
+            if(bestFather != null && bestFather.getGn() > possibleFather.getGn() && !this.isNodeInAntecesorLine(node, possibleFather))
                 bestFather = possibleFather;
         }
 
